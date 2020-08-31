@@ -19,7 +19,18 @@ class GerechtRepository extends ServiceEntityRepository
     {
         $dish = isset($params["id"]) ? $this->find($params["id"]) : new Gerecht();
 
-        //...
+        $dish->setKeukenId($params["keuken_id"]);
+        $dish->setTypeId($params["type_id"]);
+        $dish->setGebruikerId($params["gebruiker_id"]);
+        $dish->setDatumToegevoegd($params["datum_toegevoegd"]);
+        $dish->setTitel($params["titel"]);
+        $dish->setKorteOmschrijving($params["korte_omschrijving"]);
+        $dish->setLangeOmschrijving($params["lange_omschrijving"]);
+
+        $em = $this->getEntityManager();
+        $em->persist($dish);
+        $em->flush();
+        return $dish;
     }
 
 
@@ -29,7 +40,7 @@ class GerechtRepository extends ServiceEntityRepository
     }
 
 
-    public function deleteDish($dish_id)
+    public function deleteGerecht($dish_id)
     {
         $dish = $this->find($dish_id);
         if ($dish) {

@@ -32,7 +32,7 @@ class KeukenTypeController extends AbstractController
         if ($this->kts->createKeukenType($params)) {
             return new Response("Keuken/type succesvol gewijzigd/aan database toegevoegd");
         }
-        return new Response("Fout bij toevoegen keuken/type aan database");
+        return new Response("Fout bij toevoegen/bewerken keuken/type aan database");
     }
 
 

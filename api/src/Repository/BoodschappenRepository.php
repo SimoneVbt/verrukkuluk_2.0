@@ -6,45 +6,52 @@ use App\Entity\Boodschappen;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Boodschappen|null find($id, $lockMode = null, $lockVersion = null)
- * @method Boodschappen|null findOneBy(array $criteria, array $orderBy = null)
- * @method Boodschappen[]    findAll()
- * @method Boodschappen[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+
 class BoodschappenRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Boodschappen::class);
     }
+    
 
-    // /**
-    //  * @return Boodschappen[] Returns an array of Boodschappen objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function addToBoodschappen($params)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $bs = isset($params["id"]) ? $this->find($params["id"]) : new Boodschappen();
 
-    /*
-    public function findOneBySomeField($value): ?Boodschappen
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $bs->setGebruikerId($params["gebruiker_id"]);
+        $bs->setArtikelId($params["artikel_id"]);
+        $bs->setAantal($params["aantal"]);
+
+        $em = $this->getEntityManager();
+        $em->persist($bs);
+        $em->flush();
+        return $em;
     }
-    */
+
+
+    public function getBoodschappen($user_id)
+    {
+        $bs = $this->createQueryBuilder('b')
+                ->select('b')
+                ->where('b.gebruiker_id :gebruiker_id')
+                ->setParameter('gebruiker_id', $user_id)
+                ->getQuery()
+                ->getResult()
+                ;
+        return $bs ? $bs : null;
+    }
+
+
+    public function deleteBoodschappen($bs_id)
+    {   
+        $bs = $this->find($bs_id);
+        if ($bs) {
+            $em = $this->getEntityManager();
+            $em->remove($bs);
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
 }

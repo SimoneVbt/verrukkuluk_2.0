@@ -1,0 +1,10 @@
+[
+{% for bs in boodschappen %}
+    {
+        "id": {{ bs.id }},
+        "gebruiker_id": {{ bs.gebruikerId }},
+        "artikel_id": {{ bs.artikelId }},
+        "aantal": {{ bs.aantal }}
+    {{ bs == boodschappen|last ? "}" : "}," }}
+{% endfor %}
+]

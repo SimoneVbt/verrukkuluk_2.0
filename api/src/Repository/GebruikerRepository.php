@@ -38,7 +38,7 @@ class GebruikerRepository extends ServiceEntityRepository implements PasswordUpg
         $u = $this->findOneBy(array("email" => $params['email']));
 
         if (!$u) {
-            $user = new User();
+            $user = new Gebruiker();
             $user->setRoles($params['roles']);
         } else {
             $user = $u;
@@ -47,8 +47,9 @@ class GebruikerRepository extends ServiceEntityRepository implements PasswordUpg
         $user->setUsername($params['gebruikersnaam']);
         $user->setPassword($params['wachtwoord']);
 
-        $_em->persist($vacature);
-        $_em->flush();
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
         return $user;
     }
 
@@ -63,8 +64,9 @@ class GebruikerRepository extends ServiceEntityRepository implements PasswordUpg
     {
         $user = $this->find($user_id);
         if ($user) {
-            $this->_em->remove($user);
-            $this->_em->flush();
+            $em = $this->getEntityManager();
+            $this->em->remove($user);
+            $this->em->flush();
             return true;
         }
         return false;

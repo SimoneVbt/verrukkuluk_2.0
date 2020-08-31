@@ -6,12 +6,7 @@ use App\Entity\Gerechtinfo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Gerechtinfo|null find($id, $lockMode = null, $lockVersion = null)
- * @method Gerechtinfo|null findOneBy(array $criteria, array $orderBy = null)
- * @method Gerechtinfo[]    findAll()
- * @method Gerechtinfo[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+
 class GerechtinfoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -19,32 +14,55 @@ class GerechtinfoRepository extends ServiceEntityRepository
         parent::__construct($registry, Gerechtinfo::class);
     }
 
-    // /**
-    //  * @return Gerechtinfo[] Returns an array of Gerechtinfo objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Gerechtinfo
+    public function createGerechtinfo($params)
     {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $info = isset($params["id"]) ? $this->find($params["id"]) : new Gerechtinfo();
+
+        $info->setRecordType($params["record_type"]);
+        $info->setGerechtId($params["gerecht_id"]);
+        $info->setDatumHuidig($params["datum_huidig"]);
+
+        if (isset($params["gebruiker_id"])) {
+            $info->setGebruikerId($params["gebruiker_id"]);
+        }
+        if (isset($params["nummeriekveld"])) {
+            $info->setNummeriekveld($params["nummeriekveld"]);
+        }
+        if (isset($params["tekstveld"])) {
+            $info->setTekstveld($params["tekstveld"]);
+        }
+
+        $em = $this->getEntityManager();
+        $em->persist($info);
+        $em->flush();
+        return $info;
     }
-    */
+
+
+    public function getGerechtinfo($dish_id, $record_type) 
+    {
+        $info = $this->createQueryBuilder('g')
+                ->where("g.gerecht_id = :gerecht_id")
+                ->andWhere("g.record_type = :record_type")
+                ->setParameter("gerecht_id", $dish_id)
+                ->setParameter("record_type", $record_type)
+                ->getQuery()
+                ->getResult()
+                ;
+        return $info ? $info : null;
+    }
+
+
+    public function deleteGerechtinfo($info_id)
+    {
+        $info = $this->find($info_id);
+        if ($info) {
+            $em = $this->getEntityManager();
+            $em->remove($info);
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
 }

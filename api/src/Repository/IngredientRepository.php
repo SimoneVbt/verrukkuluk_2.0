@@ -6,12 +6,7 @@ use App\Entity\Ingredient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method Ingredient|null find($id, $lockMode = null, $lockVersion = null)
- * @method Ingredient|null findOneBy(array $criteria, array $orderBy = null)
- * @method Ingredient[]    findAll()
- * @method Ingredient[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+
 class IngredientRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -19,32 +14,37 @@ class IngredientRepository extends ServiceEntityRepository
         parent::__construct($registry, Ingredient::class);
     }
 
-    // /**
-    //  * @return Ingredient[] Returns an array of Ingredient objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Ingredient
+    public function createIngredient($params)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $ingredient = isset($params["id"]) ? $this->find($params["id"]) : new Ingredient();
+
+        $ingredient->setGerechtId($params["gerecht_id"]);
+        $ingredient->setArtikelId($params["artikel_id"]);
+        $ingredient->setAantal($params["aantal"]);
+
+        $em = $this->getEntityManager();
+        $em->persist($ingredient);
+        $em->flush();
+        return $ingredient;
     }
-    */
+
+
+    public function getIngredient($ing_id)
+    {
+        return $this->find($ing_id);
+    }
+
+
+    public function deleteIngredient($ing_id)
+    {
+        $ingredient = $this->find($ing_id);
+        if ($ingredient) {
+            $em = $this->getEntityManager();
+            $em->remove($ingredient);
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
 }

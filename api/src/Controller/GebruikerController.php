@@ -36,7 +36,7 @@ class GebruikerController extends AbstractController
         if ($this->gs->createGebruiker($params)) {
             return new Response("Gebruiker aangemaakt/gewijzigd");
         }
-        return new Response ("Gebruiker aanmaken mislukt");
+        return new Response ("Gebruiker aanmaken/bewerken mislukt");
     }
 
     /**

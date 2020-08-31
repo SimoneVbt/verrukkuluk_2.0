@@ -17,17 +17,20 @@ class ArtikelService
     }
 
 
-    public function createArtikel($params) {
+    public function createArtikel($params)
+    {
         return $this->rep->createArtikel($params);
     }
 
 
-    public function getArtikel($article_id) {
+    public function getArtikel($article_id)
+    {
         return $this->rep->getArtikel($article_id);
     }
 
 
-    public function deleteArtikel($article_id) {
+    public function deleteArtikel($article_id)
+    {
         return $this->rep->deleteArtikel($article_id);
     }
 }

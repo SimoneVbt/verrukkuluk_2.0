@@ -32,7 +32,7 @@ class ArtikelController extends AbstractController
         if ($this->as->createArtikel($params)) {
             return new Response("Artikel bewerkt/toegevoegd aan database");
         }
-        return new Response("Toevoegen artikel mislukt");
+        return new Response("Toevoegen/bewerken artikel mislukt");
     }
 
     
@@ -55,7 +55,7 @@ class ArtikelController extends AbstractController
     public function deleteArtikel($article_id)
     {
         if ($this->as->deleteArtikel($article_id)) {
-            return new Response("Artikel gedeletet uit database");
+            return new Response("Artikel verwijderd uit database");
         }
         return new Response("Artikel deleten mislukt");
     }
