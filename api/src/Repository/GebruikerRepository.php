@@ -75,29 +75,11 @@ class GebruikerRepository extends ServiceEntityRepository implements PasswordUpg
 
     public function login($params)
     {
-        if (isset($params['gebruikersnaam'])) {
-            $success = $this->createQueryBuilder("g")
-                        ->select("g.id")
-                        ->where("g.username = :gebruikersnaam")
-                        ->andWhere("g.password = :wachtwoord")
-                        ->setParameter("gebruikersnaam", $params["gebruikersnaam"])
-                        ->setParameter("wachtwoord", $params["wachtwoord"])
-                        ->getQuery()
-                        ->getResult()
-                        ;
-
-        } else if (isset($params['email'])) {
-            $success = $this->createQueryBuilder("g")
-                        ->select("g.id")
-                        ->where("g.email = :email")
-                        ->andWhere("g.password = :wachtwoord")
-                        ->setParameter("email", $params["email"])
-                        ->setParameter("wachtwoord", $params["wachtwoord"])
-                        ->getQuery()
-                        ->getResult()
-                        ;
+        $success = $this->findOneBy(["username" => $params["login"], "password" => $params["wachtwoord"]]);
+        if (!$success) {
+            $success = $this->findOneBy(["email" => $params["login"], "password" => $params["wachtwoord"]]);
         }
         
-        return $success ? $success : null;
+        return $success ? $success->getId() : null;
     }
 }

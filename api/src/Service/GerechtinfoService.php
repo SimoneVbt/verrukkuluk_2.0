@@ -24,33 +24,17 @@ class GerechtinfoService
     }
 
 
-    public function getFavorieten($dish_id)
+    public function getGerechtInfo($dish_id, $record_type)
     {
-        $record_type = "F";
         return $this->rep->getGerechtinfo($dish_id, $record_type);
     }
 
 
-    public function getBereiding($dish_id)
+    public function getFavorietenOfUser($user_id)
     {
-        $record_type = "B";
-        return $this->rep->getGerechtinfo($dish_id, $record_type);
+        return $this->rep->getFavorietenOfUser($user_id);
     }
-
-
-    public function getOpmerkingen($dish_id)
-    {
-        $record_type = "O";
-        return $this->rep->getGerechtinfo($dish_id, $record_type);
-    }
-
-
-    public function getWaardering($dish_id)
-    {
-        $record_type = "W";
-        return $this->rep->getGerechtinfo($dish_id, $record_type);
-    }
-
+    
 
     public function deleteGerechtinfo($info_id)
     {

@@ -17,11 +17,20 @@ class BoodschappenRepository extends ServiceEntityRepository
 
     public function addToBoodschappen($params)
     {
-        $bs = isset($params["id"]) ? $this->find($params["id"]) : new Boodschappen();
+        $check = $this->findOneBy(["gebruiker_id" => $params["gebruiker_id"], "artikel_id" => $params["artikel_id"]]);
+        $id = $check ? $check->getId() : null;
 
-        $bs->setGebruikerId($params["gebruiker_id"]);
-        $bs->setArtikelId($params["artikel_id"]);
-        $bs->setAantal($params["aantal"]);
+        if ($id) {
+            $bs = $this->find($id);
+            $amount = $params["aantal"] + $bs->getAantal();
+            $bs->setAantal($amount);
+            
+        } else {
+            $bs = new Boodschappen();
+            $bs->setGebruikerId($params["gebruiker_id"]);
+            $bs->setArtikelId($params["artikel_id"]);
+            $bs->setAantal($params["aantal"]);
+        }
 
         $em = $this->getEntityManager();
         $em->persist($bs);
@@ -30,15 +39,23 @@ class BoodschappenRepository extends ServiceEntityRepository
     }
 
 
+    public function setAmount($params)
+    {
+        $bs = $this->find($params["id"]);
+        if ($bs) {
+            $bs->setAantal($params["aantal"]);
+            $em = $this->getEntityManager();
+            $em->persist($bs);
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
+
+
     public function getBoodschappen($user_id)
     {
-        $bs = $this->createQueryBuilder('b')
-                ->select('b')
-                ->where('b.gebruiker_id :gebruiker_id')
-                ->setParameter('gebruiker_id', $user_id)
-                ->getQuery()
-                ->getResult()
-                ;
+        $bs = $this->findBy(["gebruiker_id" => $user_id]);
         return $bs ? $bs : null;
     }
 

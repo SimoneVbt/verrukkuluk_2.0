@@ -37,11 +37,11 @@ class GerechtinfoController extends AbstractController
 
 
     /**
-     * @Route("/get/favorieten/{dish_id}", name="get_info_favorieten")
+     * @Route("/get/{record_type}/{dish_id}", name="get_gerechtinfo")
      */
-    public function getFavorieten($dish_id)
+    public function getGerechtinfo($dish_id, $record_type)
     {
-        $info = $this->gis->getFavorieten($dish_id);
+        $info = $this->gis->getGerechtinfo($dish_id, $record_type);
         $json = $this->renderView('gerechtinfo.json.twig', ["gerechtinfo" => $info]);
         $response = new Response($json);
         $response->headers->set('Content-Type', 'application/json');
@@ -50,38 +50,12 @@ class GerechtinfoController extends AbstractController
 
 
     /**
-     * @Route("/get/bereiding/{dish_id}", name="get_info_bereiding")
+     * @Route("/get/favorieten/user/{user_id}", name="get_info_favorieten_user")
      */
-    public function getBereiding($dish_id)
+    public function getFavorietenOfUser($user_id)
     {
-        $info = $this->gis->getBereiding($dish_id);
-        $json = $this->renderView('gerechtinfo.json.twig', ["gerechtinfo" => $info]);
-        $response = new Response($json);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-
-    /**
-     * @Route("/get/opmerkingen/{dish_id}", name="get_info_opmerkingen")
-     */
-    public function getOpmerkingen($dish_id)
-    {
-        $info = $this->gis->getOpmerkingen($dish_id);
-        $json = $this->renderView('gerechtinfo.json.twig', ["gerechtinfo" => $info]);
-        $response = new Response($json);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-
-    /**
-     * @Route("/get/waardering/{dish_id}", name="get_info_waardering")
-     */
-    public function getWaardering($dish_id)
-    {
-        $info = $this->gis->getWaardering($dish_id);
-        $json = $this->renderView('gerechtinfo.json.twig', ["gerechtinfo" => $info]);
+        $favos = $this->gis->getFavorietenOfUser($user_id);
+        $json = $this->renderView('gerechtinfo.json.twig', ["gerechtinfo" => $favos]);
         $response = new Response($json);
         $response->headers->set('Content-Type', 'application/json');
         return $response;

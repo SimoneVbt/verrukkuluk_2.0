@@ -4,7 +4,9 @@
         "id": {{ bs.id }},
         "gebruiker_id": {{ bs.gebruikerId }},
         "artikel_id": {{ bs.artikelId }},
-        "aantal": {{ bs.aantal }}
+        "aantal": {{ bs.aantal }},
+        "aantal_verpakkingen": {{ bs.aantal_verpakkingen }},
+        "prijs": {{ bs.prijs|number_format(2) }}
     {{ bs == boodschappen|last ? "}" : "}," }}
 {% endfor %}
 ]

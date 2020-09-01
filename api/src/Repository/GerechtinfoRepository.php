@@ -42,15 +42,15 @@ class GerechtinfoRepository extends ServiceEntityRepository
 
     public function getGerechtinfo($dish_id, $record_type) 
     {
-        $info = $this->createQueryBuilder('g')
-                ->where("g.gerecht_id = :gerecht_id")
-                ->andWhere("g.record_type = :record_type")
-                ->setParameter("gerecht_id", $dish_id)
-                ->setParameter("record_type", $record_type)
-                ->getQuery()
-                ->getResult()
-                ;
+        $info = $this->findBy(["gerecht_id" => $dish_id, "record_type" => $record_type]);
         return $info ? $info : null;
+    }
+
+
+    public function getFavorietenOfUser($user_id)
+    {
+        $favos = $this->findBy(["gebruiker_id" => $user_id, "record_type" => "F"]);
+        return $favos ? $favos : null;
     }
 
 

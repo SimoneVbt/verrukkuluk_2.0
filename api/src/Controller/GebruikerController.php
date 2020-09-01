@@ -68,12 +68,8 @@ class GebruikerController extends AbstractController
     public function login(Request $request)
     {
         $params = $request->request->all();
-        $result = $this->gs->login($params);
+        $id = $this->gs->login($params);
 
-        if ($result) {
-            $id = $result[0]["id"];
-            return new Response("$id");
-        }
-        return new Response("-1");
+        return $id ? new Response("$id") : new Response("-1");
     }
 }

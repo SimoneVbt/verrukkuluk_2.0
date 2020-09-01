@@ -28,6 +28,12 @@ class IngredientService
         return $this->rep->getIngredient($ing_id);
     }
 
+    
+    public function getDishIngredients($dish_id)
+    {
+        return $this->rep->getDishIngredients($dish_id);
+    }
+
 
     public function deleteIngredient($ing_id)
     {

@@ -6,5 +6,7 @@
     "datum_toegevoegd": "{{ dish.datumToegevoegd|date("Y-m-d") }}",
     "titel": "{{ dish.titel }}",
     "korte_omschrijving": "{{ dish.korteOmschrijving }}",
-    "lange_omschrijving": "{{ dish.langeOmschrijving }}"
+    "lange_omschrijving": "{{ dish.langeOmschrijving }}",
+    "gemiddelde_beoordeling": {{ dish.gemiddeldeBeoordeling }},
+    "calorieen": {{ dish.calorieen|number_format(0) }}
 }

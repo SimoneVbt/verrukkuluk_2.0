@@ -36,6 +36,13 @@ class IngredientRepository extends ServiceEntityRepository
     }
 
 
+    public function getDishIngredients($dish_id)
+    {
+        $ings = $this->findBy(["gerecht_id" => $dish_id]);
+        return $ings ? $ings : null;
+    }
+
+
     public function deleteIngredient($ing_id)
     {
         $ingredient = $this->find($ing_id);
