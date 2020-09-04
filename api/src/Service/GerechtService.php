@@ -41,6 +41,18 @@ class GerechtService
     }
 
 
+    public function getAllGerechten()
+    {
+        $dishes = $this->rep->getAllGerechten();
+        foreach ($dishes as $dish) {
+            $dish_id = $dish->getId();
+            $dish->gemiddeldeBeoordeling = $this->calcAverageRating($dish_id);
+            $dish->calorieen = $this->calcCalories($dish_id);
+        }
+        return $dishes;
+    }
+
+
     private function calcAverageRating($dish_id)
     {
         $ratings = $this->gis->getGerechtinfo($dish_id, "W");

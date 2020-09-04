@@ -39,6 +39,12 @@ class GerechtRepository extends ServiceEntityRepository
         return $this->find($dish_id);
     }
 
+    
+    public function getAllGerechten()
+    {
+        return $this->findAll();
+    }
+
 
     public function deleteGerecht($dish_id)
     {

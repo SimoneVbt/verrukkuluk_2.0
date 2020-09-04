@@ -1,5 +1,7 @@
-const gold = "rgb(247, 177, 37)";
+const gold = "rgb(240, 170, 40)";
 const darkRed = "rgb(178, 51, 8)";
+const white = "rgb(255, 255, 255)";
+const beige = "rgb(254, 246, 231)";
 
 const HeaderFooter = {
     backgroundColor: gold,
@@ -7,6 +9,6 @@ const HeaderFooter = {
 }
 
 export {
-    gold, darkRed,
+    gold, darkRed, white, beige,
     HeaderFooter
 }
