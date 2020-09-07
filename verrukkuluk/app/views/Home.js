@@ -1,88 +1,71 @@
 import React, { Component } from 'react';
-import { Content, Card, CardItem, Text, Button, Icon, Thumbnail, Grid, Row, Col } from 'native-base';
-import { Actions } from 'react-native-router-flux';
-import { darkRed, beige } from '../resources/styles/styles.js';
+import { Container, Content } from 'native-base';
+import { darkRed } from '../resources/styles/styles.js';
+import Head from '../components/Head';
+import Foot from '../components/Foot';
+import DishCard from '../components/DishCard';
 
-const cardStyle = {
-    backgroundColor: beige,
-    paddingTop: 10,
-    paddingBottom: 0,
-    flexDirection: "row"
-}
-const titleStyle = {
-    color: darkRed,
-    textTransform: "uppercase",
-    fontSize: 20,
-    fontWeight: "bold"
-}
-const starStyle = {
-    color: darkRed,
-    paddingLeft: 1,
-    paddingBottom: 5,
-    margin: -1
-}
-const buttonStyle = {
-    borderColor: darkRed,
-    height: 60,
-    flex: 1,
-    alignItems: "center",
-    borderWidth: 2,
-    backgroundColor: beige
-}
+const data = [
+    {
+        id: 1,
+        title: "Pad Thai",
+        imageUri: "https://static.ah.nl/static/recepten/img_071780_1600x_JPG.jpg",
+        type: "vlees",
+        kitchen: "Thais",
+        description_short: "Een heel verhaal over dit gerecht. Volgens mij is het Thais, maar tot dat detail heb ik niet gekeken. Het zag er wel goed uit, dus is dit nu de dummyfoto.",
+        description_long: "Dit keer een veeeeeeeeel langer verhaal over Pad Thai. \n Dit is de lange omschrijving, dus hier moet meer verteld worden dan in de korte omschrijving. \nDat vult ook meer regels. \n Zelf heb ik nog nooit pad thai gegeten, dus ik kan er niet veel over vertellen. Ik heb er wel al van gehoord. \n Als het er zo uitziet zoals op de foto, dan lijkt het me best een smakelijk gerecht. \n Kijk, zo kan ik toch aardig wat regels voltypen zonder dat ik weer dat saaie lorem ipsum erbij moet halen :). \n Dat is toch ook altijd maar weer hetzelfde. \n \n Een nieuwe alinea gaat blijkbaar in een nieuwe text-component. Dan moeten natuurlijk wel de padding en flexDirection goed staan.",
+        rating: 3.5,
+        kcal: 500,
+        price: "5,00"
+    },
+    {
+        id: 2,
+        title: "Pad Thai 2",
+        imageUri: "https://static.ah.nl/static/recepten/img_071780_1600x_JPG.jpg",
+        type: "vlees 2",
+        kitchen: "Thais 2",
+        description_short: "Een heel verhaal over dit gerecht. Volgens mij is het Thais, maar tot dat detail heb ik niet gekeken. Het zag er wel goed uit, dus is dit nu de dummyfoto.",
+        description_long: "Dit keer een veeeeeeeeel langer verhaal over Pad Thai. \n Dit is de lange omschrijving, dus hier moet meer verteld worden dan in de korte omschrijving. \nDat vult ook meer regels. \n Zelf heb ik nog nooit pad thai gegeten, dus ik kan er niet veel over vertellen. Ik heb er wel al van gehoord. \n Als het er zo uitziet zoals op de foto, dan lijkt het me best een smakelijk gerecht. \n Kijk, zo kan ik toch aardig wat regels voltypen zonder dat ik weer dat saaie lorem ipsum erbij moet halen :). \n Dat is toch ook altijd maar weer hetzelfde. \n \n Een nieuwe alinea gaat blijkbaar in een nieuwe text-component. Dan moeten natuurlijk wel de padding en flexDirection goed staan.",
+        rating: 4,
+        kcal: 600,
+        price: "4,50"
+    }
+]
 
 
 export default class Home extends Component
 {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: data
+        }
+    }
     componentDidMount() {
-        //let url = "http://192.168.0.109/.../api/gerecht/get_all";
+        //let url = "http://192.168.0.109:8000/api/gerecht/get_all";
+        let url = "http://192.168.1.244:8000/api/gerecht/get_all";
+
     }
 
     render() {
 
         return(
-            <Content style={{ padding: 10 }}>
-                <Card style={{ paddingTop: 5, paddingBottom: 15, backgroundColor: beige }}>
-                    <CardItem header style={ cardStyle }>
-                        <Text style={ titleStyle }>Pad Thai</Text>
-                    </CardItem>
-                    <CardItem style={ cardStyle }>
-                        <Thumbnail square source={{ uri: "https://static.ah.nl/static/recepten/img_071780_1600x_JPG.jpg" }} style={{ width: "100%", height: 100 }} />
-                    </CardItem>
-                    <CardItem style={ cardStyle }>
-                        <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: darkRed }}>Vlees</Text>
-                        <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: darkRed, textAlign: "right" }}>Thais</Text>
-                    </CardItem>
-                    <CardItem style={ cardStyle }>
-                        <Text style={{ fontSize: 14 }}>
-                            Een heel verhaal over dit gerecht. Volgens mij is het Thais, maar tot dat detail heb ik niet gekeken. Het zag er wel goed uit, dus is dit nu de dummyfoto.
-                        </Text>
-                    </CardItem>
-                    <Grid>
-                        <Col>
-                         <CardItem style={ cardStyle }>
-                            <Icon name="star" type="Ionicons" style={ starStyle } />
-                            <Icon name="star" type="Ionicons" style={ starStyle } />
-                            <Icon name="star" type="Ionicons" style={ starStyle } />
-                            <Icon name="star" type="Ionicons" style={ starStyle } />
-                            <Icon name="star" type="Ionicons" style={ starStyle } />
-                        </CardItem>
-                        <CardItem footer style={ cardStyle }>
-                            <Text style={{ flex: 1, fontSize: 14, fontStyle: "italic" }}>500 kcal</Text>
-                            <Text style={{ flex: 1, fontSize: 14, fontStyle: "italic",  textAlign: "right" }}>€5,00</Text>
-
-                        </CardItem>
-                        </Col>
-                        <Col>
-                            <CardItem style={ cardStyle }>
-                                <Button rounded style={ buttonStyle } onPress={ () => Actions.detail() }>
-                                    <Text style={{ color: darkRed, fontSize: 16, fontWeight: "bold" }}>Smullen!</Text>
-                                </Button>
-                            </CardItem>
-                        </Col>
-                    </Grid>
-                   
-                </Card>
-            </Content>
+            <Container style={{ backgroundColor: darkRed }}>
+                <Head title="verrukkuluk!nl" login={ this.props.login } loginChange={ this.props.loginChange } />
+                    <Content style={{ padding: 10 }}>
+                        {
+                            this.state.data.map( dish => {
+                                return(
+                                <DishCard key={ dish.id }
+                                        dish={ dish }
+                                        login={ this.props.login }
+                                        loginChange={ this.props.loginChange }
+                                        /> );
+                            })
+                        }
+                    </Content>
+                <Foot />
+            </Container>
         )
     }
 

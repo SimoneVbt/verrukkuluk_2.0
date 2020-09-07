@@ -28,17 +28,6 @@ const logButton = {
 
 export default class Head extends Component
 {
-    _startHome() {
-        //this.props.titleChange("verrukkuluk!nl");
-        Actions.home();
-    }
-
-    _startLogin() {
-        //this.props.titleChange("inloggen");
-        this.props.loginChange(); //redirect naar home (initial) door state change
-        Actions.login(); // werkt nu niet door props
-    }
-
     _handleLogout() {
         Alert.alert(
             'Uitloggen',
@@ -66,7 +55,7 @@ export default class Head extends Component
             )
         }
             return(
-                <Button onPress={ () => this._startLogin() } transparent style={ logButton }>
+                <Button onPress={ () => Actions.Login() } transparent style={ logButton }>
                     <View>
                         <Icon name="sign-in" type="FontAwesome" style={ iconStyle } />
                     </View>
@@ -82,7 +71,7 @@ export default class Head extends Component
             <Header style={ HeaderFooter }>
                 <StatusBar backgroundColor={ gold } barStyle="light-content" />
                 <Left style={{ flex: 2 }}>
-                    <Button onPress={ () => this._startHome() } transparent>
+                    <Button onPress={ () => Actions.Home() } transparent>
                         <Icon name="chef-hat" type="MaterialCommunityIcons" style={ logoStyle } />
                     </Button>
                 </Left>

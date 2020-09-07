@@ -22,33 +22,24 @@ const buttonStyle = {
 
 export default class Foot extends Component
 {
-    constructor(props) {
-        super(props);
-    }
-
-    _startSearch() {
-        //this.props.titleChange("zoeken");
-        Actions.search();
-    }
-
     render() {
 
         return(
             <Footer style={ HeaderFooter }>
                 <FooterTab  style={ HeaderFooter }>
-                    <Button vertical onPress={ () => this._startSearch() } style={ buttonStyle }>
+                    <Button vertical onPress={ () => Actions.Search() } style={ buttonStyle }>
                         <Icon name="md-search" type="Ionicons" style={ iconStyle } />
                         <Text style={ txtStyle }>zoeken</Text>
                     </Button>
-                    <Button vertical onPress={ () => Actions.mydishes() } style={ buttonStyle }>
+                    <Button vertical onPress={ this.props.login ? () => Actions.MyDishes() : () => Actions.Login() } style={ buttonStyle }>
                         <Icon name="md-book" type="Ionicons" style={ iconStyle } />
                         <Text style={ txtStyle }>gerechten</Text>
                     </Button>
-                    <Button vertical onPress={ () => Actions.favorites() } style={ buttonStyle }>
+                    <Button vertical onPress={ this.props.login ? () => Actions.Favorites() : () => Actions.Login() } style={ buttonStyle }>
                         <Icon name="star" type="FontAwesome" style={ iconStyle } />
                         <Text style={ txtStyle }>favorieten</Text>
                     </Button>
-                    <Button vertical onPress={ () => Actions.shoppingcart() } style={ buttonStyle }>
+                    <Button vertical onPress={ this.props.login ? () => Actions.ShoppingCart() : () => Actions.Login() } style={ buttonStyle }>
                         <Icon name="shopping-cart" type="FontAwesome" style={ iconStyle } />
                         <Text style={ txtStyle }>lijstje</Text>
                     </Button>

@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import { Container } from 'native-base';
 import { Router, Stack, Scene } from 'react-native-router-flux';
-import { darkRed } from './app/resources/styles/styles';
-
-import Head from './app/components/Head';
-import Foot from './app/components/Foot';
 
 import Home from './app/views/Home';
 import Detail from './app/views/Detail';
@@ -13,24 +8,18 @@ import ShoppingCart from './app/views/ShoppingCart';
 import Favorites from './app/views/Favorites';
 import MyDishes from './app/views/MyDishes';
 import Search from './app/views/Search';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['currentlyFocusedFiled is deprecated']);
 
 export default class App extends Component
 {
   constructor(props) {
     super(props);
     this.state = {
-        title: "verrukkuluk!nl",
-        login: false
+        login: true
     };
-    this.titleChange = this.titleChange.bind(this);
     this.loginChange = this.loginChange.bind(this);
-  }
-
-  titleChange = (newTitle) => {
-    this.setState({
-      title: newTitle
-    })
   }
 
   loginChange = () => {
@@ -41,22 +30,17 @@ export default class App extends Component
 
   render() {
     return(
-      <Container>
-        <Head title={ this.state.title } login={ this.state.login }
-              titleChange={ this.titleChange } loginChange={ this.loginChange } />
-        <Router headerMode="none" sceneStyle={{ backgroundColor: darkRed }}>
-          <Stack key="root">
-            <Scene key="home" component={ Home } />
-            <Scene key="detail" component={ Detail } initial />
-            <Scene key="login" component={ Login } />
-            <Scene key="shoppingcart" component={ ShoppingCart } />
-            <Scene key="favorites" component={ Favorites } />
-            <Scene key="mydishes" component={ MyDishes } />
-            <Scene key="search" component={ Search } />
-          </Stack>
-        </Router>
-        <Foot titleChange={ this.titleChange } />
-      </Container>
+      <Router headerMode="none">
+        <Stack key="root">
+          <Scene key="Home" component={ Home } login={ this.state.login } loginChange={ this.loginChange } type="replace" initial />
+          <Scene key="Detail" component={ Detail } login={ this.state.login } loginChange={ this.loginChange } />
+          <Scene key="Login" component={ Login } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
+          <Scene key="ShoppingCart" component={ ShoppingCart } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
+          <Scene key="Favorites" component={ Favorites } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
+          <Scene key="MyDishes" component={ MyDishes } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
+          <Scene key="Search" component={ Search } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
+        </Stack>
+      </Router>
     )
   }
 }

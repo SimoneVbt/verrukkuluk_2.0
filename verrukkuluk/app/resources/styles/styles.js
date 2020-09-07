@@ -8,7 +8,30 @@ const HeaderFooter = {
     height: 80
 }
 
+const cardStyle = {
+    backgroundColor: beige,
+    paddingTop: 10,
+    paddingBottom: 0,
+    flexDirection: "row"
+}
+
+const titleStyle = {
+    color: darkRed,
+    textTransform: "uppercase",
+    fontSize: 20,
+    fontWeight: "bold"
+}
+
+const starStyle = {
+    color: darkRed,
+    fontSize: 28,
+    paddingLeft: 2,
+    paddingBottom: 2,
+    margin: -1
+}
+
 export {
     gold, darkRed, white, beige,
+    cardStyle, titleStyle, starStyle,
     HeaderFooter
 }
