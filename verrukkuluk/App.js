@@ -8,16 +8,13 @@ import ShoppingCart from './app/views/ShoppingCart';
 import Favorites from './app/views/Favorites';
 import MyDishes from './app/views/MyDishes';
 import Search from './app/views/Search';
-import { LogBox } from 'react-native';
-
-LogBox.ignoreLogs(['currentlyFocusedFiled is deprecated']);
 
 export default class App extends Component
 {
   constructor(props) {
     super(props);
     this.state = {
-        login: true
+        login: false
     };
     this.loginChange = this.loginChange.bind(this);
   }

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Container, Content } from 'native-base';
-import { darkRed } from '../resources/styles/styles.js';
+import { Container, Content, Spinner } from 'native-base';
+import { darkRed, gold } from '../resources/styles/styles.js';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import DishCard from '../components/DishCard';
+import API from '../lib/API';
 
+/*
 const data = [
     {
         id: 1,
@@ -31,42 +33,73 @@ const data = [
         price: "4,50"
     }
 ]
-
+*/
 
 export default class Home extends Component
 {
     constructor(props) {
         super(props);
         this.state = {
-            data: data
+            isLoaded: false,
+            data: [],
+            title: "verukkuluk!nl"
         }
     }
-    componentDidMount() {
-        //let url = "http://192.168.0.109:8000/api/gerecht/get_all";
-        let url = "http://192.168.1.244:8000/api/gerecht/get_all";
 
+
+    componentDidMount() {
+        let url = "https://192.168.0.109:8000/api/gerecht/get_all";
+        //let url = "http://192.168.1.244:8000/api/gerecht/get_all";
+
+        API.fetchData(url, "gerecht")
+            .then( data => {
+                this.setState({
+                    isLoaded: true,
+                    data: data
+                })
+            })
+            .catch( err => {
+                this.setState({
+                    isLoaded: true,
+                    title: "fout bij ophalen gegevens"
+                })
+            })
     }
 
-    render() {
+    
+    _renderContent() {
+        if (this.state.isLoaded && this.state.data.length > 0) {
+            return(
+                <Content style={{ padding: 10 }}>
+                    {
+                        this.state.data.map( dish => {
+                            return(
+                            <DishCard key={ dish.id }
+                                    dish={ dish }
+                                    login={ this.props.login }
+                                    loginChange={ this.props.loginChange }
+                                    /> );
+                        })
+                    }
+                </Content>                
+            );
+        }
+        return(
+            <Content style={{ padding: 10 }}>
+                <Spinner color={ gold } />
+            </Content>
+        )
+        
+    }
 
+    
+    render() {
         return(
             <Container style={{ backgroundColor: darkRed }}>
-                <Head title="verrukkuluk!nl" login={ this.props.login } loginChange={ this.props.loginChange } />
-                    <Content style={{ padding: 10 }}>
-                        {
-                            this.state.data.map( dish => {
-                                return(
-                                <DishCard key={ dish.id }
-                                        dish={ dish }
-                                        login={ this.props.login }
-                                        loginChange={ this.props.loginChange }
-                                        /> );
-                            })
-                        }
-                    </Content>
+                <Head title={ this.state.title } login={ this.props.login } loginChange={ this.props.loginChange } />
+                    { this._renderContent() }
                 <Foot />
             </Container>
         )
     }
-
 }
