@@ -2,15 +2,18 @@
     {% for dish in dishes %}
     {
         "id": {{ dish.id }},
-        "keuken_id": {{ dish.keukenId }},
-        "type_id": {{ dish.typeId }},
-        "gebruiker_id": {{ dish.gebruikerId }},
+        "keuken": "{{ dish.keuken }}",
+        "type": "{{ dish.type }}",
+        "gebruikerId": {{ dish.gebruikerId }},
+        "gebruiker": "{{ dish.gebruiker }}",
+        "afbeelding": "{{ dish.afbeelding }}",
         "datum_toegevoegd": "{{ dish.datumToegevoegd|date("Y-m-d") }}",
         "titel": "{{ dish.titel }}",
         "korte_omschrijving": "{{ dish.korteOmschrijving }}",
         "lange_omschrijving": "{{ dish.langeOmschrijving }}",
         "gemiddelde_beoordeling": {{ dish.gemiddeldeBeoordeling }},
-        "calorieen": {{ dish.calorieen|number_format(0) }}
+        "calorieen": {{ dish.calorieen|number_format(0) }},
+        "totale_prijs": "{{ dish.totalePrijs|number_format(2, ',', '.') }}"
     {{ dish == dishes|last ? "}" : "}," }}
     {% endfor %}
 ]

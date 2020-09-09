@@ -1,52 +1,56 @@
 import React, { Component } from 'react';
-import { Container, Content } from 'native-base';
-import { darkRed } from '../resources/styles/styles.js';
+import { Container, Content,Text, Tabs, Tab, ScrollableTab } from 'native-base';
+import { darkRed, white } from '../resources/styles/styles.js';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import DishDescription from '../components/DishDescription';
 
+const contentStyle = {
+    backgroundColor: darkRed,
+    padding: 10
+}
+
+const tabStyle = {
+    backgroundColor: darkRed
+}
+const txt = {
+    color: white
+}
 
 export default class Detail extends Component
 {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: this.props.dish.title,
-            imageUri: this.props.dish.imageUri,
-            type: this.props.dish.type,
-            kitchen: this.props.dish.kitchen,
-            description_short: this.props.dish.description_short,
-            description_long: this.props.dish.description_long,
-            rating: this.props.dish.rating,
-            kcal: this.props.dish.kcal,
-            price: this.props.dish.price
-        }
-    }
-
-
     render() {
         return(
             <Container style={{ backgroundColor: darkRed }}>
-                <Head title={ this.state.title } login={ this.props.login } loginChange={ this.props.loginChange } />
-                    <Content style={{ padding: 10 }}>
-                        <DishDescription data={ this.state } />
-                        {/*
-                        <Header hasTabs />
-                        <Tabs renderTabBar={()=> <ScrollableTab />}>
-                            <Tab heading="omschrijving">
-                                <Description />
-                            </Tab>
-                            <Tab heading="ingrediënten">
+                <Head title={ this.props.dish.title } login={ this.props.login } loginChange={ this.props.loginChange } hasTabs />
+                    <Tabs initialPage={0} renderTabBar={()=> <ScrollableTab />}
+                        tabContainerStyle={{ height: 200 }}
+                        >
+                        <Tab heading="omschrijving" tabStyle={ tabStyle } activeTabStyle={ tabStyle }
+                                                    textStyle={ txt }  activeTextStyle={ txt }>
+                            <Content style={ contentStyle }>
+                                <DishDescription dish={ this.props.dish } />
+                            </Content>
+                        </Tab>
+                        <Tab heading="ingrediënten" tabStyle={ tabStyle } activeTabStyle={ tabStyle }
+                                                    textStyle={ txt } activeTextStyle={ txt }>  
+                            <Content style={ contentStyle }>
                                 <Text>Hoi!</Text>
-                            </Tab>
-                            <Tab heading="bereiding">
+                            </Content>
+                        </Tab>
+                        <Tab heading="bereiding" tabStyle={ tabStyle } activeTabStyle={ tabStyle } 
+                                                    textStyle={ txt } activeTextStyle={ txt }>
+                            <Content style={ contentStyle }>
                                 <Text>Hoi!</Text>
-                            </Tab>
-                            <Tab heading="opmerkingen">
+                            </Content>
+                        </Tab>
+                        <Tab heading="opmerkingen" tabStyle={ tabStyle } activeTabStyle={ tabStyle }
+                                                    textStyle={ txt } activeTextStyle={ txt }>
+                            <Content style={ contentStyle }>
                                 <Text>Hoi!</Text>
-                            </Tab>
-                        </Tabs> */}
-                </Content>
+                            </Content>
+                        </Tab>
+                    </Tabs>
             <Foot />
             </Container>
 

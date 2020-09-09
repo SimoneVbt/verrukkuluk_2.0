@@ -5,15 +5,17 @@ const schema = {
         primaryKey: "id",
         properties: {
             id: { type: "int", indexed: true },
-            keuken_id: "int",
-            type_id: "int",
+            keuken: { type: "string", default: "" },
+            type: { type: "string", default: "" },
             gebruiker_id: "int",
+            gebruiker: { type: "string", default: "" },
             datum_toegevoegd: "date",
             titel: "string",
             korte_omschrijving: "string",
             lange_omschrijving: "string",
             gemiddelde_beoordeling: { type: "float", default: 0 },
-            calorieen: { type: "int", default: 0 }
+            calorieen: { type: "int", default: 0 },
+            totale_prijs: { type: "string", default: "" }
         }
     },
 

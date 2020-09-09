@@ -1,6 +1,6 @@
 import schema from './Model';
 
-const timeout = 15000;
+const timeout = 10000;
 
 let realm = new Realm({
     schema: [ schema.gerecht,
@@ -10,12 +10,13 @@ let realm = new Realm({
             schema.artikel,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 1
+    schemaVersion: 4
 });
 
 
 export default class API
 {
+
     static fetchFromDatabase(tableName) {
         let data = realm.objects(tableName);
         return data;
@@ -33,7 +34,7 @@ export default class API
                 clearTimeout(tm);
 
                 data.forEach( item => {
-                    realm.write((tableName) => {
+                    realm.write(() => {
                         realm.create(tableName, item, true);
                     });
                 });

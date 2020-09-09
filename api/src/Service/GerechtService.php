@@ -13,15 +13,20 @@ class GerechtService
     private $gis;
     private $is;
     private $as;
+    private $kts;
+    private $gs;
 
     public function __construct(EntityManagerInterface $em, GerechtinfoService $gis, 
-                                IngredientService $is, ArtikelService $as)
+                                IngredientService $is, ArtikelService $as,
+                                KeukenTypeService $kts, GebruikerService $gs)
     {
         $this->em = $em;
         $this->rep = $em->getRepository(Gerecht::class);
         $this->gis = $gis;
         $this->is = $is;
         $this->as = $as;
+        $this->kts = $kts;
+        $this->gs = $gs;
     }
 
 
@@ -48,8 +53,33 @@ class GerechtService
             $dish_id = $dish->getId();
             $dish->gemiddeldeBeoordeling = $this->calcAverageRating($dish_id);
             $dish->calorieen = $this->calcCalories($dish_id);
+            $dish->totalePrijs = $this->calcPrice($dish_id);
+            $dish->keuken = $this->kts->getKeukenType($dish->getKeukenId())->getOmschrijving();
+            $dish->type = $this->kts->getKeukenType($dish->getTypeId())->getOmschrijving();
+            $dish->gebruiker = $this->gs->getGebruiker($dish->getGebruikerId())->getUsername();
+            $ip = "192.168.0.109";
+            //$ip = "192.168.1.244";
+            $dish->afbeelding = "http://".$ip."/verrukkuluk_2.0/api/public/gerechten/gerecht".$dish->getId().".jpg";
         }
         return $dishes;
+    }
+
+
+    private function calcPrice($dish_id)
+    {
+        $totalPrice = 0;
+        $ingredients = $this->is->getDishIngredients($dish_id);
+
+        foreach ($ingredients as $ingr) {
+            $article = $this->as->getArtikel($ingr->getArtikelId());
+            $artPrice = $article->getPrijs();
+            $package = $article->getVerpakking();
+            $amount = $ingr->getAantal();
+            $price = ($amount / $package) * $artPrice;
+            $totalPrice += round($price, 2);
+        }
+        $pricePerPerson = $totalPrice / 4;
+        return $pricePerPerson;
     }
 
 

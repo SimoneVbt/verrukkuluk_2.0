@@ -5,7 +5,7 @@ const beige = "rgb(254, 246, 231)";
 
 const HeaderFooter = {
     backgroundColor: gold,
-    height: 80
+    height: 65
 }
 
 const cardStyle = {

@@ -3,11 +3,10 @@ import { Card, CardItem, Text, Button, Icon, Thumbnail, Grid, Col } from 'native
 import { Actions } from 'react-native-router-flux';
 import { darkRed, beige, cardStyle, titleStyle, starStyle } from '../resources/styles/styles.js';
 
-
 const buttonStyle = {
     borderColor: darkRed,
     height: 60,
-    flex: 1,
+    flex: 2,
     alignItems: "center",
     borderWidth: 2,
     backgroundColor: beige
@@ -20,15 +19,15 @@ export default class DishCard extends Component
         super(props);
         this.state = {
             id: this.props.dish.id,
-            title: this.props.dish.title,
-            imageUri: this.props.dish.imageUri,
+            title: this.props.dish.titel,
+            image: this.props.dish.afbeelding,
             type: this.props.dish.type,
-            kitchen: this.props.dish.kitchen,
-            description_short: this.props.dish.description_short,
-            description_long: this.props.dish.description_long,
-            rating: this.props.dish.rating,
-            kcal: this.props.dish.kcal,
-            price: this.props.dish.price
+            kitchen: this.props.dish.keuken,
+            description_short: this.props.dish.korte_omschrijving,
+            description_long: this.props.dish.lange_omschrijving,
+            rating: this.props.dish.gemiddelde_beoordeling,
+            kcal: this.props.dish.calorieen,
+            price: this.props.dish.totale_prijs
         }
     }
 
@@ -41,7 +40,7 @@ export default class DishCard extends Component
                     </Text>
                 </CardItem>
                 <CardItem style={ cardStyle }>
-                    <Thumbnail square source={{ uri: this.state.imageUri }} style={{ width: "100%", height: 100 }} />
+                    <Thumbnail square source={{ uri: this.state.image }} style={{ width: "100%", height: 100 }} />
                 </CardItem>
                 <CardItem style={ cardStyle }>
                     <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: darkRed }}>
@@ -86,11 +85,11 @@ export default class DishCard extends Component
                             <Icon name="star-outline" type="Ionicons" style={ starStyle } /> }
                     </CardItem>
                     <CardItem footer style={ cardStyle }>
-                        <Text style={{ flex: 1, fontSize: 14, fontStyle: "italic" }}>
-                            { this.state.kcal } kcal
+                        <Text style={{ flex: 2, fontSize: 14, fontStyle: "italic" }}>
+                            { this.state.kcal } kcal p.p.
                         </Text>
                         <Text style={{ flex: 1, fontSize: 14, fontStyle: "italic",  textAlign: "right" }}>
-                            €{ this.state.price }
+                            € { this.state.price }
                         </Text>
                     </CardItem>
                     </Col>
