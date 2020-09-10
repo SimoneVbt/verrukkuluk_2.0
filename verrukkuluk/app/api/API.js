@@ -7,10 +7,9 @@ let realm = new Realm({
             schema.keuken_type,
             schema.gerechtinfo,
             schema.ingredient,
-            schema.artikel,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 4
+    schemaVersion: 5
 });
 
 

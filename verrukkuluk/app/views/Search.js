@@ -11,11 +11,11 @@ export default class Search extends Component
         return(
             <Container style={{ backgroundColor: darkRed }}>
                 <Head title="zoeken" login={ this.props.login } loginChange={ this.props.loginChange } />
-                <Content>
-                    <View>
-                        <Text>Zoeken!</Text>
-                    </View>                
-                </Content>
+                    <Content>
+                        <View>
+                            <Text>Zoeken!</Text>
+                        </View>                
+                    </Content>
                 <Foot />
             </Container>
         )

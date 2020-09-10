@@ -15,11 +15,11 @@ export default class Login extends Component
         return(
             <Container style={{ backgroundColor: darkRed }}>
                 <Head title="inloggen" login={ this.props.login } loginChange={ this.props.loginChange } />
-                <Content>
-                    <Button>
-                        <Text>Inloggen!</Text>
-                    </Button>
-                </Content>
+                    <Content>
+                        <Button>
+                            <Text>Inloggen!</Text>
+                        </Button>
+                    </Content>
                 <Foot />
             </Container>
 

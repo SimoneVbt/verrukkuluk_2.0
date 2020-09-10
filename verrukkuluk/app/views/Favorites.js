@@ -10,11 +10,11 @@ export default class Favorites extends Component
         return(
             <Container style={{ backgroundColor: darkRed }}>
                 <Head title="mijn favorieten" login={ this.props.login } loginChange={ this.props.loginChange } />
-                <Content>
-                    <View>
-                        <Text>Favorieten!</Text>
-                    </View>                     
-                </Content>
+                    <Content>
+                        <View>
+                            <Text>Favorieten!</Text>
+                        </View>                     
+                    </Content>
                <Foot />
             </Container>
         )

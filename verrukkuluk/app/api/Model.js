@@ -50,15 +50,7 @@ const schema = {
             id: { type: "int", indexed: true },
             gerecht_id: "int",
             artikel_id: "int",
-            aantal: "int"
-        }
-    },
-
-    artikel: {
-        name: "artikel",
-        primaryKey: "id",
-        properties: {
-            id: { type: "int", indexed: true },
+            aantal: "int",
             naam: "string",
             omschrijving: "string?",
             prijs: "float",

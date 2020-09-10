@@ -20,8 +20,8 @@ export default class Home extends Component
 
 
     componentDidMount() {
-        let url = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
-        //let url = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
+        //let url = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
+        let url = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
 
         API.fetchData(url, "gerecht")
             .then( data => {
@@ -62,7 +62,7 @@ export default class Home extends Component
     render() {
         return(
             <Container style={{ backgroundColor: darkRed }}>
-                <Head title={ this.state.title } login={ this.props.login } loginChange={ this.props.loginChange } />
+                <Head title={ this.state.title } />
                     { this._renderContent() }
                 <Foot />
             </Container>

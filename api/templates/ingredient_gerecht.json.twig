@@ -1,0 +1,17 @@
+[
+    {% for ingredient in ingredienten %}
+    {
+        "id": {{ ingredient.id }},
+        "gerecht_id": {{ ingredient.gerechtId }},
+        "artikel_id": {{ ingredient.artikelId }},
+        "aantal": {{ ingredient.aantal }},
+        "naam": "{{ ingredient.naam }}",
+        "omschrijving": "{{ ingredient.omschrijving }}",
+        "prijs": {{ ingredient.prijs }},
+        "eenheid": "{{ ingredient.eenheid }}",
+        "verpakking": {{ ingredient.verpakking }},
+        "calorieen_per_100g": {{ ingredient.calorieenPer100g }},
+        "omzetting_naar_g": {{ ingredient.omzettingNaarG }}
+    {{ ingredient == ingredienten|last ? "}" : "}," }}
+    {% endfor %}
+]

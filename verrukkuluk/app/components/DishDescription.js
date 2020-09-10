@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Card, CardItem, Text, Icon, Thumbnail, View} from 'native-base';
-import { darkRed, beige, cardStyle, titleStyle, starStyle } from '../resources/styles/styles.js';
+import { Card, CardItem, Text, Icon, Thumbnail, View } from 'native-base';
+import { darkRed, cardStyle, tabCardStyle, titleStyle, starStyle } from '../resources/styles/styles.js';
 
 
 const txtStyle = {
@@ -8,11 +8,11 @@ const txtStyle = {
 }
 
 
-export default class DishDescription extends Component {
-
+export default class DishDescription extends Component
+{
     render() {
         return(
-            <Card style={{ paddingTop: 5, paddingBottom: 15, backgroundColor: beige }}>
+            <Card style={ tabCardStyle }>
                 <CardItem style={ cardStyle }>
                     <Thumbnail square source={{ uri: this.props.dish.image }} style={{ width: "100%", height: 150 }} />
                 </CardItem>

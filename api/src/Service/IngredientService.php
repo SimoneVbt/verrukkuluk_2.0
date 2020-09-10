@@ -9,11 +9,13 @@ class IngredientService
 {
     private $em;
     private $rep;
+    private $as;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ArtikelService $as)
     {
         $this->em = $em;
         $this->rep = $em->getRepository(Ingredient::class);
+        $this->as = $as;
     }
 
 
@@ -31,7 +33,18 @@ class IngredientService
     
     public function getDishIngredients($dish_id)
     {
-        return $this->rep->getDishIngredients($dish_id);
+        $ingredients = $this->rep->getDishIngredients($dish_id);
+        foreach ($ingredients as $ingr) {
+            $art = $this->as->getArtikel($ingr->getArtikelId());
+            $ingr->naam = $art->getNaam();
+            $ingr->omschrijving = $art->getOmschrijving();
+            $ingr->prijs = $art->getPrijs();
+            $ingr->eenheid = $art->getEenheid();
+            $ingr->verpakking = $art->getVerpakking();
+            $ingr->calorieenPer100g = $art->getCalorieenPer100g();
+            $ingr->omzettingNaarG = $art->getOmzettingNaarG();
+        }
+        return $ingredients;
     }
 
 

@@ -15,6 +15,12 @@ const cardStyle = {
     flexDirection: "row"
 }
 
+const tabCardStyle = {
+    paddingTop: 5,
+    paddingBottom: 15,
+    backgroundColor: beige
+}
+
 const titleStyle = {
     color: darkRed,
     textTransform: "uppercase",
@@ -32,6 +38,6 @@ const starStyle = {
 
 export {
     gold, darkRed, white, beige,
-    cardStyle, titleStyle, starStyle,
+    cardStyle, tabCardStyle, titleStyle, starStyle, 
     HeaderFooter
 }

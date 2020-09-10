@@ -50,6 +50,19 @@ class IngredientController extends AbstractController
 
 
     /**
+     * @Route("/get_dish/{dish_id}", name="get_ingredients_dish")
+     */
+    public function getDishIngredients($dish_id)
+    {
+        $ingredients = $this->is->getDishIngredients($dish_id);
+        $json = $this->renderView('ingredient_gerecht.json.twig', ["ingredienten" => $ingredients]);
+        $response = new Response($json);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
+    /**
      * @Route("/delete/{ing_id}", name="delete_ingredient")
      */
     public function deleteIngredient($ing_id)

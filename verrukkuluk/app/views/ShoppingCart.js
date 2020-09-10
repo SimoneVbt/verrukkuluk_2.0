@@ -11,11 +11,11 @@ export default class ShoppingCart extends Component
         return(
             <Container style={{ backgroundColor: darkRed }}>
                 <Head title="mijn lijstje" login={ this.props.login } loginChange={ this.props.loginChange } />
-                <Content>
-                    <View>
-                        <Text>Shopping!</Text>
-                    </View>                    
-                </Content>
+                    <Content>
+                        <View>
+                            <Text>Shopping!</Text>
+                        </View>                    
+                    </Content>
                 <Foot />
             </Container>
         )
