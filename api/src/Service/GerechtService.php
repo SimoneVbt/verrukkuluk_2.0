@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Gerecht;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Service\GerechtinfoService;
 
 class GerechtService
 {
@@ -49,6 +48,9 @@ class GerechtService
     public function getAllGerechten()
     {
         $dishes = $this->rep->getAllGerechten();
+        $ip = "192.168.0.109";
+        //$ip = "192.168.1.244";    
+
         foreach ($dishes as $dish) {
             $dish_id = $dish->getId();
             $dish->gemiddeldeBeoordeling = $this->calcAverageRating($dish_id);
@@ -57,8 +59,6 @@ class GerechtService
             $dish->keuken = $this->kts->getKeukenType($dish->getKeukenId())->getOmschrijving();
             $dish->type = $this->kts->getKeukenType($dish->getTypeId())->getOmschrijving();
             $dish->gebruiker = $this->gs->getGebruiker($dish->getGebruikerId())->getUsername();
-            //$ip = "192.168.0.109";
-            $ip = "192.168.1.244";
             $dish->afbeelding = "http://".$ip."/verrukkuluk_2.0/api/public/gerechten/gerecht".$dish->getId().".jpg";
         }
         return $dishes;

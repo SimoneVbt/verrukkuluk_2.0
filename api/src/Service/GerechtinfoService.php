@@ -9,11 +9,13 @@ class GerechtinfoService
 {
     private $em;
     private $rep;
+    private $gs;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, GebruikerService $gs)
     {
         $this->em = $em;
         $this->rep = $em->getRepository(Gerechtinfo::class);
+        $this->gs = $gs;
     }
 
     
@@ -26,7 +28,15 @@ class GerechtinfoService
 
     public function getGerechtInfo($dish_id, $record_type)
     {
-        return $this->rep->getGerechtinfo($dish_id, $record_type);
+        $info = $this->rep->getGerechtinfo($dish_id, $record_type);
+        foreach ($info as $inf) {
+            if ($inf->getRecordType() === "O") {
+                $user = $this->gs->getGebruiker($inf->getGebruikerId());
+                $inf->gebruikersnaam = $user->getUsername();
+                $inf->foto = $user->foto;
+            }
+        }
+        return $info;
     }
 
 

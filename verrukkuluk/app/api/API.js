@@ -9,7 +9,7 @@ let realm = new Realm({
             schema.ingredient,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 5
+    schemaVersion: 7
 });
 
 

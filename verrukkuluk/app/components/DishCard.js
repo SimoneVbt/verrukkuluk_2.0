@@ -32,6 +32,9 @@ export default class DishCard extends Component
     }
 
     render() {
+
+        let description = this.state.description_short.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+
         return(
             <Card style={{ paddingTop: 5, paddingBottom: 15, backgroundColor: beige }}>
                 <CardItem header style={ cardStyle }>
@@ -51,8 +54,8 @@ export default class DishCard extends Component
                     </Text>
                 </CardItem>
                 <CardItem style={ cardStyle }>
-                    <Text style={{ fontSize: 14 }}>
-                        { this.state.description_short }
+                    <Text style={{ fontSize: 14 }} numberOfLines={4}>
+                        { description }
                     </Text>
                 </CardItem>
                 <Grid>

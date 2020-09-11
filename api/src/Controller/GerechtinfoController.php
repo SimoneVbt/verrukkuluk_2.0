@@ -37,7 +37,8 @@ class GerechtinfoController extends AbstractController
 
 
     /**
-     * @Route("/get/{record_type}/{dish_id}", name="get_gerechtinfo")
+     * @Route("/get/{record_type}/{dish_id}", name="get_gerechtinfo",
+     *          requirements={ "record_type"="\D", "dish_id"="\d+" })
      */
     public function getGerechtinfo($dish_id, $record_type)
     {

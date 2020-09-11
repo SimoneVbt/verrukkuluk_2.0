@@ -16,9 +16,10 @@ const cardStyle = {
 }
 
 const tabCardStyle = {
+    backgroundColor: beige,
     paddingTop: 5,
-    paddingBottom: 15,
-    backgroundColor: beige
+    paddingBottom: 5,
+    flexDirection: "column"
 }
 
 const titleStyle = {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Spinner } from 'native-base';
+import { Container, Content, Spinner, View } from 'native-base';
 import { darkRed, gold } from '../resources/styles/styles.js';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
@@ -20,8 +20,8 @@ export default class Home extends Component
 
 
     componentDidMount() {
-        //let url = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
-        let url = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
+        let url = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
+        //let url = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
 
         API.fetchData(url, "gerecht")
             .then( data => {
@@ -42,19 +42,19 @@ export default class Home extends Component
     _renderContent() {
         if (this.state.isLoaded) {
             return(
-                <Content style={{ padding: 10 }}>
+                <View style={{ paddingBottom: 20 }}>
                     {
                         this.state.data.map( dish => {
                             return( <DishCard key={ dish.id } dish={ dish } /> );
                         })
                     }
-                </Content>                
+                </View>                
             );
         }
         return(
-            <Content style={{ padding: 10 }}>
+            <View>
                 <Spinner color={ gold } />
-            </Content>
+            </View>
         )
     }
 
@@ -63,7 +63,9 @@ export default class Home extends Component
         return(
             <Container style={{ backgroundColor: darkRed }}>
                 <Head title={ this.state.title } />
-                    { this._renderContent() }
+                    <Content style={{ padding: 10 }}>
+                        { this._renderContent() }
+                    </Content>
                 <Foot />
             </Container>
         )

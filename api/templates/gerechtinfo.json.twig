@@ -5,6 +5,8 @@
         "record_type": "{{ info.recordType }}",
         "gerecht_id": {{ info.gerechtId }},
         "gebruiker_id": {% if info.gebruikerId != 0 %}{{ info.gebruikerId }}{% else %}null{% endif %},
+        "gebruikersnaam": {% if info.gebruikersnaam is defined %}"{{ info.gebruikersnaam }}"{% else %}null{% endif %},
+        "foto": {% if info.foto is defined %}"{{ info.foto }}"{% else %}null{% endif %},
         "datum_huidig": "{{ info.datumHuidig|date('Y-m-d') }}",
         "nummeriekveld": {{ info.nummeriekveld }},
         "tekstveld": "{{ info.tekstveld }}"

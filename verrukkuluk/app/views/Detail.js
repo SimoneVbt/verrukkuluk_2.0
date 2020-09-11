@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content,Text, Tabs, Tab, ScrollableTab } from 'native-base';
+import { Container, Content, View, Tabs, Tab, ScrollableTab } from 'native-base';
 import { darkRed, white } from '../resources/styles/styles.js';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
@@ -13,6 +13,13 @@ import DishComments from '../components/DishComments';
 const contentStyle = {
     backgroundColor: darkRed,
     padding: 10
+}
+
+const viewStyle = {
+    backgroundColor: darkRed,
+    padding: 10,
+    flex: 1,
+    paddingBottom: 75
 }
 
 const tabStyle = {
@@ -30,26 +37,52 @@ export default class Detail extends Component
             title: this.props.dish.title,
             isLoaded: false,
             dish: this.props.dish,
-            ingredients: []
+            ingredients: [],
+            preparation: [],
+            comments: []
         }
     }
 
     componentDidMount() {
-        //let urlIngredient = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
-        let urlIngredient = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
+        let urlIngredient = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
+        let urlPrep = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/" + this.state.dish.id;
+        let urlComm = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/" + this.state.dish.id;
+        //let urlIngredient = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
+        // let urlPrep = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/" + this.state.dish.id;
+        // let urlComm = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/" + this.state.dish.id;
 
         API.fetchData(urlIngredient, "ingredient")
             .then( data => {
-                this.setState({
-                    isLoaded: true,
-                    ingredients: data
-                })
+                this.setState({ ingredients: data })
             })
             .catch( err => {
-                this.setState({
-                    isLoaded: true,
-                    title: "fout bij ophalen gegevens"
-                })
+                this.setState({ title: "fout bij ophalen gegevens" })
+            })
+            .then(() => {
+                
+                API.fetchData(urlPrep, "gerechtinfo")
+                    .then( data => {
+                        this.setState({ preparation: data })
+                    })
+                    .catch( err => {
+                        this.setState({ title: "fout bij ophalen gegevens" })
+                    })
+                    .then(() => {
+
+                        API.fetchData(urlComm, "gerechtinfo")
+                            .then( data => {
+                                this.setState({
+                                    isLoaded: true,
+                                    comments: data
+                                })
+                            })
+                            .catch( err => {
+                                this.setState({
+                                    isLoaded: true,
+                                    title: "fout bij ophalen gegevens"
+                                })
+                            })
+                    })
             })
     }
 
@@ -66,29 +99,31 @@ export default class Detail extends Component
                             tabStyle={ tabStyle } activeTabStyle={ tabStyle }
                             textStyle={ txt }  activeTextStyle={ txt }>
                             <Content style={ contentStyle }>
-                                <DishDescription dish={ this.state.dish } />
+                                <View style={{ marginBottom: 20 }}>
+                                    <DishDescription dish={ this.state.dish } />
+                                </View>
                             </Content>
                         </Tab>
                         <Tab heading="ingrediënten"
                             tabStyle={ tabStyle } activeTabStyle={ tabStyle }
                             textStyle={ txt } activeTextStyle={ txt }>  
-                            <Content style={ contentStyle }>
-                                <DishIngredients dish_id={ this.state.dish.id } ingredients={ this.state.ingredients } />
-                            </Content>
+                            <View style={ viewStyle }>
+                                <DishIngredients ingredients={ this.state.ingredients } />
+                            </View>
                         </Tab>
                         <Tab heading="bereiding"
                             tabStyle={ tabStyle } activeTabStyle={ tabStyle } 
                             textStyle={ txt } activeTextStyle={ txt }>
-                            <Content style={ contentStyle }>
-                                <DishPreparation />
-                            </Content>
+                            <View style={ viewStyle }>
+                                <DishPreparation preparation={ this.state.preparation } />
+                            </View>
                         </Tab>
                         <Tab heading="opmerkingen"
                             tabStyle={ tabStyle } activeTabStyle={ tabStyle }
                             textStyle={ txt } activeTextStyle={ txt }>
-                            <Content style={ contentStyle }>
-                                <DishComments />
-                            </Content>
+                            <View style={ viewStyle }>
+                                <DishComments comments={ this.state.comments } />
+                            </View>
                         </Tab>
                     </Tabs>
                 <Foot />

@@ -11,6 +11,9 @@ const txtStyle = {
 export default class DishDescription extends Component
 {
     render() {
+
+        let description = this.props.dish.description_long.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+
         return(
             <Card style={ tabCardStyle }>
                 <CardItem style={ cardStyle }>
@@ -67,7 +70,7 @@ export default class DishDescription extends Component
                 <CardItem style={ cardStyle }>
                     <View style={{ flexDirection: "column" }}>
                         <Text style={ txtStyle }>
-                            { this.props.dish.description_long }
+                            { description }
                         </Text >
                     </View>
                 </CardItem>
