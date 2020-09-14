@@ -15,7 +15,8 @@ const schema = {
             lange_omschrijving: "string",
             gemiddelde_beoordeling: { type: "float", default: 0 },
             calorieen: { type: "int", default: 0 },
-            totale_prijs: { type: "string", default: "" }
+            totale_prijs: { type: "string", default: "" },
+            afbeelding: "string"
         }
     },
 

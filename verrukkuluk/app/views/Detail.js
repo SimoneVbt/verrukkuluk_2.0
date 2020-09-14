@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container, Content, View, Tabs, Tab, ScrollableTab } from 'native-base';
 import { darkRed, white } from '../resources/styles/styles.js';
 import Head from '../components/Head';
-import Foot from '../components/Foot';
 import API from '../api/API';
 
 import DishDescription from '../components/DishDescription';
@@ -91,42 +90,41 @@ export default class Detail extends Component
         return(
             <Container style={{ backgroundColor: darkRed }}>
                 <Head title={ this.state.title } hasTabs />
-                    <Tabs initialPage={0}
-                        renderTabBar={()=> <ScrollableTab />}
-                        tabContainerStyle={{ height: 200 }}
-                        >
-                        <Tab heading="omschrijving"
-                            tabStyle={ tabStyle } activeTabStyle={ tabStyle }
-                            textStyle={ txt }  activeTextStyle={ txt }>
-                            <Content style={ contentStyle }>
-                                <View style={{ marginBottom: 20 }}>
-                                    <DishDescription dish={ this.state.dish } />
-                                </View>
-                            </Content>
-                        </Tab>
-                        <Tab heading="ingrediënten"
-                            tabStyle={ tabStyle } activeTabStyle={ tabStyle }
-                            textStyle={ txt } activeTextStyle={ txt }>  
-                            <View style={ viewStyle }>
-                                <DishIngredients ingredients={ this.state.ingredients } />
+                <Tabs initialPage={0}
+                    renderTabBar={()=> <ScrollableTab />}
+                    tabContainerStyle={{ height: 200 }}
+                    >
+                    <Tab heading="omschrijving"
+                        tabStyle={ tabStyle } activeTabStyle={ tabStyle }
+                        textStyle={ txt }  activeTextStyle={ txt }>
+                        <Content style={ contentStyle }>
+                            <View style={{ marginBottom: 20 }}>
+                                <DishDescription dish={ this.state.dish } />
                             </View>
-                        </Tab>
-                        <Tab heading="bereiding"
-                            tabStyle={ tabStyle } activeTabStyle={ tabStyle } 
-                            textStyle={ txt } activeTextStyle={ txt }>
-                            <View style={ viewStyle }>
-                                <DishPreparation preparation={ this.state.preparation } />
-                            </View>
-                        </Tab>
-                        <Tab heading="opmerkingen"
-                            tabStyle={ tabStyle } activeTabStyle={ tabStyle }
-                            textStyle={ txt } activeTextStyle={ txt }>
-                            <View style={ viewStyle }>
-                                <DishComments comments={ this.state.comments } />
-                            </View>
-                        </Tab>
-                    </Tabs>
-                <Foot />
+                        </Content>
+                    </Tab>
+                    <Tab heading="ingrediënten"
+                        tabStyle={ tabStyle } activeTabStyle={ tabStyle }
+                        textStyle={ txt } activeTextStyle={ txt }>  
+                        <View style={ viewStyle }>
+                            <DishIngredients ingredients={ this.state.ingredients } />
+                        </View>
+                    </Tab>
+                    <Tab heading="bereiding"
+                        tabStyle={ tabStyle } activeTabStyle={ tabStyle } 
+                        textStyle={ txt } activeTextStyle={ txt }>
+                        <View style={ viewStyle }>
+                            <DishPreparation preparation={ this.state.preparation } />
+                        </View>
+                    </Tab>
+                    <Tab heading="opmerkingen"
+                        tabStyle={ tabStyle } activeTabStyle={ tabStyle }
+                        textStyle={ txt } activeTextStyle={ txt }>
+                        <View style={ viewStyle }>
+                            <DishComments comments={ this.state.comments } />
+                        </View>
+                    </Tab>
+                </Tabs>
             </Container>
 
         )

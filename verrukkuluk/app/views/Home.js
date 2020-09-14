@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container, Content, Spinner, View, Text } from 'native-base';
 import { darkRed, gold, white } from '../resources/styles/styles.js';
 import Head from '../components/Head';
-import Foot from '../components/Foot';
 import DishCard from '../components/DishCard';
 import API from '../api/API';
 
@@ -68,11 +67,10 @@ export default class Home extends Component
     render() {
         return(
             <Container style={{ backgroundColor: darkRed }}>
-                <Head title={ this.state.title } />
-                    <Content style={{ padding: 10 }}>
-                        { this._renderContent() }
-                    </Content>
-                <Foot />
+                <Head title={ this.state.title } home />
+                <Content style={{ padding: 10 }}>
+                    { this._renderContent() }
+                </Content>
             </Container>
         )
     }

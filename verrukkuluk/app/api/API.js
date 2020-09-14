@@ -9,7 +9,7 @@ let realm = new Realm({
             schema.ingredient,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 7
+    schemaVersion: 8
 });
 
 
@@ -29,21 +29,41 @@ export default class API
         }, timeout);
 
         fetch(url)
-            .then( result => result.json())
+            .then( result => result.json() )
             .then( data => {
                 clearTimeout(tm);
 
-                data.forEach( item => {
+                if (Array.isArray(data)) {
+                    data.forEach( item => {
+                        realm.write(() => {
+                            realm.create(tableName, item, true);
+                        });
+                    });                    
+                } else {
                     realm.write(() => {
-                        realm.create(tableName, item, true);
-                    });
-                });
+                        realm.create(tableName, data, true)
+                    })
+                }
+
 
                 resolve(data);
             })
-            .catch( err => {
+            .catch( error => {
                 clearTimeout(tm);
-                console.warn(err);
+                console.warn(error);
             })
+    })
+
+    static postData = (url, data) => new Promise( (resolve, reject) => {
+        
+        const body = new FormData();
+        data.forEach( d => {
+            body.append(d.name, d.value)
+        });
+
+        fetch(url, { method: 'POST', body })
+            .then( result => result.json() )
+            .then(data => resolve(data) )
+            .catch( error => reject(error) )
     })
 }

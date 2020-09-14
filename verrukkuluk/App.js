@@ -11,31 +11,17 @@ import Search from './app/views/Search';
 
 export default class App extends Component
 {
-  constructor(props) {
-    super(props);
-    this.state = {
-        login: false
-    };
-    this.loginChange = this.loginChange.bind(this);
-  }
-
-  loginChange = () => {
-    this.setState( prevState => ({
-      login: !prevState.login
-    }))
-  }
-
   render() {
     return(
       <Router headerMode="none">
         <Stack key="root">
-          <Scene key="Home" component={ Home } login={ this.state.login } loginChange={ this.loginChange } type="replace" initial />
-          <Scene key="Detail" component={ Detail } login={ this.state.login } loginChange={ this.loginChange } />
-          <Scene key="Login" component={ Login } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
-          <Scene key="ShoppingCart" component={ ShoppingCart } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
-          <Scene key="Favorites" component={ Favorites } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
-          <Scene key="MyDishes" component={ MyDishes } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
-          <Scene key="Search" component={ Search } login={ this.state.login } loginChange={ this.loginChange } type="replace" />
+          <Scene key="Home" component={ Home } type="replace" initial />
+          <Scene key="Detail" component={ Detail } />
+          <Scene key="Login" component={ Login } />
+          <Scene key="ShoppingCart" component={ ShoppingCart } />
+          <Scene key="Favorites" component={ Favorites } />
+          <Scene key="MyDishes" component={ MyDishes } />
+          <Scene key="Search" component={ Search } />
         </Stack>
       </Router>
     )
