@@ -44,12 +44,12 @@ export default class Detail extends Component
     }
 
     componentDidMount() {
-        let urlIngredient = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
-        let urlPrep = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/" + this.state.dish.id;
-        let urlComm = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/" + this.state.dish.id;
-        //let urlIngredient = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
-        // let urlPrep = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/" + this.state.dish.id;
-        // let urlComm = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/" + this.state.dish.id;
+        // let urlIngredient = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
+        // let urlPrep = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/" + this.state.dish.id;
+        // let urlComm = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/" + this.state.dish.id;
+        let urlIngredient = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
+        let urlPrep = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/" + this.state.dish.id;
+        let urlComm = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/" + this.state.dish.id;
 
         API.fetchData(urlIngredient, "ingredient")
             .then( data => {

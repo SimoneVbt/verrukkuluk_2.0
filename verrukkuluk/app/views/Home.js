@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Content, Spinner, View } from 'native-base';
-import { darkRed, gold } from '../resources/styles/styles.js';
+import { Container, Content, Spinner, View, Text } from 'native-base';
+import { darkRed, gold, white } from '../resources/styles/styles.js';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import DishCard from '../components/DishCard';
@@ -20,8 +20,8 @@ export default class Home extends Component
 
 
     componentDidMount() {
-        let url = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
-        //let url = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
+        //let url = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
+        let url = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
 
         API.fetchData(url, "gerecht")
             .then( data => {
@@ -40,7 +40,7 @@ export default class Home extends Component
 
     
     _renderContent() {
-        if (this.state.isLoaded) {
+        if (this.state.isLoaded && Array.isArray(this.state.data)) {
             return(
                 <View style={{ paddingBottom: 20 }}>
                     {
@@ -50,6 +50,12 @@ export default class Home extends Component
                     }
                 </View>                
             );
+        } else if (this.state.isLoaded) {
+            return(
+                <View>
+                    <Text style={{ color: white, padding: 10 }}>Er is iets mis gegaan. Vernieuw de pagina.</Text>
+                </View>
+            )
         }
         return(
             <View>

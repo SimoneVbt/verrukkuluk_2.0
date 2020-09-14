@@ -25,23 +25,21 @@ export default class Login extends Component
         return(
             <Container style={{ backgroundColor: darkRed }}>
                 <Head title="inloggen" login={ this.props.login } loginChange={ this.props.loginChange } />
-                    <Content contentContainerStyle={{ padding: 20, paddinRight: 50, marginTop: 10 }}>
-                        <KeyboardAvoidingView>
-                            <Form>
-                                <Item stackedLabel style={ itemStyle }>
-                                    <Label style={ labelStyle }>Gebruikersnaam / Email</Label>
-                                    <Input style={ inputStyle } />
-                                </Item>
-                                <Item stackedLabel style={ itemStyle }>
-                                    <Label style={ labelStyle }>Wachtwoord</Label>
-                                    <Input style={ inputStyle } secureTextEntry />
-                                </Item>
-                                <Button style={{ alignSelf: "center", marginTop: 20 }}>
-                                    <Text>Inloggen!</Text>
-                                </Button>                            
-                            </Form>
-                        </KeyboardAvoidingView>
-                    </Content>
+                    <KeyboardAvoidingView behavior="height" contentContainerStyle={{ flex: 1, padding: 20, paddingRight: 50, paddingBottom: 75, marginTop: 10 }} >
+                        <Form>
+                            <Item stackedLabel style={ itemStyle }>
+                                <Label style={ labelStyle }>Gebruikersnaam / Email</Label>
+                                <Input style={ inputStyle } />
+                            </Item>
+                            <Item stackedLabel style={ itemStyle }>
+                                <Label style={ labelStyle }>Wachtwoord</Label>
+                                <Input style={ inputStyle } secureTextEntry />
+                            </Item>
+                            <Button style={{ alignSelf: "center", marginTop: 20 }}>
+                                <Text>Inloggen!</Text>
+                            </Button>                            
+                        </Form>
+                    </KeyboardAvoidingView>
                 <Foot />
             </Container>
 

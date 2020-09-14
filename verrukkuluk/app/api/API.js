@@ -1,6 +1,6 @@
 import schema from './Model';
 
-const timeout = 10000;
+const timeout = 5000;
 
 let realm = new Realm({
     schema: [ schema.gerecht,
@@ -17,7 +17,8 @@ export default class API
 {
 
     static fetchFromDatabase(tableName) {
-        let data = realm.objects(tableName);
+        let objects = realm.objects(tableName);
+        let data = Array.from(objects);
         return data;
     }
 

@@ -24,8 +24,8 @@ class GebruikerService
 
     public function getGebruiker($user_id) {
         $user = $this->rep->getGebruiker($user_id);
-        $ip = "192.168.0.109";
-        //$ip = "192.168.1.244";
+        //$ip = "192.168.0.109";
+        $ip = "192.168.1.244";
         $user->foto = "http://".$ip."/verrukkuluk_2.0/api/public/gebruikers/gebruiker".$user->getId().".jpg";
         return $user;
     }
