@@ -3,6 +3,7 @@ import { Container, Content, View, Tabs, Tab, ScrollableTab } from 'native-base'
 import { darkRed, white } from '../resources/styles/styles.js';
 import Head from '../components/Head';
 import API from '../api/API';
+import ip from '../api/ip';
 
 import DishDescription from '../components/DishDescription';
 import DishIngredients from '../components/DishIngredients';
@@ -43,12 +44,9 @@ export default class Detail extends Component
     }
 
     componentDidMount() {
-        // let urlIngredient = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
-        // let urlPrep = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/" + this.state.dish.id;
-        // let urlComm = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/" + this.state.dish.id;
-        let urlIngredient = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/" + this.state.dish.id;
-        let urlPrep = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/" + this.state.dish.id;
-        let urlComm = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/" + this.state.dish.id;
+        let urlIngredient = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/ingredient/get_dish/${ this.state.dish.id }`;
+        let urlPrep = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/B/${ this.state.dish.id }`;
+        let urlComm = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/gerechtinfo/get/O/${ this.state.dish.id }`;
 
         API.fetchData(urlIngredient, "ingredient")
             .then( data => {

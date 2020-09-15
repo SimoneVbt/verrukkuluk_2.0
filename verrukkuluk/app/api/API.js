@@ -57,13 +57,16 @@ export default class API
     static postData = (url, data) => new Promise( (resolve, reject) => {
         
         const body = new FormData();
-        data.forEach( d => {
-            body.append(d.name, d.value)
-        });
+
+        for (let i = 0; i++; i < data.length) {
+            console.warn(data[i]);
+        }
+        body.append("login", data.login);
+        body.append("wachtwoord", data.wachtwoord);
 
         fetch(url, { method: 'POST', body })
             .then( result => result.json() )
-            .then(data => resolve(data) )
+            .then( data => resolve(data) )
             .catch( error => reject(error) )
     })
 }

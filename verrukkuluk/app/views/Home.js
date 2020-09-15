@@ -4,6 +4,7 @@ import { darkRed, gold, white } from '../resources/styles/styles.js';
 import Head from '../components/Head';
 import DishCard from '../components/DishCard';
 import API from '../api/API';
+import ip from '../api/ip';
 
 
 export default class Home extends Component
@@ -19,8 +20,7 @@ export default class Home extends Component
 
 
     componentDidMount() {
-        //let url = "http://192.168.0.109/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
-        let url = "http://192.168.1.244/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all";
+        let url = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all`;
 
         API.fetchData(url, "gerecht")
             .then( data => {
