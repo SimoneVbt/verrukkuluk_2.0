@@ -1,0 +1,5 @@
+Array
+(
+    [login] => S
+    [wachtwoord] => s
+)

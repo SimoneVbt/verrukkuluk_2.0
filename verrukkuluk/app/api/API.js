@@ -55,18 +55,29 @@ export default class API
     })
 
     static postData = (url, data) => new Promise( (resolve, reject) => {
-        
-        const body = new FormData();
 
-        for (let i = 0; i++; i < data.length) {
-            console.warn(data[i]);
-        }
+        const body = new FormData();
         body.append("login", data.login);
         body.append("wachtwoord", data.wachtwoord);
 
+        // headers & JSON.stringify worden niet door server geaccepteerd: lege array komt aan
+
         fetch(url, { method: 'POST', body })
-            .then( result => result.json() )
-            .then( data => resolve(data) )
-            .catch( error => reject(error) )
+            .then( result => {
+                console.warn("stap 1");
+                console.warn(result.text()); //"status: 200, ok" i.p.v. response, result.json() geeft onzin
+                result.json();
+            })
+            .then( response => {
+                console.warn("stap 2");
+                console.warn(response);
+                resolve(response);
+            })
+            .catch( error => {
+                console.warn("error");
+                console.warn(error);
+                reject(error)
+            })
+            
     })
 }

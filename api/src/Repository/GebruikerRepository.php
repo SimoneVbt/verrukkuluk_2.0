@@ -80,6 +80,6 @@ class GebruikerRepository extends ServiceEntityRepository implements PasswordUpg
             $success = $this->findOneBy(["email" => $params["login"], "password" => $params["wachtwoord"]]);
         }
         
-        return $success ? $success->getId() : null;
+        return $success ? $success->getId() : -1;
     }
 }

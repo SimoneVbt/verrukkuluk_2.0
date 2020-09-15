@@ -34,7 +34,7 @@ export default class Login extends Component
             login: "",
             wachtwoord: "",
             isLoading: false,
-            result: 0
+            id: 0
         }
     }
 
@@ -45,17 +45,23 @@ export default class Login extends Component
         });
 
         let loginUrl = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/gebruiker/login`;
+        let data = {
+            login: this.state.login,
+            wachtwoord: this.state.wachtwoord
+        }
         
-        API.postData(loginUrl, this.state)
-            .then( result => 
-                console.warn("result: " + result),
+        API.postData(loginUrl, data)
+            .then( result => {
+                console.warn("succes!");
+                console.warn(result); //undefined
                 this.setState({
-                    result: result,
+                    //id: result,
                     isLoading: false
                 })
-            );
+            })
+            .catch( err => this.setState({ isLoading: false }) );
 
-        // if (this.state.result > 0) {
+        // if (this.state.id > 0) {
         //     let userUrl = `"http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/gebruiker/get/${ result }`;
             
         //     API.fetchData(userUrl, "gebruiker")
@@ -118,7 +124,10 @@ export default class Login extends Component
                         </Item>
                         <Button large  onPress={ () => this._login() }
                                 style={{ alignSelf: "center", marginTop: 20, backgroundColor: white }} >
-                            { this.state.isLoading ? <Spinner color={ darkRed } style={{ paddingLeft: 10 }} /> : null}
+                            { 
+                                this.state.isLoading ? 
+                                    <Spinner color={ darkRed } style={{ paddingLeft: 10 }} /> : null
+                            }
                             <Text style={{ color: darkRed, fontSize: 20 }}>
                                 Inloggen!
                             </Text>
