@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Text, Icon, Thumbnail, View } from 'native-base';
-import { darkRed, cardStyle, tabCardStyle, titleStyle, starStyle } from '../resources/styles/styles.js';
+import { darkRed, cardItemStyle, tabCardStyle, titleStyle, starStyle } from '../resources/styles/styles.js';
 
 
 const txtStyle = {
@@ -16,10 +16,10 @@ export default class DishDescription extends Component
 
         return(
             <Card style={ tabCardStyle }>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <Thumbnail square source={{ uri: this.props.dish.image }} style={{ width: "100%", height: 150 }} />
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <View style={{ flexDirection: "row", flex: 2, justifyContent: "flex-start" }}>
                         { this.props.dish.rating >= 1 ?
                             <Icon name="star-sharp" type="Ionicons" style={ starStyle } /> :
@@ -54,12 +54,12 @@ export default class DishDescription extends Component
                         €{ this.props.dish.price }
                     </Text>
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <Text style={ titleStyle }>
                         { this.props.dish.title }
                     </Text>
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: darkRed }}>
                         { this.props.dish.type }
                     </Text>
@@ -67,7 +67,7 @@ export default class DishDescription extends Component
                         { this.props.dish.kitchen }
                     </Text>
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <View style={{ flexDirection: "column" }}>
                         <Text style={ txtStyle }>
                             { description }

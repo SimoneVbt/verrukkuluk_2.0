@@ -28,15 +28,15 @@ export default class Foot extends Component
                         <Icon name="chef-hat" type="MaterialCommunityIcons" style={ iconStyle } />
                         <Text style={ txtStyle }>home</Text>
                     </Button>
-                    <Button vertical onPress={ this.props.login ? () => Actions.MyDishes() : () => Actions.Login() } >
+                    <Button vertical onPress={ () => Actions.MyDishes() } >
                         <Icon name="md-book" type="Ionicons" style={ iconStyle } />
                         <Text style={ txtStyle }>gerechten</Text>
                     </Button>
-                    <Button vertical onPress={ this.props.login ? () => Actions.Favorites() : () => Actions.Login() } >
+                    <Button vertical onPress={ () => Actions.Favorites() } >
                         <Icon name="star" type="FontAwesome" style={ iconStyle } />
                         <Text style={ txtStyle }>favorieten</Text>
                     </Button>
-                    <Button vertical onPress={ this.props.login ? () => Actions.ShoppingCart() : () => Actions.Login() } >
+                    <Button vertical onPress={ () => Actions.ShoppingCart() } >
                         <Icon name="shopping-cart" type="FontAwesome" style={ iconStyle } />
                         <Text style={ txtStyle }>lijstje</Text>
                     </Button>

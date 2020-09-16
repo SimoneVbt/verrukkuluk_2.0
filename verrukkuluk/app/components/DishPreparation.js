@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Card, CardItem, Text, ListItem } from 'native-base';
-import { darkRed, cardStyle, tabCardStyle, titleStyle } from '../resources/styles/styles.js';
+import { darkRed, cardItemStyle, tabCardStyle, titleStyle } from '../resources/styles/styles.js';
 
 
 export default class DishPreparation extends Component
@@ -24,10 +24,10 @@ export default class DishPreparation extends Component
     render() {
         return(
             <Card style={ tabCardStyle }>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <Text style={ titleStyle }>Bereiding</Text>
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <FlatList
                         data={ this.props.preparation }
                         keyExtractor={ prep => prep.id.toString() }

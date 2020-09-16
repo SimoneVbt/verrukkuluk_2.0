@@ -27,22 +27,11 @@ const schema = {
             id: { type: "int", indexed: true },
             record_type: "string",
             gerecht_id:  "int",
-            gebruiker_id: "int?",
             gebruikersnaam: "string?",
             foto: "string?",
             datum_huidig: "date",
             nummeriekveld: "int?",
             tekstveld: "string?"
-        }
-    },
-
-    keuken_type: {
-        name: "keuken_type",
-        primaryKey: "id",
-        properties: {
-            id: { type: "int", indexed: true },
-            record_type: "string",
-            omschrijving: "string"
         }
     },
 

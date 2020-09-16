@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Content, Spinner, View, Text } from 'native-base';
 import { darkRed, gold, white } from '../resources/styles/styles.js';
+import { baseUrl } from '../config/constants';
 import Head from '../components/Head';
+import Foot from '../components/Foot';
 import DishCard from '../components/DishCard';
 import API from '../api/API';
-import ip from '../api/ip';
 
 
 export default class Home extends Component
@@ -20,7 +21,7 @@ export default class Home extends Component
 
 
     componentDidMount() {
-        let url = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/gerecht/get_all`;
+        let url = baseUrl + "gerecht/get_all";
 
         API.fetchData(url, "gerecht")
             .then( data => {
@@ -41,26 +42,18 @@ export default class Home extends Component
     _renderContent() {
         if (this.state.isLoaded && Array.isArray(this.state.data)) {
             return(
-                <View style={{ paddingBottom: 20 }}>
+                <View style={{ paddingBottom: 18 }}>
                     {
                         this.state.data.map( dish => {
                             return( <DishCard key={ dish.id } dish={ dish } /> );
                         })
                     }
-                </View>                
+                </View>
             );
         } else if (this.state.isLoaded) {
-            return(
-                <View>
-                    <Text style={{ color: white, padding: 10 }}>Er is iets mis gegaan. Vernieuw de pagina.</Text>
-                </View>
-            )
+            return( <View><Text style={{ color: white, padding: 10 }}>Er is iets mis gegaan. Vernieuw de pagina.</Text></View> )
         }
-        return(
-            <View>
-                <Spinner color={ gold } />
-            </View>
-        )
+        return( <View><Spinner color={ gold } /></View> )
     }
 
     
@@ -71,6 +64,7 @@ export default class Home extends Component
                 <Content style={{ padding: 10 }}>
                     { this._renderContent() }
                 </Content>
+                <Foot home />
             </Container>
         )
     }

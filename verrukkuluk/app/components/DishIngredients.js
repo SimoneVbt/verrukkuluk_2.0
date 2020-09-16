@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Card, CardItem, Text, ListItem, CheckBox } from 'native-base';
-import { darkRed, cardStyle, tabCardStyle, titleStyle } from '../resources/styles/styles.js';
+import { darkRed, cardItemStyle, tabCardStyle, titleStyle } from '../resources/styles/styles.js';
 
 
 class Ingredient extends Component
@@ -53,10 +53,10 @@ export default class DishIngredients extends Component
     render() {
         return(
             <Card style={ tabCardStyle }>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <Text style={ titleStyle }>Ingrediënten</Text>
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <FlatList
                         data={ this.props.ingredients }
                         keyExtractor={ ingr => ingr.id.toString() }

@@ -10,6 +10,12 @@ const HeaderFooter = {
 
 const cardStyle = {
     backgroundColor: beige,
+    paddingTop: 5,
+    paddingBottom: 15
+}
+
+const cardItemStyle = {
+    backgroundColor: beige,
     paddingTop: 10,
     paddingBottom: 0,
     flexDirection: "row"
@@ -39,6 +45,6 @@ const starStyle = {
 
 export {
     gold, darkRed, white, beige,
-    cardStyle, tabCardStyle, titleStyle, starStyle, 
+    cardStyle, cardItemStyle, tabCardStyle, titleStyle, starStyle, 
     HeaderFooter
 }

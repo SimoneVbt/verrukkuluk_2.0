@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Text, Button, Icon, Thumbnail, Grid, Col } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { darkRed, beige, cardStyle, titleStyle, starStyle } from '../resources/styles/styles.js';
+import { darkRed, beige, cardStyle, cardItemStyle, titleStyle, starStyle } from '../resources/styles/styles.js';
 
 const buttonStyle = {
     borderColor: darkRed,
@@ -36,16 +36,16 @@ export default class DishCard extends Component
         let description = this.state.description_short.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
 
         return(
-            <Card style={{ paddingTop: 5, paddingBottom: 15, backgroundColor: beige }}>
-                <CardItem header style={ cardStyle }>
+            <Card style={ cardStyle }>
+                <CardItem header style={ cardItemStyle }>
                     <Text style={ titleStyle }>
                         { this.state.title }
                     </Text>
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <Thumbnail square source={{ uri: this.state.image }} style={{ width: "100%", height: 100 }} />
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: darkRed }}>
                         { this.state.type }
                     </Text>
@@ -53,14 +53,14 @@ export default class DishCard extends Component
                         { this.state.kitchen }
                     </Text>
                 </CardItem>
-                <CardItem style={ cardStyle }>
+                <CardItem style={ cardItemStyle }>
                     <Text style={{ fontSize: 14 }} numberOfLines={4}>
                         { description }
                     </Text>
                 </CardItem>
                 <Grid>
                     <Col>
-                    <CardItem style={ cardStyle }>
+                    <CardItem style={ cardItemStyle }>
                         { this.state.rating >= 1 ?
                             <Icon name="star-sharp" type="Ionicons" style={ starStyle } /> :
                             this.state.rating == 0.5 ?
@@ -87,7 +87,7 @@ export default class DishCard extends Component
                             <Icon name="star-half-sharp" type="Ionicons" style={ starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ starStyle } /> }
                     </CardItem>
-                    <CardItem footer style={ cardStyle }>
+                    <CardItem footer style={ cardItemStyle }>
                         <Text style={{ flex: 2, fontSize: 14, fontStyle: "italic" }}>
                             { this.state.kcal } kcal p.p.
                         </Text>
@@ -97,7 +97,7 @@ export default class DishCard extends Component
                     </CardItem>
                     </Col>
                     <Col>
-                        <CardItem style={ cardStyle }>
+                        <CardItem style={ cardItemStyle }>
                             <Button rounded style={ buttonStyle } onPress={ () => Actions.Detail({ dish: this.state }) }>
                                 <Text style={{ color: darkRed, fontSize: 16, fontWeight: "bold" }}>
                                     Smullen!

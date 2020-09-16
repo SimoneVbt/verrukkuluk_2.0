@@ -4,23 +4,27 @@ const timeout = 5000;
 
 let realm = new Realm({
     schema: [ schema.gerecht,
-            schema.keuken_type,
             schema.gerechtinfo,
             schema.ingredient,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 8
+    schemaVersion: 9
 });
 
 
 export default class API
 {
-
     static fetchFromDatabase(tableName) {
-        let objects = realm.objects(tableName);
-        let data = Array.from(objects);
+        let data = realm.objects(tableName);
+
+        if (tableName != "gebruiker") {
+            let dataArray = Array.from(data);
+            return dataArray;
+        }
+
         return data;
     }
+
 
     static fetchData = (url, tableName) => new Promise( (resolve, reject) => {
 
@@ -44,8 +48,7 @@ export default class API
                         realm.create(tableName, data, true)
                     })
                 }
-
-
+                
                 resolve(data);
             })
             .catch( error => {
@@ -54,30 +57,16 @@ export default class API
             })
     })
 
+
     static postData = (url, data) => new Promise( (resolve, reject) => {
 
         const body = new FormData();
         body.append("login", data.login);
         body.append("wachtwoord", data.wachtwoord);
 
-        // headers & JSON.stringify worden niet door server geaccepteerd: lege array komt aan
-
         fetch(url, { method: 'POST', body })
-            .then( result => {
-                console.warn("stap 1");
-                console.warn(result.text()); //"status: 200, ok" i.p.v. response, result.json() geeft onzin
-                result.json();
-            })
-            .then( response => {
-                console.warn("stap 2");
-                console.warn(response);
-                resolve(response);
-            })
-            .catch( error => {
-                console.warn("error");
-                console.warn(error);
-                reject(error)
-            })
-            
+            .then( result => result.json() )
+            .then( result => resolve(result) )
+            .catch( error => reject(error) )
     })
 }

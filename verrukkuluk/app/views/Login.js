@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import { Container, Button, Text, Form, Item, Label, Input, Spinner } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { darkRed, white, gold } from '../resources/styles/styles';
+import { darkRed, white } from '../resources/styles/styles';
+import { baseUrl } from '../config/constants';
 import Head from '../components/Head';
 import API from '../api/API';
-import ip from '../api/ip';
 
 const itemStyle = {
     margin: 10
@@ -17,7 +17,7 @@ const labelStyle = {
 const inputStyle = {
     color: white
 }
-const statusStyle = {
+const messageStyle = {
     backgroundColor: white,
     color: "#000",
     fontWeight: "bold",
@@ -34,17 +34,18 @@ export default class Login extends Component
             login: "",
             wachtwoord: "",
             isLoading: false,
-            id: 0
+            failure: false,
+            error: false
         }
     }
+
 
     _login() {
 
         this.setState({
             isLoading: true
         });
-
-        let loginUrl = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/gebruiker/login`;
+        let loginUrl = baseUrl + "gebruiker/login";
         let data = {
             login: this.state.login,
             wachtwoord: this.state.wachtwoord
@@ -52,37 +53,23 @@ export default class Login extends Component
         
         API.postData(loginUrl, data)
             .then( result => {
-                console.warn("succes!");
-                console.warn(result); //undefined
-                this.setState({
-                    //id: result,
-                    isLoading: false
-                })
+
+                if (result.id > 0) {
+                    let userUrl = baseUrl + `gebruiker/get/${ result.id }`;
+                    console.warn(userUrl);
+                    
+                    API.fetchData(userUrl, "gebruiker")
+                        .then( user => Actions.Home({ user: user }) )
+                        .catch( err => console.warn(err) );
+
+                } else {
+                    this.setState({ isLoading: false, failure: true });
+                }
+
             })
-            .catch( err => this.setState({ isLoading: false }) );
-
-        // if (this.state.id > 0) {
-        //     let userUrl = `"http://${ ip }/verrukkuluk_2.0/api/public/index.php/api/gebruiker/get/${ result }`;
-            
-        //     API.fetchData(userUrl, "gebruiker")
-        //         .then( user => {
-        //             realm.write(() => {
-        //                 realm.create("gebruiker", user, true);
-        //             })
-        //         })
-        //         .catch( err => console.warn(err) );
-            
-        //         this.setState({
-        //             isLoading: false
-        //         })
-        //     //alert dat login is gelukt
-
-        //     //Actions.MyProfile() -- bestaat ook nog niet
-
-        // } else {
-        //     // alert dat login is mislukt
-        // }
+            .catch( err => this.setState({ isLoading: false, error: true }) )
     }
+
 
     _handleLoginChange(text) {
         this.setState({
@@ -96,17 +83,14 @@ export default class Login extends Component
         })
     }
 
+
     render() {
         return(
             <Container style={{ backgroundColor: darkRed }}>
-                <Head title="inloggen" login={ this.props.login } loginChange={ this.props.loginChange } />
+                <Head title="inloggen" login />
                 <ScrollView style={{ flex: 1, padding: 20, paddingRight: 30 }}>
-                    { 
-                        this.state.status < 0 ?
-                            <Text style={ statusStyle }>Login mislukt</Text> : 
-                        this.state.status > 0 ?
-                            <Text style={ statusStyle }>Login geslaagd</Text> : null
-                    }
+                    { this.state.failure && <Text style={ messageStyle }>Ongeldige inloggegevens</Text> }
+                    { this.state.error !== false && <Text style={ messageStyle }>Er is iets mis gegaan</Text> }
                     <Form>
                         <Item stackedLabel style={ itemStyle }>
                             <Label style={ labelStyle }>Gebruikersnaam / Email</Label>
