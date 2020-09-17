@@ -43,8 +43,21 @@ const starStyle = {
     margin: -1
 }
 
+const buttonStyle = {
+    backgroundColor: darkRed,
+    margin: 5,
+    borderRadius: 10
+}
+
+const buttonTextStyle = {
+    color: white,
+    fontWeight: "bold"
+}
+
 export {
     gold, darkRed, white, beige,
-    cardStyle, cardItemStyle, tabCardStyle, titleStyle, starStyle, 
+    cardStyle, cardItemStyle, tabCardStyle,
+    buttonStyle, buttonTextStyle,
+    titleStyle, starStyle,
     HeaderFooter
 }

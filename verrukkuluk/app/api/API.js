@@ -8,15 +8,30 @@ let realm = new Realm({
             schema.ingredient,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 9
+    schemaVersion: 14
 });
 
 
 export default class API
 {
+    static clearDatabase() {
+        try {
+            realm.beginTransaction();
+            realm.deleteAll();
+            realm.commitTransaction();
+        }
+        catch {
+            console.log("failed to clear database");
+        }
+        finally {
+            console.log("database cleared");
+        }
+    }
+
+
     static fetchFromDatabase(tableName) {
         let data = realm.objects(tableName);
-
+        
         if (tableName != "gebruiker") {
             let dataArray = Array.from(data);
             return dataArray;

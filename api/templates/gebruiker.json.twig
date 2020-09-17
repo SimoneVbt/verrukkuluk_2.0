@@ -2,5 +2,7 @@
     "id": {{ user.id }},
     "gebruikersnaam": "{{ user.username }}",
     "email": "{{ user.email }}",
-    "foto": "{{ user.foto }}"
+    "foto_upload": {{ user.fotoUpload ? "true" : "false" }},
+    {% if user.foto is defined %}"foto": "{{ user.foto }}",{% endif %}
+    "wachtwoord": "{{ user.password }}"
 }

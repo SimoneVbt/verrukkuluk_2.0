@@ -46,6 +46,7 @@ class GebruikerRepository extends ServiceEntityRepository implements PasswordUpg
         $user->setEmail($params['email']);
         $user->setUsername($params['gebruikersnaam']);
         $user->setPassword($params['wachtwoord']);
+        $user->setFotoUpload(false);
 
         $em = $this->getEntityManager();
         $em->persist($user);

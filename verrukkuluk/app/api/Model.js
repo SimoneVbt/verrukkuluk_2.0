@@ -1,3 +1,5 @@
+import { userPhotoUrl } from '../config/constants.js';
+
 const schema = {
 
     gerecht: {
@@ -59,7 +61,10 @@ const schema = {
         properties: {
             id: { type: "int", indexed: true },
             gebruikersnaam: "string",
-            roles: "string[]"
+            foto_upload: "boolean",
+            foto: { type: "string", default: userPhotoUrl + "default.png" },
+            email: "string",
+            wachtwoord: "string"
         }
     },
 

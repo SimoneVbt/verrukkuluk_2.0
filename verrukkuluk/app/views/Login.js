@@ -56,7 +56,6 @@ export default class Login extends Component
 
                 if (result.id > 0) {
                     let userUrl = baseUrl + `gebruiker/get/${ result.id }`;
-                    console.warn(userUrl);
                     
                     API.fetchData(userUrl, "gebruiker")
                         .then( user => Actions.Home({ user: user }) )

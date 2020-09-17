@@ -68,7 +68,6 @@ class GebruikerController extends AbstractController
     public function login(Request $request)
     {
         $params = $request->request->all();
-        file_put_contents("post.txt", print_r($params, true));
         $id = $this->gs->login($params);
         
         return $this->json(["id" => $id]);
