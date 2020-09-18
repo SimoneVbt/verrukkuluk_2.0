@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.ingredient,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 14
+    schemaVersion: 15
 });
 
 
@@ -31,7 +31,7 @@ export default class API
 
     static fetchFromDatabase(tableName) {
         let data = realm.objects(tableName);
-        
+
         if (tableName != "gebruiker") {
             let dataArray = Array.from(data);
             return dataArray;

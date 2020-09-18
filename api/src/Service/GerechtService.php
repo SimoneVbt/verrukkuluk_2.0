@@ -48,8 +48,8 @@ class GerechtService
     public function getAllGerechten()
     {
         $dishes = $this->rep->getAllGerechten();
-        // $ip = "192.168.0.109";
-        $ip = "192.168.1.244";    
+        $ip = "192.168.0.109";
+        // $ip = "192.168.1.244";    
 
         foreach ($dishes as $dish) {
             $dish_id = $dish->getId();

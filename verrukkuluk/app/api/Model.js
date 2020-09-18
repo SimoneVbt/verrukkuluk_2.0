@@ -1,5 +1,7 @@
 import { userPhotoUrl } from '../config/constants.js';
 
+const defaultImg = userPhotoUrl + "default.png";
+
 const schema = {
 
     gerecht: {
@@ -61,8 +63,8 @@ const schema = {
         properties: {
             id: { type: "int", indexed: true },
             gebruikersnaam: "string",
-            foto_upload: "boolean",
-            foto: { type: "string", default: userPhotoUrl + "default.png" },
+            foto_upload: "bool",
+            foto: { type: "string", default: defaultImg },
             email: "string",
             wachtwoord: "string"
         }
