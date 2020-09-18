@@ -3,11 +3,50 @@ const darkRed = "rgb(178, 51, 8)";
 const white = "rgb(255, 255, 255)";
 const beige = "rgb(254, 246, 231)";
 
+
+/* === standard style */
 const HeaderFooter = {
     backgroundColor: gold,
     height: 65
 }
 
+const titleStyle = {
+    color: darkRed,
+    textTransform: "uppercase",
+    fontSize: 20,
+    fontWeight: "bold"
+}
+
+const starStyle = {
+    color: darkRed,
+    fontSize: 28,
+    paddingLeft: 2,
+    paddingBottom: 2,
+    margin: -1
+}
+
+const messageStyle = {
+    backgroundColor: white,
+    color: "#000",
+    fontWeight: "bold",
+    alignSelf: "center",
+    paddingHorizontal: 30,
+    paddingVertical: 10
+}
+
+
+/* === tabs === */
+
+const tabStyle = {
+    backgroundColor: darkRed
+}
+
+const tabTextStyle = {
+    color: white
+}
+
+
+/* === cards === */
 const cardStyle = {
     backgroundColor: beige,
     paddingTop: 5,
@@ -28,21 +67,8 @@ const tabCardStyle = {
     flexDirection: "column"
 }
 
-const titleStyle = {
-    color: darkRed,
-    textTransform: "uppercase",
-    fontSize: 20,
-    fontWeight: "bold"
-}
 
-const starStyle = {
-    color: darkRed,
-    fontSize: 28,
-    paddingLeft: 2,
-    paddingBottom: 2,
-    margin: -1
-}
-
+/* === buttons === */
 const buttonStyle = {
     backgroundColor: darkRed,
     margin: 5,
@@ -54,10 +80,27 @@ const buttonTextStyle = {
     fontWeight: "bold"
 }
 
+
+/* === forms === */
+const itemStyle = {
+    margin: 10
+}
+
+const inputStyle = {
+    color: white
+}
+
+const labelStyle = {
+    color: white,
+    fontStyle: "italic"   
+}
+
+
 export {
     gold, darkRed, white, beige,
+    HeaderFooter, titleStyle, messageStyle, starStyle,
+    tabStyle, tabTextStyle,
     cardStyle, cardItemStyle, tabCardStyle,
     buttonStyle, buttonTextStyle,
-    titleStyle, starStyle,
-    HeaderFooter
+    itemStyle, inputStyle, labelStyle
 }

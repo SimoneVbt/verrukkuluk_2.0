@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Card, CardItem, Text, ListItem } from 'native-base';
-import { darkRed, cardItemStyle, tabCardStyle, titleStyle } from '../resources/styles/styles.js';
+import * as Style from '../resources/styles/styles.js';
 
 
 export default class DishPreparation extends Component
@@ -11,7 +11,7 @@ export default class DishPreparation extends Component
 
         return(
             <ListItem style={{ flexDirection: "column", marginLeft: 5 }}>
-                <Text style={{ color: darkRed, fontWeight: "bold", fontSize: 18 }}>
+                <Text style={{ color: Style.darkRed, fontWeight: "bold", fontSize: 18 }}>
                     - { index + 1 } -
                 </Text>
                 <Text style={{ textAlign: "center" }}>
@@ -23,11 +23,11 @@ export default class DishPreparation extends Component
 
     render() {
         return(
-            <Card style={ tabCardStyle }>
-                <CardItem style={ cardItemStyle }>
-                    <Text style={ titleStyle }>Bereiding</Text>
+            <Card style={ Style.tabCardStyle }>
+                <CardItem style={ Style.cardItemStyle }>
+                    <Text style={ Style.titleStyle }>Bereiding</Text>
                 </CardItem>
-                <CardItem style={ cardItemStyle }>
+                <CardItem style={ Style.cardItemStyle }>
                     <FlatList
                         data={ this.props.preparation }
                         keyExtractor={ prep => prep.id.toString() }

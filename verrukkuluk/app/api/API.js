@@ -21,16 +21,17 @@ export default class API
             realm.commitTransaction();
         }
         catch {
-            console.log("failed to clear database");
+            return false;
         }
         finally {
-            console.log("database cleared");
+            return true;
         }
     }
 
 
-    static fetchFromDatabase(tableName) {
-        let data = realm.objects(tableName);
+    static fetchFromDatabase(tableName, filter=false) {
+        let results = realm.objects(tableName);
+        let data = filter ? results.length(filter) : results;
 
         if (tableName != "gebruiker") {
             let dataArray = Array.from(data);
@@ -41,10 +42,10 @@ export default class API
     }
 
 
-    static fetchData = (url, tableName) => new Promise( (resolve, reject) => {
+    static fetchData = (url, tableName, filter=false) => new Promise( (resolve, reject) => {
 
         const tm = setTimeout( () => {
-            resolve(API.fetchFromDatabase(tableName));
+            resolve(API.fetchFromDatabase(tableName, filter));
         }, timeout);
 
         fetch(url)
@@ -76,8 +77,10 @@ export default class API
     static postData = (url, data) => new Promise( (resolve, reject) => {
 
         const body = new FormData();
-        body.append("login", data.login);
-        body.append("wachtwoord", data.wachtwoord);
+        
+        for (item in data) {
+            body.append(item, data[item]);
+        }
 
         fetch(url, { method: 'POST', body })
             .then( result => result.json() )

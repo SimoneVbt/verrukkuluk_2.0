@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Text, Button, Icon, Thumbnail, Grid, Col } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { darkRed, beige, cardStyle, cardItemStyle, titleStyle, starStyle } from '../resources/styles/styles.js';
+import * as Style from '../resources/styles/styles.js';
 
 const buttonStyle = {
-    borderColor: darkRed,
+    borderColor: Style.darkRed,
     height: 60,
     flex: 2,
     alignItems: "center",
     borderWidth: 2,
-    backgroundColor: beige
+    backgroundColor: Style.beige
 }
 
 
@@ -36,58 +36,60 @@ export default class DishCard extends Component
         let description = this.state.description_short.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
 
         return(
-            <Card style={ cardStyle }>
-                <CardItem header style={ cardItemStyle }>
-                    <Text style={ titleStyle }>
+            <Card style={ Style.cardStyle }>
+                <CardItem header style={ Style.cardItemStyle }>
+                    <Text style={ Style.titleStyle }>
                         { this.state.title }
                     </Text>
                 </CardItem>
-                <CardItem style={ cardItemStyle }>
-                    <Thumbnail square source={{ uri: this.state.image }} style={{ width: "100%", height: 100 }} />
+                <CardItem style={ Style.cardItemStyle }>
+                    <Thumbnail square
+                                source={{ uri: this.state.image }}
+                                style={{ width: "100%", height: 100 }} />
                 </CardItem>
-                <CardItem style={ cardItemStyle }>
-                    <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: darkRed }}>
+                <CardItem style={ Style.cardItemStyle }>
+                    <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: Style.darkRed }}>
                         { this.state.type }
                     </Text>
-                    <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: darkRed, textAlign: "right" }}>
+                    <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: Style.darkRed, textAlign: "right" }}>
                         { this.state.kitchen }
                     </Text>
                 </CardItem>
-                <CardItem style={ cardItemStyle }>
+                <CardItem style={ Style.cardItemStyle }>
                     <Text style={{ fontSize: 14 }} numberOfLines={4}>
                         { description }
                     </Text>
                 </CardItem>
                 <Grid>
                     <Col>
-                    <CardItem style={ cardItemStyle }>
+                    <CardItem style={ Style.cardItemStyle }>
                         { this.state.rating >= 1 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ starStyle } /> :
+                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             this.state.rating == 0.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ starStyle } /> }
+                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
                         { this.state.rating >= 2 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ starStyle } /> : 
+                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
                             this.state.rating == 1.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ starStyle } /> }
+                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
                         { this.state.rating >= 3 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ starStyle } /> : 
+                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
                             this.state.rating == 2.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ starStyle } /> }
+                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
                         { this.state.rating >= 4 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ starStyle } /> : 
+                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
                             this.state.rating == 3.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ starStyle } /> }
+                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
                         { this.state.rating == 5 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ starStyle } /> : 
+                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
                             this.state.rating == 4.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ starStyle } /> }
+                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
                     </CardItem>
-                    <CardItem footer style={ cardItemStyle }>
+                    <CardItem footer style={ Style.cardItemStyle }>
                         <Text style={{ flex: 2, fontSize: 14, fontStyle: "italic" }}>
                             { this.state.kcal } kcal p.p.
                         </Text>
@@ -97,9 +99,11 @@ export default class DishCard extends Component
                     </CardItem>
                     </Col>
                     <Col>
-                        <CardItem style={ cardItemStyle }>
-                            <Button rounded style={ buttonStyle } onPress={ () => Actions.Detail({ dish: this.state }) }>
-                                <Text style={{ color: darkRed, fontSize: 16, fontWeight: "bold" }}>
+                        <CardItem style={ Style.cardItemStyle }>
+                            <Button rounded
+                                    style={ buttonStyle }
+                                    onPress={ () => Actions.Detail({ dish: this.state }) }>
+                                <Text style={{ color: Style.darkRed, fontSize: 16, fontWeight: "bold" }}>
                                     Smullen!
                                 </Text>
                             </Button>

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
 import { Header, Left, Right, Body, Title, Icon, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { HeaderFooter, white, gold } from '../resources/styles/styles.js';
+import * as Style from '../resources/styles/styles.js';
 
 const iconStyle = {
-    color: white,
+    color: Style.white,
     fontSize: 30
 }
 
@@ -28,7 +28,7 @@ export default class Head extends Component
     }
 
     _renderSearchButton() {
-        if (!this.props.login) {
+        if (!this.props.noSearch) {
             return (
                 <Button onPress={ () => Actions.Search() } transparent>
                     <Icon name="md-search" type="Ionicons" style={ iconStyle } />
@@ -39,14 +39,14 @@ export default class Head extends Component
 
     render() {
         return(
-            <Header style={ HeaderFooter } hasTabs={ this.props.hasTabs ? true : false } >
-                <StatusBar backgroundColor={ gold } barStyle="light-content" />
+            <Header style={ Style.HeaderFooter } hasTabs={ this.props.hasTabs ? true : false } >
+                <StatusBar backgroundColor={ Style.gold } barStyle="light-content" />
                 <Left style={{ flex: 1 }}>
                     { this._renderPopButton() }
                 </Left>
                 <Body style={{ flex: 2 }}>
-                    <Title style={{ fontStyle: "italic", color: white }}>
-                        <Icon name="chef-hat" type="MaterialCommunityIcons" style={{ color: white }} />
+                    <Title style={{ fontStyle: "italic", color: Style.white }}>
+                        <Icon name="chef-hat" type="MaterialCommunityIcons" style={{ color: Style.white }} />
                         { (this.props.title).toLowerCase() }
                     </Title>
                 </Body>

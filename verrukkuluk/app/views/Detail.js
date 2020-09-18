@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Content, View, Tabs, Tab, ScrollableTab } from 'native-base';
-import { darkRed, white } from '../resources/styles/styles.js';
+import * as Style from '../resources/styles/styles.js';
 import { baseUrl } from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
@@ -12,36 +12,27 @@ import DishPreparation from '../components/DishPreparation';
 import DishComments from '../components/DishComments';
 
 const contentStyle = {
-    backgroundColor: darkRed,
+    backgroundColor: Style.darkRed,
     padding: 10
 }
 
 const viewStyle = {
-    backgroundColor: darkRed,
+    backgroundColor: Style.darkRed,
     padding: 10,
     flex: 1,
     paddingBottom: 75
 }
 
-const tabStyle = {
-    backgroundColor: darkRed
-}
-const txt = {
-    color: white
-}
 
 export default class Detail extends Component
 {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: this.props.dish.title,
-            isLoaded: false,
-            dish: this.props.dish,
-            ingredients: [],
-            preparation: [],
-            comments: []
-        }
+    state = {
+        title: this.props.dish.title,
+        isLoaded: false,
+        dish: this.props.dish,
+        ingredients: [],
+        preparation: [],
+        comments: []
     }
 
     componentDidMount() {
@@ -87,15 +78,15 @@ export default class Detail extends Component
 
     render() {
         return(
-            <Container style={{ backgroundColor: darkRed }}>
+            <Container style={{ backgroundColor: Style.darkRed }}>
                 <Head title={ this.state.title } hasTabs />
                 <Tabs initialPage={0}
                     renderTabBar={ () => <ScrollableTab />}
                     tabContainerStyle={{ height: 200 }}
                     >
                     <Tab heading="omschrijving"
-                        tabStyle={ tabStyle } activeTabStyle={ tabStyle }
-                        textStyle={ txt }  activeTextStyle={ txt }>
+                        tabStyle={ Style.tabStyle } activeTabStyle={ Style.tabStyle }
+                        textStyle={ Style.tabTextStyle }  activeTextStyle={ Style.tabTextStyle }>
                         <Content style={ contentStyle }>
                             <View style={{ marginBottom: 20 }}>
                                 <DishDescription dish={ this.state.dish } />
@@ -103,22 +94,22 @@ export default class Detail extends Component
                         </Content>
                     </Tab>
                     <Tab heading="ingrediënten"
-                        tabStyle={ tabStyle } activeTabStyle={ tabStyle }
-                        textStyle={ txt } activeTextStyle={ txt }>  
+                        tabStyle={ Style.tabStyle } activeTabStyle={ Style.tabStyle }
+                        textStyle={ Style.tabTextStyle } activeTextStyle={ Style.tabTextStyle }>  
                         <View style={ viewStyle }>
                             <DishIngredients ingredients={ this.state.ingredients } />
                         </View>
                     </Tab>
                     <Tab heading="bereiding"
-                        tabStyle={ tabStyle } activeTabStyle={ tabStyle } 
-                        textStyle={ txt } activeTextStyle={ txt }>
+                        tabStyle={ Style.tabStyle } activeTabStyle={ Style.tabStyle } 
+                        textStyle={ Style.tabTextStyle } activeTextStyle={ Style.tabTextStyle }>
                         <View style={ viewStyle }>
                             <DishPreparation preparation={ this.state.preparation } />
                         </View>
                     </Tab>
                     <Tab heading="opmerkingen"
-                        tabStyle={ tabStyle } activeTabStyle={ tabStyle }
-                        textStyle={ txt } activeTextStyle={ txt }>
+                        tabStyle={ Style.tabStyle } activeTabStyle={ Style.tabStyle }
+                        textStyle={ Style.tabTextStyle } activeTextStyle={ Style.tabTextStyle }>
                         <View style={ viewStyle }>
                             <DishComments comments={ this.state.comments } />
                         </View>

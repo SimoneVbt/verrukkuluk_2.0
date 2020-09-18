@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { HeaderFooter, white } from '../resources/styles/styles.js';
+import * as Style from '../resources/styles/styles.js';
 
 const txtStyle = {
-    color: white,
+    color: Style.white,
     fontSize: 10
 }
 const iconStyle = {
-    color: white,
+    color: Style.white,
     fontSize: 35
 }
 const logoButtonStyle = {
@@ -22,8 +22,8 @@ export default class Foot extends Component
     render() {
 
         return(
-            <Footer style={ HeaderFooter }>
-                <FooterTab  style={ HeaderFooter }>
+            <Footer style={ Style.HeaderFooter }>
+                <FooterTab  style={ Style.HeaderFooter }>
                     <Button vertical onPress={ () => Actions.Home() } style={ logoButtonStyle } >
                         <Icon name="chef-hat" type="MaterialCommunityIcons" style={ iconStyle } />
                         <Text style={ txtStyle }>home</Text>

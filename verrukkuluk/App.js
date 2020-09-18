@@ -10,15 +10,15 @@ import Favorites from './app/views/Favorites';
 import MyDishes from './app/views/MyDishes';
 import Search from './app/views/Search';
 import Profile from './app/views/Profile';
+import EditProfile from './app/views/EditProfile';
+import Register from './app/views/Register';
+import NewDish from './app/views/NewDish';
 
 
 export default class App extends Component
 {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userPresence: false,
-    }
+  state = {
+    userPresence: false
   }
 
   componentDidMount() {
@@ -35,13 +35,19 @@ export default class App extends Component
       <Router headerMode="none">
         <Stack key="root">
           <Scene key="Login" component={ Login } type="replace" initial={ !this.state.userPresence } />
+          <Scene key="Register" component={ Register } />
+
           <Scene key="Home" component={ Home } type="replace" initial={ this.state.userPresence } />
           <Scene key="Detail" component={ Detail } />
+          <Scene key="Search" component={ Search } />
+
           <Scene key="ShoppingCart" component={ ShoppingCart } />
           <Scene key="Favorites" component={ Favorites } />
           <Scene key="MyDishes" component={ MyDishes } />
-          <Scene key="Search" component={ Search } />
+          <Scene key="NewDish" component={ NewDish } />
+
           <Scene key="Profile" component={ Profile } />
+          <Scene key="EditProfile" component={ EditProfile }/>
         </Stack>
       </Router>
     )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Content, Spinner, View, Text } from 'native-base';
-import { darkRed, gold, white } from '../resources/styles/styles.js';
+import * as Style from '../resources/styles/styles.js';
 import { baseUrl } from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
@@ -10,13 +10,10 @@ import API from '../api/API';
 
 export default class Home extends Component
 {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoaded: false,
-            data: [],
-            title: "verukkuluk!nl"
-        }
+    state = {
+        isLoaded: false,
+        data: [],
+        title: "verukkuluk!nl"
     }
 
 
@@ -51,15 +48,15 @@ export default class Home extends Component
                 </View>
             );
         } else if (this.state.isLoaded) {
-            return( <View><Text style={{ color: white, padding: 10 }}>Er is iets mis gegaan. Vernieuw de pagina.</Text></View> )
+            return( <View><Text style={{ color: Style.white, padding: 10 }}>Er is iets mis gegaan. Vernieuw de pagina.</Text></View> )
         }
-        return( <View><Spinner color={ gold } /></View> )
+        return( <View><Spinner color={ Style.gold } /></View> )
     }
 
     
     render() {
         return(
-            <Container style={{ backgroundColor: darkRed }}>
+            <Container style={{ backgroundColor: Style.darkRed }}>
                 <Head title={ this.state.title } home />
                 <Content style={{ padding: 10 }}>
                     { this._renderContent() }

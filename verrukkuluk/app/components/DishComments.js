@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Card, CardItem, Text, ListItem, Thumbnail, Left, Right } from 'native-base';
-import { darkRed, cardItemStyle, tabCardStyle, titleStyle } from '../resources/styles/styles.js';
+import * as Style from '../resources/styles/styles.js';
 
 export default class DishComments extends Component
 {
@@ -13,7 +13,7 @@ export default class DishComments extends Component
             <ListItem style={{ marginLeft: 5 }}>
                 <Left style={{ flex: 1, flexDirection: "column", alignItems: "center" }}>
                     <Thumbnail source={{ uri: comm.foto }} />
-                    <Text style={{ color: darkRed, fontSize: 10 }} numberOfLines={1}>
+                    <Text style={{ color: Style.darkRed, fontSize: 10 }} numberOfLines={1}>
                         { comm.gebruikersnaam }
                     </Text>
                 </Left>
@@ -28,11 +28,11 @@ export default class DishComments extends Component
 
     render() {
         return(
-            <Card style={ tabCardStyle }>
-                <CardItem style={ cardItemStyle }>
-                    <Text style={ titleStyle }>Opmerkingen</Text>
+            <Card style={ Style.tabCardStyle }>
+                <CardItem style={ Style.cardItemStyle }>
+                    <Text style={ Style.titleStyle }>Opmerkingen</Text>
                 </CardItem>
-                <CardItem style={ cardItemStyle }>
+                <CardItem style={ Style.cardItemStyle }>
                     <FlatList
                         data={ this.props.comments }
                         keyExtractor={ comm => comm.id.toString() }
