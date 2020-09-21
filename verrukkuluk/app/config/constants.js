@@ -1,4 +1,4 @@
-const environment = 1;
+const environment = 0;
 const home = "192.168.0.109";
 const work = "192.168.1.244";
 const ip = environment === 1 ? home : work;

@@ -1,5 +1,5 @@
 {
     "id": {{ kt.id }},
-    "record_type": "{{ kt.recordType }}",
-    "omschrijving": "{{ kt.omschrijving }}"
+    "record_type": "{{ kt.recordType|e('js')|raw }}",
+    "omschrijving": "{{ kt.omschrijving|e('js')|raw }}"
 }

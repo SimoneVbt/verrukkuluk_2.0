@@ -15,7 +15,7 @@ class GerechtService
     private $kts;
     private $gs;
 
-    public function __construct(EntityManagerInterface $em, GerechtinfoService $gis, 
+    public function __construct(EntityManagerInterface $em, GerechtinfoService $gis,
                                 IngredientService $is, ArtikelService $as,
                                 KeukenTypeService $kts, GebruikerService $gs)
     {
@@ -45,21 +45,27 @@ class GerechtService
     }
 
 
-    public function getAllGerechten()
+    public function getAllGerechten($user_id)
     {
         $dishes = $this->rep->getAllGerechten();
-        $ip = "192.168.0.109";
-        // $ip = "192.168.1.244";    
+        // $ip = "192.168.0.109";
+        $ip = "192.168.1.244";
 
         foreach ($dishes as $dish) {
             $dish_id = $dish->getId();
+
             $dish->gemiddeldeBeoordeling = $this->calcAverageRating($dish_id);
             $dish->calorieen = $this->calcCalories($dish_id);
             $dish->totalePrijs = $this->calcPrice($dish_id);
+
             $dish->keuken = $this->kts->getKeukenType($dish->getKeukenId())->getOmschrijving();
             $dish->type = $this->kts->getKeukenType($dish->getTypeId())->getOmschrijving();
             $dish->gebruiker = $this->gs->getGebruiker($dish->getGebruikerId())->getUsername();
-            $dish->afbeelding = "http://".$ip."/verrukkuluk_2.0/api/public/gerechten/gerecht".$dish->getId().".jpg";
+
+            $dish->afbeelding = "http://".$ip."/verrukkuluk_2.0/api/public/gerechten/gerecht".$dish_id.".jpg";
+
+            $dish->favoriet = $this->gis->checkFavoriet($user_id, $dish_id);
+            $dish->waardering = $this->gis->getWaardering($user_id, $dish_id);
         }
         return $dishes;
     }

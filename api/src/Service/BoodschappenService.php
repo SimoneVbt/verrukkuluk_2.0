@@ -4,8 +4,6 @@ namespace App\Service;
 
 use App\Entity\Boodschappen;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Service\IngredientService;
-use App\Service\ArtikelService;
 
 class BoodschappenService
 {
@@ -54,8 +52,18 @@ class BoodschappenService
         
         foreach ($boodschappen as $bs) {
             $article = $this->as->getArtikel($bs->getArtikelId());
-            $bs->aantal_verpakkingen = ceil($bs->getAantal() / $article->getVerpakking());
-            $bs->prijs = $bs->aantal_verpakkingen * $article->getPrijs();
+            $product = $article->getNaam();
+            $price = $article->getPrijs();
+            $unit = $article->getEenheid();
+            $package = $article->getVerpakking();
+
+            $bs->product = $product;
+            $bs->prijs = $price;
+            $bs->eenheid = $unit;
+            $bs->verpakking = $package;
+
+            $bs->aantal_verpakkingen = ceil($bs->getAantal() / $package);
+            $bs->totalePrijs = $bs->aantal_verpakkingen * $price;
         }
         
         return $boodschappen;

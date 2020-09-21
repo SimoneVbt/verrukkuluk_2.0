@@ -12,8 +12,6 @@ export default class DishDescription extends Component
 {
     render() {
 
-        let description = this.props.dish.description_long.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-
         return(
             <Card style={ Style.tabCardStyle }>
                 <CardItem style={ Style.cardItemStyle }>
@@ -23,29 +21,29 @@ export default class DishDescription extends Component
                 </CardItem>
                 <CardItem style={ Style.cardItemStyle }>
                     <View style={{ flexDirection: "row", flex: 2, justifyContent: "flex-start" }}>
-                        { this.props.dish.rating >= 1 ?
+                        { this.props.dish.avgRating >= 1 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            this.state.rating == 0.5 ?
+                            this.state.avgRating == 0.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.rating >= 2 ?
+                        { this.props.dish.avgRating >= 2 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.rating == 1.5 ?
+                            this.props.dish.avgRating == 1.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.rating >= 3 ?
+                        { this.props.dish.avgRating >= 3 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.rating == 2.5 ?
+                            this.props.dish.avgRating == 2.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.rating >= 4 ?
+                        { this.props.dish.avgRating >= 4 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.rating == 3.5 ?
+                            this.props.dish.avgRating == 3.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.rating == 5 ?
+                        { this.props.dish.avgRating == 5 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.rating == 4.5 ?
+                            this.props.dish.avgRating == 4.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
                     </View>
@@ -72,7 +70,7 @@ export default class DishDescription extends Component
                 <CardItem style={ Style.cardItemStyle }>
                     <View style={{ flexDirection: "column" }}>
                         <Text style={ txtStyle }>
-                            { description }
+                            { this.props.dish.description_long }
                         </Text >
                     </View>
                 </CardItem>

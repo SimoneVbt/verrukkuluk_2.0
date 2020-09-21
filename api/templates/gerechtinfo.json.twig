@@ -9,7 +9,7 @@
         "foto": {% if info.foto is defined %}"{{ info.foto }}"{% else %}null{% endif %},
         "datum_huidig": "{{ info.datumHuidig|date('Y-m-d') }}",
         "nummeriekveld": {{ info.nummeriekveld }},
-        "tekstveld": "{{ info.tekstveld }}"
+        "tekstveld": "{{ info.tekstveld|e('js')|raw }}"
     {{ info == gerechtinfo|last ? "}" : "}," }}
 {% endfor %}
 ]

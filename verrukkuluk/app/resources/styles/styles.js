@@ -17,6 +17,12 @@ const titleStyle = {
     fontWeight: "bold"
 }
 
+const subtitleStyle = {
+    color: darkRed,
+    fontSize: 18,
+    fontWeight: "bold"
+}
+
 const starStyle = {
     color: darkRed,
     fontSize: 28,
@@ -67,6 +73,12 @@ const tabCardStyle = {
     flexDirection: "column"
 }
 
+const subCardStyle = {
+    backgroundColor: beige,
+    flexDirection: "column",
+    borderBottomWidth: 1,
+    borderColor: darkRed
+}
 
 /* === buttons === */
 const buttonStyle = {
@@ -98,9 +110,9 @@ const labelStyle = {
 
 export {
     gold, darkRed, white, beige,
-    HeaderFooter, titleStyle, messageStyle, starStyle,
+    HeaderFooter, titleStyle, subtitleStyle, messageStyle, starStyle,
     tabStyle, tabTextStyle,
-    cardStyle, cardItemStyle, tabCardStyle,
+    cardStyle, cardItemStyle, tabCardStyle, subCardStyle,
     buttonStyle, buttonTextStyle,
     itemStyle, inputStyle, labelStyle
 }

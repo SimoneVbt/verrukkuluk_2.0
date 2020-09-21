@@ -36,7 +36,7 @@ export default class Detail extends Component
     }
 
     componentDidMount() {
-        let urlIngredient = baseUrl + `ingredient/get_dish/${ this.state.dish.id }`;
+        let urlIngredient = baseUrl + `ingredient/get/${ this.state.dish.id }`;
         let urlPrep = baseUrl + `gerechtinfo/get/B/${ this.state.dish.id }`;
         let urlComm = baseUrl + `gerechtinfo/get/O/${ this.state.dish.id }`;
 

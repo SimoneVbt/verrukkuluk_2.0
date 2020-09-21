@@ -18,7 +18,9 @@ export default class Home extends Component
 
 
     componentDidMount() {
-        let url = baseUrl + "gerecht/get_all";
+        let user = API.fetchFromDatabase("gebruiker");
+        let user_id = user[0].id;
+        let url = baseUrl + "gerecht/get/" + user_id;
 
         API.fetchData(url, "gerecht")
             .then( data => {
@@ -48,7 +50,7 @@ export default class Home extends Component
                 </View>
             );
         } else if (this.state.isLoaded) {
-            return( <View><Text style={{ color: Style.white, padding: 10 }}>Er is iets mis gegaan. Vernieuw de pagina.</Text></View> )
+            return( <View><Text style={{ color: Style.white, padding: 10 }}>Er is iets mis gegaan. Start de app opnieuw op.</Text></View> )
         }
         return( <View><Spinner color={ Style.gold } /></View> )
     }

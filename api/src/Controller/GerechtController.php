@@ -37,25 +37,12 @@ class GerechtController extends AbstractController
 
 
     /**
-     * @Route("/get/{dish_id}", name="get_gerecht")
+     * @Route("/get/{user_id}", name="get_gerechten")
      */
-    public function getGerecht($dish_id)
+    public function getAllGerechten($user_id)
     {
-        $dish = $this->gs->getGerecht($dish_id);
-        $json = $this->renderView('gerecht.json.twig', ["dish" => $dish]);
-        $response = new Response($json);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-
-    /**
-     * @Route("/get_all", name="get_all_gerechten")
-     */
-    public function getAllGerechten()
-    {
-        $dishes = $this->gs->getAllGerechten();
-        $json = $this->renderView('gerecht_all.json.twig', ["dishes" => $dishes]);
+        $dishes = $this->gs->getAllGerechten($user_id);
+        $json = $this->renderView('gerechten.json.twig', ["dishes" => $dishes]);
         $response = new Response($json);
         $response->headers->set('Content-Type', 'application/json');
         return $response;

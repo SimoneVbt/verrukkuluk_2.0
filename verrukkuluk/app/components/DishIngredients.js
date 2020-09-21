@@ -6,11 +6,8 @@ import * as Style from '../resources/styles/styles.js';
 
 class Ingredient extends Component
 {
-    constructor(props) {
-        super(props);
-        this.state = {
-            checked: false
-        }
+    state = {
+        checked: false
     }
 
     _handleCheck() {
@@ -42,10 +39,8 @@ export default class DishIngredients extends Component
             ingrString = ingr.aantal + " " + ingr.naam;
         }
 
-        let string = ingrString.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-
         return(
-            <Ingredient string={ string } />
+            <Ingredient string={ ingrString } />
         )
 
     }

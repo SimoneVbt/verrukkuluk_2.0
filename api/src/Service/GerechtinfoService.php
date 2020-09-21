@@ -40,9 +40,15 @@ class GerechtinfoService
     }
 
 
-    public function getFavorietenOfUser($user_id)
+    public function checkFavoriet($user_id, $dish_id)
     {
-        return $this->rep->getFavorietenOfUser($user_id);
+        return $this->rep->checkFavoriet($user_id, $dish_id);
+    }
+
+
+    public function getWaardering($user_id, $dish_id)
+    {
+        return $this->rep->getWaardering($user_id, $dish_id);
     }
     
 

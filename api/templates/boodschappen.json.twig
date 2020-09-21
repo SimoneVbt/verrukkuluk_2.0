@@ -2,11 +2,14 @@
 {% for bs in boodschappen %}
     {
         "id": {{ bs.id }},
-        "gebruiker_id": {{ bs.gebruikerId }},
         "artikel_id": {{ bs.artikelId }},
+        "product": "{{ bs.product|e('js')|raw }}",
+        "eenheid": "{{ bs.eenheid }}",
+        "verpakking": {{ bs.verpakking }},
+        "prijs": {{ bs.prijs|number_format(2) }},
         "aantal": {{ bs.aantal }},
         "aantal_verpakkingen": {{ bs.aantal_verpakkingen }},
-        "prijs": {{ bs.prijs|number_format(2) }}
+        "totale_prijs": {{ bs.totalePrijs|number_format(2) }}
     {{ bs == boodschappen|last ? "}" : "}," }}
 {% endfor %}
 ]

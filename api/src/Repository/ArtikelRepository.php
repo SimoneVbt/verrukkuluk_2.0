@@ -40,6 +40,12 @@ class ArtikelRepository extends ServiceEntityRepository
     }
 
 
+    public function getAllArtikelen()
+    {
+        return $this->findAll();
+    }
+
+
     public function deleteArtikel($article_id)
     {
         $article = $this->find($article_id);

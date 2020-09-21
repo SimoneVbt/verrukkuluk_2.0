@@ -47,10 +47,17 @@ class GerechtinfoRepository extends ServiceEntityRepository
     }
 
 
-    public function getFavorietenOfUser($user_id)
+    public function checkFavoriet($user_id, $dish_id)
     {
-        $favos = $this->findBy(["gebruiker_id" => $user_id, "record_type" => "F"]);
-        return $favos ? $favos : null;
+        $favo = $this->findOneBy(["record_type" => "F", "gebruiker_id" => $user_id, "gerecht_id" => $dish_id]);
+        return $favo ? true : false;
+    }
+
+
+    public function getWaardering($user_id, $dish_id)
+    {
+        $rating = $this->findOneBy(["record_type" => "W", "gebruiker_id" => $user_id, "gerecht_id" => $dish_id]);
+        return $rating ? $rating->getNummeriekveld() : false;
     }
 
 

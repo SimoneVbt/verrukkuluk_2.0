@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Content, Text, View, Card, CardItem, Spinner } from 'native-base';
 import * as Style from '../resources/styles/styles';
-import { baseUrl } from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import API from '../api/API';
-import DishCard from '../components/DishCard';
+import DishCardItem from '../components/DishCardItem';
 
 export default class Favorites extends Component
 {
@@ -13,42 +12,53 @@ export default class Favorites extends Component
         isLoaded: false,
         favorites: [],
         error: false
-        
     }
 
 
-    //niet geïnteresseerd in de gerechtinfo, maar in de gerechten: backend aanpassen
+    _loadData = () => new Promise ( (resolve, reject) => {
+        resolve(API.fetchFromDatabase("gerecht", "favoriet == true"));
+    })
+
+
     componentDidMount() {
-        let user = API.fetchFromDatabase("gebruiker");
-        let id = user[0].id;
-        let url = baseUrl + "gerechtinfo/get/favorieten/user/" + id ;
-        
-        API.fetchData(url, "gerechtinfo", 'record_type = "F"')
-            .then( data => 
+
+        this._loadData()
+            .then( favos => {
                 this.setState({
-                    favorites: data,
+                    favorites: favos,
                     isLoaded: true
-                }))
-            .catch( error => 
+                })
+            })
+            .catch( error => {
                 this.setState({
                     error: true,
                     isLoaded: true
-                }));
-        console.warn(this.state.favorites[0]);
+                })                
+            });
     }
 
 
     _renderContent() {
-        if (this.state.isLoaded) {
+        if (this.state.isLoaded && this.state.favorites.length > 0 && Array.isArray(this.state.favorites)) {
             return(
                 <View style={{ paddingBottom: 18 }}>
-                {
-                    this.state.favorites.map( dish => {
-                        return( <DishCard key={ dish.id } dish={ dish } /> );
-                    })
-                }
+                    {
+                        this.state.favorites.map( dish => {
+                            return( <DishCardItem key={ dish.id } dish={ dish } /> )
+                        })
+                    }
                 </View>
             )
+        } else if (this.state.isLoaded && this.state.favorites.length == 0) {
+            return(
+                <View style={{ color: Style.white, padding: 15, backgroundColor: Style.beige, marginTop: 5 }}>
+                    <Text style={{ fontStyle: "italic" }}>
+                        Geen favorieten om weer te geven. Voeg favorieten toe via de detailpagina's van de gerechten.
+                    </Text>
+                </View>
+            )
+        } else if (this.state.isLoaded) {
+            return( <View><Text style={{ color: Style.white, padding: 10 }}>Er is iets mis gegaan. Start de app opnieuw op.</Text></View> )
         }
         return( <Spinner color={ Style.beige } /> )
     }
@@ -65,9 +75,9 @@ export default class Favorites extends Component
                                 mijn favorieten
                             </Text>
                         </CardItem>
+                        { this._renderContent() }
                     </Card>
                     { this.state.error && <Text style={ Style.messageStyle }>Er is iets mis gegaan</Text> }
-                    {/* { this._renderContent() } */}
                 </Content>
                <Foot />
             </Container>

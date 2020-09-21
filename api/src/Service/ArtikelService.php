@@ -29,6 +29,12 @@ class ArtikelService
     }
 
 
+    public function getAllArtikelen()
+    {
+        return $this->getAllArtikelen();
+    }
+
+
     public function deleteArtikel($article_id)
     {
         return $this->rep->deleteArtikel($article_id);

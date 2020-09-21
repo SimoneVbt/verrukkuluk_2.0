@@ -37,12 +37,12 @@ class ArtikelController extends AbstractController
 
     
     /**
-     * @Route("/get/{article_id}", name="get_artikel")
+     * @Route("/get", name="get_artikelen")
      */
-    public function getArtikel($article_id)
+    public function getAllArtikelen()
     {
-        $article = $this->as->getArtikel($article_id);
-        $json = $this->renderView('artikel.json.twig', ["article" => $article]);
+        $articles = $this->as->getAllArtikelen();
+        $json = $this->renderView('artikelen.json.twig', ["articles" => $articles]);
         $response = new Response($json);
         $response->headers->set('Content-Type', 'application/json');
         return $response;

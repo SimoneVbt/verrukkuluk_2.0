@@ -15,25 +15,22 @@ const buttonStyle = {
 
 export default class DishCard extends Component
 {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: this.props.dish.id,
-            title: this.props.dish.titel,
-            image: this.props.dish.afbeelding,
-            type: this.props.dish.type,
-            kitchen: this.props.dish.keuken,
-            description_short: this.props.dish.korte_omschrijving,
-            description_long: this.props.dish.lange_omschrijving,
-            rating: this.props.dish.gemiddelde_beoordeling,
-            kcal: this.props.dish.calorieen,
-            price: this.props.dish.totale_prijs
-        }
+    state = {
+        id: this.props.dish.id,
+        title: this.props.dish.titel,
+        image: this.props.dish.afbeelding,
+        type: this.props.dish.type,
+        kitchen: this.props.dish.keuken,
+        description_short: this.props.dish.korte_omschrijving,
+        description_long: this.props.dish.lange_omschrijving,
+        avgRating: this.props.dish.gemiddelde_beoordeling,
+        kcal: this.props.dish.calorieen,
+        price: this.props.dish.totale_prijs,
+        rating: this.props.dish.waardering,
+        favorite: this.props.dish.favoriet
     }
 
     render() {
-
-        let description = this.state.description_short.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
 
         return(
             <Card style={ Style.cardStyle }>
@@ -57,35 +54,35 @@ export default class DishCard extends Component
                 </CardItem>
                 <CardItem style={ Style.cardItemStyle }>
                     <Text style={{ fontSize: 14 }} numberOfLines={4}>
-                        { description }
+                        { this.state.description_short }
                     </Text>
                 </CardItem>
                 <Grid>
                     <Col>
                     <CardItem style={ Style.cardItemStyle }>
-                        { this.state.rating >= 1 ?
+                        { this.state.avgRating >= 1 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            this.state.rating == 0.5 ?
+                            this.state.avgRating == 0.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.state.rating >= 2 ?
+                        { this.state.avgRating >= 2 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.state.rating == 1.5 ?
+                            this.state.avgRating == 1.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.state.rating >= 3 ?
+                        { this.state.avgRating >= 3 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.state.rating == 2.5 ?
+                            this.state.avgRating == 2.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.state.rating >= 4 ?
+                        { this.state.avgRating >= 4 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.state.rating == 3.5 ?
+                            this.state.avgRating == 3.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.state.rating == 5 ?
+                        { this.state.avgRating == 5 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.state.rating == 4.5 ?
+                            this.state.avgRating == 4.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
                     </CardItem>

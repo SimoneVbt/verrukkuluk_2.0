@@ -7,8 +7,6 @@ export default class DishComments extends Component
 {
     _renderComment(comm) {
 
-        let comment = comm.tekstveld.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-
         return(
             <ListItem style={{ marginLeft: 5 }}>
                 <Left style={{ flex: 1, flexDirection: "column", alignItems: "center" }}>
@@ -19,7 +17,7 @@ export default class DishComments extends Component
                 </Left>
                 <Right style={{ flex: 4, flexDirection: "column", alignItems: "flex-start", marginLeft: 20, marginRight: -10 }}>
                     <Text>
-                        { comment }
+                        { comm.tekstveld }
                     </Text>                    
                 </Right>
             </ListItem>

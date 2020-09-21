@@ -4,11 +4,11 @@ const timeout = 5000;
 
 let realm = new Realm({
     schema: [ schema.gerecht,
-            schema.gerechtinfo,
             schema.ingredient,
+            schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 15
+    schemaVersion: 18
 });
 
 
@@ -31,13 +31,13 @@ export default class API
 
     static fetchFromDatabase(tableName, filter=false) {
         let results = realm.objects(tableName);
-        let data = filter ? results.length(filter) : results;
+        let data = filter ? results.filtered(filter) : results;
 
         if (tableName != "gebruiker") {
             let dataArray = Array.from(data);
             return dataArray;
         }
-
+        
         return data;
     }
 
@@ -47,6 +47,8 @@ export default class API
         const tm = setTimeout( () => {
             resolve(API.fetchFromDatabase(tableName, filter));
         }, timeout);
+
+        console.log("url: " + url);
 
         fetch(url)
             .then( result => result.json() )
