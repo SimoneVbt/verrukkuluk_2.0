@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Card, CardItem, Text, ListItem, Thumbnail, Left, Right } from 'native-base';
+import { Card, CardItem, Text, ListItem, Thumbnail, Left, Right, View } from 'native-base';
 import * as Style from '../resources/styles/styles.js';
 
 export default class DishComments extends Component
 {
-    _renderComment(comm) {
-
+    renderItem(comm) {
         return(
             <ListItem style={{ marginLeft: 5 }}>
                 <Left style={{ flex: 1, flexDirection: "column", alignItems: "center" }}>
@@ -24,6 +23,27 @@ export default class DishComments extends Component
         )
     }
 
+    renderList() {
+        if (this.props.comments.length > 0) {
+            return(
+                <FlatList
+                    data={ this.props.comments }
+                    keyExtractor={ comm => comm.id.toString() }
+                    renderItem={ ({item}) => this.renderItem(item) }
+                    style={{ marginBottom: 20 }}
+                    />     
+            )
+        } 
+        return(
+            <View style={{ paddingBottom: 15, backgroundColor: Style.beige, marginTop: 5 }}>
+                <Text style={{ fontStyle: "italic" }}>
+                    Dit gerecht heeft nog geen opmerkingen.
+                </Text>
+            </View>
+        )
+        
+    }
+
     render() {
         return(
             <Card style={ Style.tabCardStyle }>
@@ -31,14 +51,8 @@ export default class DishComments extends Component
                     <Text style={ Style.titleStyle }>Opmerkingen</Text>
                 </CardItem>
                 <CardItem style={ Style.cardItemStyle }>
-                    <FlatList
-                        data={ this.props.comments }
-                        keyExtractor={ comm => comm.id.toString() }
-                        renderItem={ ({item}) => this._renderComment(item) }
-                        style={{ marginBottom: 20 }}
-                        />                    
+                    { this.renderList() }        
                 </CardItem>
-
             </Card>
         );
     }

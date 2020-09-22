@@ -11,52 +11,51 @@ const txtStyle = {
 export default class DishDescription extends Component
 {
     render() {
-
         return(
             <Card style={ Style.tabCardStyle }>
                 <CardItem style={ Style.cardItemStyle }>
                     <Thumbnail square
-                                source={{ uri: this.props.dish.image }}
+                                source={{ uri: this.props.dish.afbeelding }}
                                 style={{ width: "100%", height: 150 }} />
                 </CardItem>
                 <CardItem style={ Style.cardItemStyle }>
                     <View style={{ flexDirection: "row", flex: 2, justifyContent: "flex-start" }}>
-                        { this.props.dish.avgRating >= 1 ?
+                        { this.props.dish.gemiddelde_beoordeling >= 1 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            this.state.avgRating == 0.5 ?
+                            this.props.dish.gemiddelde_beoordeling == 0.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.avgRating >= 2 ?
+                        { this.props.dish.gemiddelde_beoordeling >= 2 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.avgRating == 1.5 ?
+                            this.props.dish.gemiddelde_beoordeling == 1.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.avgRating >= 3 ?
+                        { this.props.dish.gemiddelde_beoordeling >= 3 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.avgRating == 2.5 ?
+                            this.props.dish.gemiddelde_beoordeling == 2.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.avgRating >= 4 ?
+                        { this.props.dish.gemiddelde_beoordeling >= 4 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.avgRating == 3.5 ?
+                            this.props.dish.gemiddelde_beoordeling == 3.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.avgRating == 5 ?
+                        { this.props.dish.gemiddelde_beoordeling == 5 ?
                             <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.avgRating == 4.5 ?
+                            this.props.dish.gemiddelde_beoordeling == 4.5 ?
                             <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
                             <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
                     </View>
                     <Text style={{ flex: 1, textAlign: "right", fontSize: 14 }}>
-                        { this.props.dish.kcal } kcal
+                        { this.props.dish.calorieen } kcal
                     </Text>
                     <Text style={{ flex: 1, textAlign: "right", fontSize: 14 }}>
-                        €{ this.props.dish.price }
+                        €{ this.props.dish.totale_prijs }
                     </Text>
                 </CardItem>
                 <CardItem style={ Style.cardItemStyle }>
                     <Text style={ Style.titleStyle }>
-                        { this.props.dish.title }
+                        { this.props.dish.titel }
                     </Text>
                 </CardItem>
                 <CardItem style={ Style.cardItemStyle }>
@@ -64,13 +63,13 @@ export default class DishDescription extends Component
                         { this.props.dish.type }
                     </Text>
                     <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: Style.darkRed, textAlign: "right" }}>
-                        { this.props.dish.kitchen }
+                        { this.props.dish.keuken }
                     </Text>
                 </CardItem>
                 <CardItem style={ Style.cardItemStyle }>
                     <View style={{ flexDirection: "column" }}>
                         <Text style={ txtStyle }>
-                            { this.props.dish.description_long }
+                            { this.props.dish.lange_omschrijving }
                         </Text >
                     </View>
                 </CardItem>

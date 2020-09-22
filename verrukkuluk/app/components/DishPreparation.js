@@ -6,7 +6,7 @@ import * as Style from '../resources/styles/styles.js';
 
 export default class DishPreparation extends Component
 {
-    _renderPrepStep(step, index) {
+    renderPrepStep(step, index) {
         return(
             <ListItem style={{ flexDirection: "column", marginLeft: 5 }}>
                 <Text style={{ color: Style.darkRed, fontWeight: "bold", fontSize: 18 }}>
@@ -29,7 +29,7 @@ export default class DishPreparation extends Component
                     <FlatList
                         data={ this.props.preparation }
                         keyExtractor={ prep => prep.id.toString() }
-                        renderItem={ ({item, index}) => this._renderPrepStep(item, index) }
+                        renderItem={ ({item, index}) => this.renderPrepStep(item, index) }
                         style={{ marginBottom: 20 }}
                         />
                 </CardItem>   

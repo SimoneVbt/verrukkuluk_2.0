@@ -15,14 +15,14 @@ export default class Favorites extends Component
     }
 
 
-    _loadData = () => new Promise ( (resolve, reject) => {
+    loadData = () => new Promise ( (resolve, reject) => {
         resolve(API.fetchFromDatabase("gerecht", "favoriet == true"));
     })
 
 
     componentDidMount() {
 
-        this._loadData()
+        this.loadData()
             .then( favos => {
                 this.setState({
                     favorites: favos,
@@ -38,7 +38,7 @@ export default class Favorites extends Component
     }
 
 
-    _renderContent() {
+    renderContent() {
         if (this.state.isLoaded && this.state.favorites.length > 0 && Array.isArray(this.state.favorites)) {
             return(
                 <View style={{ paddingBottom: 18 }}>
@@ -75,7 +75,7 @@ export default class Favorites extends Component
                                 mijn favorieten
                             </Text>
                         </CardItem>
-                        { this._renderContent() }
+                        { this.renderContent() }
                     </Card>
                     { this.state.error && <Text style={ Style.messageStyle }>Er is iets mis gegaan</Text> }
                 </Content>

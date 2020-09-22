@@ -19,7 +19,7 @@ export default class Login extends Component
     }
 
 
-    _login() {
+    login() {
 
         this.setState({
             isLoading: true
@@ -48,13 +48,13 @@ export default class Login extends Component
     }
 
 
-    _handleLoginChange(text) {
+    handleLoginChange(text) {
         this.setState({
             login: text
         })
     }
 
-    _handlePasswordChange(text) {
+    handlePasswordChange(text) {
         this.setState({
             wachtwoord: text
         })
@@ -73,17 +73,17 @@ export default class Login extends Component
                             <Label style={ Style.labelStyle }>Gebruikersnaam / Email</Label>
                             <Input value={ this.state.login }
                                     keyboardType="email-address"
-                                    onChangeText={ (text) => this._handleLoginChange(text) }
+                                    onChangeText={ (text) => this.handleLoginChange(text) }
                                     style={ Style.inputStyle } />
                         </Item>
                         <Item stackedLabel style={ Style.itemStyle }>
                             <Label style={ Style.labelStyle }>Wachtwoord</Label>
                             <Input value={ this.state.wachtwoord } 
                                     secureTextEntry
-                                    onChangeText={ (text) => this._handlePasswordChange(text) }
+                                    onChangeText={ (text) => this.handlePasswordChange(text) }
                                     style={ Style.inputStyle } />
                         </Item>
-                        <Button large onPress={ () => this._login() }
+                        <Button large onPress={ () => this.login() }
                                 style={{ alignSelf: "center", marginTop: 20, backgroundColor: Style.white }} >
                             { 
                                 this.state.isLoading ? 

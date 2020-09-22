@@ -10,7 +10,7 @@ class Ingredient extends Component
         checked: false
     }
 
-    _handleCheck() {
+    handleCheck() {
         this.setState( prevState => ({
             checked: !prevState.checked
         }))
@@ -18,7 +18,7 @@ class Ingredient extends Component
 
     render() {
         return( 
-            <ListItem onPress={ () => this._handleCheck() }>
+            <ListItem onPress={ () => this.handleCheck() }>
                 <CheckBox  color={ Style.darkRed } style={{ marginLeft: -20 }} checked={ this.state.checked }  />
                 <Text>  { this.props.string }</Text>
             </ListItem> 
@@ -30,7 +30,7 @@ class Ingredient extends Component
 export default class DishIngredients extends Component
 {
 
-    _renderIngredient(ingr) {
+    renderIngredient(ingr) {
         let ingrString = ingr.aantal + ingr.eenheid + " " + ingr.naam;
 
         if (ingr.eenheid == "teen") {
@@ -55,7 +55,7 @@ export default class DishIngredients extends Component
                     <FlatList
                         data={ this.props.ingredients }
                         keyExtractor={ ingr => ingr.id.toString() }
-                        renderItem={ ({item}) => this._renderIngredient(item) }
+                        renderItem={ ({item}) => this.renderIngredient(item) }
                         style={{ marginBottom: 20 }}
                         />
                 </CardItem>   

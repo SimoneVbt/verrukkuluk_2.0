@@ -48,8 +48,6 @@ export default class API
             resolve(API.fetchFromDatabase(tableName, filter));
         }, timeout);
 
-        console.log("url: " + url);
-
         fetch(url)
             .then( result => result.json() )
             .then( data => {

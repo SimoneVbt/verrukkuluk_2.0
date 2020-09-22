@@ -27,18 +27,17 @@ const viewStyle = {
 export default class Detail extends Component
 {
     state = {
-        title: this.props.dish.title,
+        title: this.props.dish.titel,
         isLoaded: false,
-        dish: this.props.dish,
         ingredients: [],
         preparation: [],
         comments: []
     }
 
     componentDidMount() {
-        let urlIngredient = baseUrl + `ingredient/get/${ this.state.dish.id }`;
-        let urlPrep = baseUrl + `gerechtinfo/get/B/${ this.state.dish.id }`;
-        let urlComm = baseUrl + `gerechtinfo/get/O/${ this.state.dish.id }`;
+        let urlIngredient = baseUrl + `ingredient/get/${ this.props.dish.id }`;
+        let urlPrep = baseUrl + `gerechtinfo/get/B/${ this.props.dish.id }`;
+        let urlComm = baseUrl + `gerechtinfo/get/O/${ this.props.dish.id }`;
 
         API.fetchData(urlIngredient, "ingredient")
             .then( data => {
@@ -89,7 +88,7 @@ export default class Detail extends Component
                         textStyle={ Style.tabTextStyle }  activeTextStyle={ Style.tabTextStyle }>
                         <Content style={ contentStyle }>
                             <View style={{ marginBottom: 20 }}>
-                                <DishDescription dish={ this.state.dish } />
+                                <DishDescription dish={ this.props.dish } />
                             </View>
                         </Content>
                     </Tab>

@@ -44,21 +44,21 @@ export default class Profile extends Component
     }
     
 
-    _handleLogout() {
+    handleLogout() {
         if (API.clearDatabase()) {
             Actions.Login()
         }   
     }
 
 
-    _logout() {
+    logout() {
         Alert.alert(
             'Uitloggen',
             'Weet je zeker dat je wil uitloggen?',
             [
                 {
                     text: 'ja',
-                    onPress: () => this._handleLogout()
+                    onPress: () => this.handleLogout()
                 },
                 {
                     text: 'nee',
@@ -114,7 +114,7 @@ export default class Profile extends Component
                                 </Text>
                             </Button>
                             <Button style={{ margin: 5, borderRadius: 10, backgroundColor: "#000" }}
-                                    onPress={ () => this._logout() }>
+                                    onPress={ () => this.logout() }>
                                 <Text style={ Style.buttonTextStyle }>
                                     Uitloggen
                                 </Text>
@@ -157,7 +157,7 @@ export default class Profile extends Component
                                     mijn profiel
                                 </Text>
                             </CardItem>
-                            { this._renderProfile() }
+                            { this.renderProfile() }
                         </Card>
                     </View>
                 </Content>

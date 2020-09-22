@@ -38,7 +38,7 @@ export default class Home extends Component
     }
 
     
-    _renderContent() {
+    renderContent() {
         if (this.state.isLoaded && Array.isArray(this.state.data)) {
             return(
                 <View style={{ paddingBottom: 18 }}>
@@ -61,7 +61,7 @@ export default class Home extends Component
             <Container style={{ backgroundColor: Style.darkRed }}>
                 <Head title={ this.state.title } home />
                 <Content style={{ padding: 10 }}>
-                    { this._renderContent() }
+                    { this.renderContent() }
                 </Content>
                 <Foot home />
             </Container>
