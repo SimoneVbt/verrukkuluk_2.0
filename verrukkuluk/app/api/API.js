@@ -76,6 +76,7 @@ export default class API
 
 
     static postData = (url, data) => new Promise( (resolve, reject) => {
+        console.warn(url);
 
         const body = new FormData();
         
