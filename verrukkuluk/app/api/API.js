@@ -58,7 +58,8 @@ export default class API
                         realm.write(() => {
                             realm.create(tableName, item, true);
                         });
-                    });                    
+                    });
+
                 } else {
                     realm.write(() => {
                         realm.create(tableName, data, true)
@@ -86,5 +87,22 @@ export default class API
             .then( result => result.json() )
             .then( result => resolve(result) )
             .catch( error => reject(error) )
+    })
+
+
+    static deleteData = (url, tableName, id) => new Promise( (resolve, reject) => {
+        let object = realm.objects(tableName).filtered('id =' + id);
+
+        fetch(url, { method: 'DELETE' })
+            .then ( result => {
+
+                realm.write(() => {
+                    realm.delete(object);
+                })
+                resolve(result);
+
+            })
+            .catch( error => reject(error))
+
     })
 }

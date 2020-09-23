@@ -31,6 +31,14 @@ const starStyle = {
     margin: -1
 }
 
+const ratedStarStyle = {
+    color: gold,
+    fontSize: 28,
+    paddingLeft: 2,
+    paddingBottom: 2,
+    margin: -1
+}
+
 const messageStyle = {
     backgroundColor: white,
     color: "#000",
@@ -73,12 +81,6 @@ const tabCardStyle = {
     flexDirection: "column"
 }
 
-const subCardStyle = {
-    backgroundColor: beige,
-    flexDirection: "column",
-    borderBottomWidth: 1,
-    borderColor: darkRed
-}
 
 /* === buttons === */
 const buttonStyle = {
@@ -110,9 +112,9 @@ const labelStyle = {
 
 export {
     gold, darkRed, white, beige,
-    HeaderFooter, titleStyle, subtitleStyle, messageStyle, starStyle,
+    HeaderFooter, titleStyle, subtitleStyle, messageStyle, starStyle, ratedStarStyle,
     tabStyle, tabTextStyle,
-    cardStyle, cardItemStyle, tabCardStyle, subCardStyle,
+    cardStyle, cardItemStyle, tabCardStyle,
     buttonStyle, buttonTextStyle,
     itemStyle, inputStyle, labelStyle
 }

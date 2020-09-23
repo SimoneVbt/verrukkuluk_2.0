@@ -8,21 +8,25 @@ import DishCardItem from '../components/DishCardItem';
 
 export default class Favorites extends Component
 {
-    state = {
-        isLoaded: false,
-        favorites: [],
-        error: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoaded: false,
+            favorites: [],
+            error: false
+        }
+        this.loadPageCallback =this._loadPage.bind(this)
     }
+     
 
 
-    loadData = () => new Promise ( (resolve, reject) => {
+    _loadData = () => new Promise ( (resolve, reject) => {
         resolve(API.fetchFromDatabase("gerecht", "favoriet == true"));
     })
 
 
-    componentDidMount() {
-
-        this.loadData()
+    _loadPage() {
+        this._loadData()
             .then( favos => {
                 this.setState({
                     favorites: favos,
@@ -38,13 +42,21 @@ export default class Favorites extends Component
     }
 
 
+    componentDidMount() {
+        this._loadPage();
+    }
+
+
+
     renderContent() {
         if (this.state.isLoaded && this.state.favorites.length > 0 && Array.isArray(this.state.favorites)) {
             return(
-                <View style={{ paddingBottom: 18 }}>
+                <View style={{ paddingBottom: 18, paddingTop: 5 }}>
                     {
                         this.state.favorites.map( dish => {
-                            return( <DishCardItem key={ dish.id } dish={ dish } /> )
+
+                            return( <DishCardItem key={ dish.id } dish={ dish } loadPageCallback={ this.loadPageCallback } /> )
+                            
                         })
                     }
                 </View>
@@ -69,7 +81,7 @@ export default class Favorites extends Component
             <Container style={{ backgroundColor: Style.darkRed }}>
                 <Head title="mijn favorieten" />
                 <Content style={{ padding: 10 }}>
-                    <Card style={ Style.cardStyle }>
+                    <Card style={{ backgroundColor: Style.beige, marginBottom: 20 }}>
                         <CardItem style={ Style.cardItemStyle }>
                             <Text style={ Style.titleStyle }>
                                 mijn favorieten

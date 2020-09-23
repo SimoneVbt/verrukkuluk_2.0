@@ -10,6 +10,40 @@ const txtStyle = {
 
 export default class DishDescription extends Component
 {
+
+    renderStars() {
+        return(
+            <View style={{ flexDirection: "row", flex: 2, justifyContent: "flex-start" }}>
+                { this.props.dish.gemiddelde_beoordeling >= 1 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    this.props.dish.gemiddelde_beoordeling == 0.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                { this.props.dish.gemiddelde_beoordeling >= 2 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    this.props.dish.gemiddelde_beoordeling == 1.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                { this.props.dish.gemiddelde_beoordeling >= 3 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    this.props.dish.gemiddelde_beoordeling == 2.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                { this.props.dish.gemiddelde_beoordeling >= 4 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    this.props.dish.gemiddelde_beoordeling == 3.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                { this.props.dish.gemiddelde_beoordeling == 5 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    this.props.dish.gemiddelde_beoordeling == 4.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+            </View>            
+        )
+    }
+    
+
     render() {
         return(
             <Card style={ Style.tabCardStyle }>
@@ -19,33 +53,7 @@ export default class DishDescription extends Component
                                 style={{ width: "100%", height: 150 }} />
                 </CardItem>
                 <CardItem style={ Style.cardItemStyle }>
-                    <View style={{ flexDirection: "row", flex: 2, justifyContent: "flex-start" }}>
-                        { this.props.dish.gemiddelde_beoordeling >= 1 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            this.props.dish.gemiddelde_beoordeling == 0.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.gemiddelde_beoordeling >= 2 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.gemiddelde_beoordeling == 1.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.gemiddelde_beoordeling >= 3 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.gemiddelde_beoordeling == 2.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.gemiddelde_beoordeling >= 4 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.gemiddelde_beoordeling == 3.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.gemiddelde_beoordeling == 5 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.gemiddelde_beoordeling == 4.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                    </View>
+                    { this.renderStars() }
                     <Text style={{ flex: 1, textAlign: "right", fontSize: 14 }}>
                         { this.props.dish.calorieen } kcal
                     </Text>

@@ -72,4 +72,17 @@ class GerechtinfoRepository extends ServiceEntityRepository
         }
         return false;
     }
+
+
+    public function deleteUserGerechtinfo($user_id, $record_type, $dish_id)
+    {
+        $info = $this->findOneBy(["gebruiker_id" => $user_id, "record_type" => $record_type, "gerecht_id" => $dish_id]);
+        if ($info) {
+            $em = $this->getEntityManager();
+            $em->remove($info);
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
 }

@@ -64,11 +64,13 @@ class GerechtinfoController extends AbstractController
 
 
     /**
-     * @Route("/delete/{info_id}", name="delete_gerechtinfo")
+     * @Route("/delete/{id}/{record_type}/{dish_id}", name="delete_gerechtinfo", defaults={"record_type": "false", "extra": "false"})
      */
-    public function deleteGerechtinfo($info_id)
+    public function deleteGerechtinfo($id, $record_type=false, $dish_id=false)
     {
-        if ($this->gis->deleteGerechtinfo($info_id)) {
+        /* id: info_id voor B/O, user_id voor W/F */
+
+        if ($this->gis->deleteGerechtinfo($id, $record_type, $dish_id)) {
             return new Response("Gerechtinfo succesvol verwijderd uit database");
         }
         return new Response("Verwijderen gerechtinfo mislukt");

@@ -44,7 +44,7 @@ export default class Profile extends Component
     }
     
 
-    handleLogout() {
+    _handleLogout() {
         if (API.clearDatabase()) {
             Actions.Login()
         }   
@@ -58,7 +58,7 @@ export default class Profile extends Component
             [
                 {
                     text: 'ja',
-                    onPress: () => this.handleLogout()
+                    onPress: () => this._handleLogout()
                 },
                 {
                     text: 'nee',
@@ -69,7 +69,7 @@ export default class Profile extends Component
     }
 
 
-    _renderProfile() {
+    renderProfile() {
         if (this.state.user) {
             return(
                 <Fragment>
