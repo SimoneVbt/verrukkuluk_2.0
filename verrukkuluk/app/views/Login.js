@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 import { Container, Button, Text, Form, Item, Label, Input, Spinner } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import * as Style from '../resources/styles/styles';
-import { baseUrl } from '../config/constants';
+import * as Constants from '../config/constants';
 import Head from '../components/Head';
 import API from '../api/API';
 
@@ -24,19 +24,17 @@ export default class Login extends Component
         this.setState({
             isLoading: true
         });
-        let loginUrl = baseUrl + "gebruiker/login";
         let data = {
             login: this.state.login,
             wachtwoord: this.state.wachtwoord
         }
         
-        API.postData(loginUrl, data)
+        API.postData(Constants.loginUrl, data)
             .then( result => {
 
                 if (result.id > 0) {
-                    let userUrl = baseUrl + `gebruiker/get/${ result.id }`;
-                    
-                    API.fetchData(userUrl, "gebruiker")
+                    const url = Constants.userUrl + result.id;
+                    API.fetchData(url, "gebruiker")
                         .then( user => Actions.Home() )
                         .catch( err => console.warn(err) );
 

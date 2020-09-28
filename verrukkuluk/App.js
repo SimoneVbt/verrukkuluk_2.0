@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Router, Stack, Scene } from 'react-native-router-flux';
-import { Provider } from "react-redux";
-import store from "./app/redux/store";
 import API from './app/api/API';
 
 import Home from './app/views/Home';
@@ -34,26 +32,24 @@ export default class App extends Component
 
   render() {
     return(
-      <Provider store={store}>
-        <Router headerMode="none">
-          <Stack key="root">
-            <Scene key="Login" component={ Login } type="replace" initial={ !this.state.userPresence } />
-            <Scene key="Register" component={ Register } />
+      <Router headerMode="none">
+        <Stack key="root">
+          <Scene key="Login" component={ Login } type="replace" initial={ !this.state.userPresence } />
+          <Scene key="Register" component={ Register } />
 
-            <Scene key="Home" component={ Home } type="replace" initial={ this.state.userPresence } />
-            <Scene key="Detail" component={ Detail } />
-            <Scene key="Search" component={ Search } />
+          <Scene key="Home" component={ Home } type="replace" initial={ this.state.userPresence } />
+          <Scene key="Detail" component={ Detail } />
+          <Scene key="Search" component={ Search } />
 
-            <Scene key="ShoppingCart" component={ ShoppingCart } />
-            <Scene key="Favorites" component={ Favorites } />
-            <Scene key="MyDishes" component={ MyDishes } />
-            <Scene key="NewDish" component={ NewDish } />
+          <Scene key="ShoppingCart" component={ ShoppingCart } />
+          <Scene key="Favorites" component={ Favorites } />
+          <Scene key="MyDishes" component={ MyDishes } />
+          <Scene key="NewDish" component={ NewDish } />
 
-            <Scene key="Profile" component={ Profile } />
-            <Scene key="EditProfile" component={ EditProfile }/>
-          </Stack>
-        </Router>        
-      </Provider>
+          <Scene key="Profile" component={ Profile } />
+          <Scene key="EditProfile" component={ EditProfile }/>
+        </Stack>
+      </Router>
     )
   }
 }

@@ -15,8 +15,40 @@ const buttonStyle = {
 
 export default class DishCard extends Component
 {
-    render() {
+    renderStars() {
+        return(
+            <CardItem style={ Style.cardItemStyle }>
+                { this.props.dish.gemiddelde_beoordeling >= 1 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    this.props.dish.gemiddelde_beoordeling == 0.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                { this.props.dish.gemiddelde_beoordeling >= 2 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    this.props.dish.gemiddelde_beoordeling == 1.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                { this.props.dish.gemiddelde_beoordeling >= 3 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    this.props.dish.gemiddelde_beoordeling == 2.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                { this.props.dish.gemiddelde_beoordeling >= 4 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    this.props.dish.gemiddelde_beoordeling == 3.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                { this.props.dish.gemiddelde_beoordeling == 5 ?
+                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    this.props.dish.gemiddelde_beoordeling == 4.5 ?
+                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+            </CardItem>
+        )
+    }
 
+    
+    render() {
         return(
             <Card style={ Style.cardStyle }>
                 <CardItem header style={ Style.cardItemStyle }>
@@ -44,33 +76,7 @@ export default class DishCard extends Component
                 </CardItem>
                 <Grid>
                     <Col>
-                    <CardItem style={ Style.cardItemStyle }>
-                        { this.props.dish.gemiddelde_beoordeling >= 1 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            this.props.dish.gemiddelde_beoordeling == 0.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.gemiddelde_beoordeling >= 2 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.gemiddelde_beoordeling == 1.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.gemiddelde_beoordeling >= 3 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.gemiddelde_beoordeling == 2.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.gemiddelde_beoordeling >= 4 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.gemiddelde_beoordeling == 3.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                        { this.props.dish.gemiddelde_beoordeling == 5 ?
-                            <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
-                            this.props.dish.gemiddelde_beoordeling == 4.5 ?
-                            <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                            <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
-                    </CardItem>
+                    { this.renderStars() }
                     <CardItem footer style={ Style.cardItemStyle }>
                         <Text style={{ flex: 2, fontSize: 14, fontStyle: "italic" }}>
                             { this.props.dish.calorieen } kcal p.p.
@@ -84,7 +90,7 @@ export default class DishCard extends Component
                         <CardItem style={ Style.cardItemStyle }>
                             <Button rounded
                                     style={ buttonStyle }
-                                    onPress={ () => Actions.Detail({ dish: this.props.dish }) }>
+                                    onPress={ () => Actions.Detail({ dish_id: this.props.dish.id, title: this.props.dish.titel }) }>
                                 <Text style={{ color: Style.darkRed, fontSize: 16, fontWeight: "bold" }}>
                                     Smullen!
                                 </Text>

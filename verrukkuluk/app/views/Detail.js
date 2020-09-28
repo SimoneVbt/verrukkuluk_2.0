@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Content, View, Tabs, Tab, ScrollableTab } from 'native-base';
+import { Container, Content, View, Tabs, Tab, ScrollableTab, Spinner } from 'native-base';
 import * as Style from '../resources/styles/styles.js';
-import { baseUrl } from '../config/constants';
+import * as Constants from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import API from '../api/API';
@@ -27,58 +27,42 @@ const viewStyle = {
 export default class Detail extends Component
 {
     state = {
-        title: this.props.dish.titel,
+        dish: [],
         isLoaded: false,
         ingredients: [],
         preparation: [],
-        comments: []
+        comments: [],
+        error: false
     }
 
     componentDidMount() {
-        let urlIngredient = baseUrl + `ingredient/get/${ this.props.dish.id }`;
-        let urlPrep = baseUrl + `gerechtinfo/get/B/${ this.props.dish.id }`;
-        let urlComm = baseUrl + `gerechtinfo/get/O/${ this.props.dish.id }`;
+        const fetchDish = API.fetchFromDatabase("gerecht", `id == ${ this.props.dish_id }`);
+        const fetchIngr = API.fetchData(Constants.ingrUrl + this.props.dish_id, "ingredient");
+        const fetchPrep = API.fetchData(Constants.prepUrl + this.props.dish_id, "gerechtinfo");
+        const fetchComm = API.fetchData(Constants.commUrl + this.props.dish_id, "gerechtinfo");
 
-        API.fetchData(urlIngredient, "ingredient")
-            .then( data => {
-                this.setState({ ingredients: data })
-            })
-            .catch( err => {
-                this.setState({ title: "fout bij ophalen gegevens" })
-            })
-            .then(() => {
-                
-                API.fetchData(urlPrep, "gerechtinfo")
-                    .then( data => {
-                        this.setState({ preparation: data })
-                    })
-                    .catch( err => {
-                        this.setState({ title: "fout bij ophalen gegevens" })
-                    })
-                    .then(() => {
-
-                        API.fetchData(urlComm, "gerechtinfo")
-                            .then( data => {
-                                this.setState({
-                                    isLoaded: true,
-                                    comments: data
-                                })
-                            })
-                            .catch( err => {
-                                this.setState({
-                                    isLoaded: true,
-                                    title: "fout bij ophalen gegevens"
-                                })
-                            })
-                    })
-            })
+        Promise.all([fetchDish, fetchIngr, fetchPrep, fetchComm])
+            .then( values => 
+                this.setState({
+                    isLoaded: true,
+                    dish: values[0][0],
+                    ingredients: values[1],
+                    preparation: values[2],
+                    comments: values[3]
+                })
+            )
+            .catch( err => 
+                this.setState({
+                    isLoaded: true,
+                    error: true
+                })
+            );
     }
 
 
-    render() {
-        return(
-            <Container style={{ backgroundColor: Style.darkRed }}>
-                <Head title={ this.state.title } hasTabs />
+    renderContent() {
+        if (this.state.isLoaded) {
+            return(
                 <Tabs initialPage={0}
                     renderTabBar={ () => <ScrollableTab />}
                     tabContainerStyle={{ height: 200 }}
@@ -88,7 +72,7 @@ export default class Detail extends Component
                         textStyle={ Style.tabTextStyle }  activeTextStyle={ Style.tabTextStyle }>
                         <Content style={ contentStyle }>
                             <View style={{ marginBottom: 20 }}>
-                                <DishDescription dish={ this.props.dish } />
+                                <DishDescription dish={ this.state.dish } />
                             </View>
                         </Content>
                     </Tab>
@@ -113,7 +97,22 @@ export default class Detail extends Component
                             <DishComments comments={ this.state.comments } />
                         </View>
                     </Tab>
-                </Tabs>
+                </Tabs>                
+            )
+        }
+        return(
+            <Content contentContainerStyle={{ flex: 1, justifyContent: "center" }}>
+                <Spinner color={ Style.gold } size={50} />
+            </Content>
+        )
+    }
+
+
+    render() {
+        return(
+            <Container style={{ backgroundColor: Style.darkRed }}>
+                <Head title={ this.props.title } hasTabs />
+                { this.renderContent() }
                 <Foot />
             </Container>
 

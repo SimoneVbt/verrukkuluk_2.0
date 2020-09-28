@@ -1,0 +1,17 @@
+{
+    "id": {{ dish.id }},
+    "keuken": "{{ dish.keuken|e('js')|raw }}",
+    "type": "{{ dish.type|e('js')|raw }}",
+    "gebruiker_id": {{ dish.gebruikerId }},
+    "gebruiker": "{{ dish.gebruiker|e('js')|raw }}",
+    "afbeelding": "{{ dish.afbeelding }}",
+    "datum_toegevoegd": "{{ dish.datumToegevoegd|date("Y-m-d") }}",
+    "titel": "{{ dish.titel }}",
+    "korte_omschrijving": "{{ dish.korteOmschrijving|e('js')|raw }}",
+    "lange_omschrijving": "{{ dish.langeOmschrijving|e('js')|raw }}",
+    "gemiddelde_beoordeling": {{ dish.gemiddeldeBeoordeling }},
+    "calorieen": {{ dish.calorieen|number_format(0) }},
+    "totale_prijs": "{{ dish.totalePrijs|number_format(2, ',', '.') }}",
+    "favoriet": {{ dish.favoriet  ? "true" : "false" }},
+    "waardering": {{ dish.waardering ? dish.waardering : "0" }}
+}

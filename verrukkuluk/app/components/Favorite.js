@@ -3,8 +3,6 @@ import { Alert } from 'react-native';
 import { CardItem, Text, Button, Icon, Thumbnail, Grid, Col, Row } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import * as Style from '../resources/styles/styles.js';
-import { baseUrl } from '../config/constants';
-import API from '../api/API';
 
 const buttonStyle = {
     borderColor: Style.darkRed,
@@ -21,10 +19,10 @@ const rowStyle = {
 }
 
 
-export default class DishCardItem extends Component
+export default class Favorite extends Component
 {
     renderStars() {
-        let rating = this.props.dish.waardering;
+        const rating = this.props.dish.waardering;
         if (rating > 0) {
             return(
                 <Row>
@@ -56,16 +54,6 @@ export default class DishCardItem extends Component
     }
 
 
-    _handleDelete() {
-        let user = API.fetchFromDatabase("gebruiker");
-        let user_id = user[0].id;
-        let url = `${ baseUrl }gerechtinfo/delete/${ user_id }/F/${ this.props.dish.id }`;
-        API.deleteData(url, "gerecht", this.props.dish.id)
-            .then(result => this.props.loadPageCallback)
-            .catch(error => console.warn(error));
-    }
-
-
     deleteFavorite() {
         Alert.alert(
             'Favoriet verwijderen',
@@ -73,7 +61,7 @@ export default class DishCardItem extends Component
             [
                 {
                     text: 'ja',
-                    onPress: () => this._handleDelete()
+                    onPress: () => this.props.handleDelete(this.props.dish.id)
                 },
                 {
                     text: 'nee',

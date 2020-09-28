@@ -47,7 +47,7 @@ export default class Head extends Component
                 <Body style={{ flex: 2 }}>
                     <Title style={{ fontStyle: "italic", color: Style.white }}>
                         <Icon name="chef-hat" type="MaterialCommunityIcons" style={{ color: Style.white }} />
-                        { (this.props.title).toLowerCase() }
+                        { this.props.title.toLowerCase() }
                     </Title>
                 </Body>
                 <Right style={{ flex: 1 }}>

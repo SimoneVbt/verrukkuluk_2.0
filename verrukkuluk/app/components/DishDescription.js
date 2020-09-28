@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Text, Icon, Thumbnail, View, Button, Spinner } from 'native-base';
 import * as Style from '../resources/styles/styles.js';
-import { baseUrl } from '../config/constants';
+import * as Constants from '../config/constants';
 import API from '../api/API';
 
 
@@ -80,7 +80,7 @@ export default class DishDescription extends Component
     _addFavourite() {
         this.setState({ isLoading: true })
 
-        let url = `${ baseUrl }gerechtinfo/create`;
+        let url = `${ Constants.baseUrl }/gerechtinfo/create`;
         let data = {
             record_type: "F",
             gerecht_id: this.props.dish.id,
@@ -89,6 +89,7 @@ export default class DishDescription extends Component
 
         API.postData(url, data)
             .then(result => {
+                console.warn("gelukt");
                 this.setState({ isLoading: false })
             })
             .catch(error => console.warn(error))
@@ -96,7 +97,9 @@ export default class DishDescription extends Component
 
 
     _deleteFavourite() {
-        console.warn("verwijderen")
+        console.warn("verwijderen");
+        this.setState({ isLoading: true });
+        setTimeout( () => this.setState({ isLoading: false }), 3000 )
     }
 
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Content, Text, View, Card, CardItem, Spinner } from 'native-base';
 import * as Style from '../resources/styles/styles';
+import * as Constants from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import API from '../api/API';
-import DishCardItem from '../components/DishCardItem';
+import Favorite from '../components/Favorite';
 
 export default class Favorites extends Component
 {
@@ -15,9 +16,9 @@ export default class Favorites extends Component
             favorites: [],
             error: false
         }
-        this.loadPageCallback =this._loadPage.bind(this)
+        this.handleDelete.bind(this);
     }
-     
+
 
 
     _loadData = () => new Promise ( (resolve, reject) => {
@@ -25,7 +26,7 @@ export default class Favorites extends Component
     })
 
 
-    _loadPage() {
+    componentDidMount() {
         this._loadData()
             .then( favos => {
                 this.setState({
@@ -38,14 +39,19 @@ export default class Favorites extends Component
                     error: true,
                     isLoaded: true
                 })                
-            });
+            });        
     }
 
 
-    componentDidMount() {
-        this._loadPage();
-    }
+    handleDelete(dish_id) {
+        let user = API.fetchFromDatabase("gebruiker");
+        let user_id = user[0].id;
+        let url = `${ Constants.baseUrl }/gerechtinfo/delete/${ user_id }/F/${ dish_id }`;
 
+        API.deleteData(url, "gerecht", dish_id)
+            .then(result => this.state.favorites.filter(favo => favo.id !== dish_id))
+            .catch(error => console.warn(error));
+    }
 
 
     renderContent() {
@@ -55,7 +61,7 @@ export default class Favorites extends Component
                     {
                         this.state.favorites.map( dish => {
 
-                            return( <DishCardItem key={ dish.id } dish={ dish } loadPageCallback={ this.loadPageCallback } /> )
+                            return( <Favorite key={ dish.id } dish={ dish } handleDelete={ this.handleDelete } /> )
                             
                         })
                     }
@@ -63,16 +69,16 @@ export default class Favorites extends Component
             )
         } else if (this.state.isLoaded && this.state.favorites.length == 0) {
             return(
-                <View style={{ color: Style.white, padding: 15, backgroundColor: Style.beige, marginTop: 5 }}>
+                <View style={{ padding: 15, marginTop: 5 }}>
                     <Text style={{ fontStyle: "italic" }}>
                         Geen favorieten om weer te geven. Voeg favorieten toe via de detailpagina's van de gerechten.
                     </Text>
                 </View>
             )
         } else if (this.state.isLoaded) {
-            return( <View><Text style={{ color: Style.white, padding: 10 }}>Er is iets mis gegaan. Start de app opnieuw op.</Text></View> )
+            return( <View style={{ padding: 15, marginTop: 5 }}><Text>Er is iets mis gegaan. Start de app opnieuw op.</Text></View> )
         }
-        return( <Spinner color={ Style.beige } /> )
+        return( <Spinner color={ Style.darkRed } style={{ marginTop: 5 }} /> )
     }
 
 
