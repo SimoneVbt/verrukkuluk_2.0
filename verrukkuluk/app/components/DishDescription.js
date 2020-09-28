@@ -89,7 +89,6 @@ export default class DishDescription extends Component
 
         API.postData(url, data)
             .then(result => {
-                console.warn("gelukt");
                 this.setState({ isLoading: false })
             })
             .catch(error => console.warn(error))

@@ -31,7 +31,8 @@ export default class API
 
     static fetchFromDatabase(tableName, filter=false) {
         let results = realm.objects(tableName);
-        let data = filter ? results.filtered(filter) : results;
+        let filteredResults = filter ? results.filtered(filter) : results;
+        let data = filteredResults.sorted('id');
 
         if (tableName != "gebruiker") {
             let dataArray = Array.from(data);
