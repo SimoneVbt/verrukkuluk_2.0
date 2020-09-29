@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { CardItem, Text, Button, Icon, Thumbnail, Grid, Col, Row } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import * as Style from '../resources/styles/styles.js';
+import * as style from '../resources/styles/styles.js';
 
 const buttonStyle = {
-    borderColor: Style.darkRed,
+    borderColor: style.darkRed,
     height: 50,
     justifyContent: "center",
     borderWidth: 2,
-    backgroundColor: Style.beige,
+    backgroundColor: style.beige,
     width: "90%",
     alignSelf: "flex-end"
 }
@@ -26,21 +26,21 @@ export default class Favorite extends Component
         if (rating > 0) {
             return(
                 <Row>
-                    { rating >= 1 ? <Icon name="star-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> :
-                    rating == 0.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ Style.ratedStarStyle } /> }
-                    { rating >= 2 ? <Icon name="star-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> : 
-                    rating == 1.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ Style.ratedStarStyle } /> }
-                    { rating >= 3 ? <Icon name="star-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> : 
-                    rating == 2.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ Style.ratedStarStyle } /> }
-                    { rating >= 4 ? <Icon name="star-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> : 
-                    rating == 3.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ Style.ratedStarStyle } /> }
-                    { rating == 5 ? <Icon name="star-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> : 
-                    rating == 4.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ Style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ Style.ratedStarStyle } /> } 
+                    { rating >= 1 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
+                    rating == 0.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
+                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> }
+                    { rating >= 2 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> : 
+                    rating == 1.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
+                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> }
+                    { rating >= 3 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> : 
+                    rating == 2.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
+                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> }
+                    { rating >= 4 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> : 
+                    rating == 3.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
+                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> }
+                    { rating == 5 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> : 
+                    rating == 4.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
+                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> } 
                 </Row>
             )
         }
@@ -74,12 +74,12 @@ export default class Favorite extends Component
 
     render() {
         return(
-            <CardItem style={{ backgroundColor: Style.beige, flexDirection: "column", 
-                                borderWidth: 1, borderColor: Style.darkRed, margin: 5 }}>
+            <CardItem style={{ backgroundColor: style.beige, flexDirection: "column", 
+                                borderWidth: 1, borderColor: style.darkRed, margin: 5 }}>
                 <Grid style={{ width: "100%" }}>
                     <Row>
                         <Col size={3}>
-                            <Text style={ Style.subtitleStyle }>
+                            <Text style={ style.subtitleStyle }>
                                 { this.props.dish.titel }
                             </Text>   
                         </Col>
@@ -87,7 +87,7 @@ export default class Favorite extends Component
                             <Button style={{ alignSelf: "flex-end" }}
                                     iconLeft transparent
                                     onPress={ () => this.deleteFavorite() }>
-                                <Icon name="delete" type="AntDesign" style={{ color: Style.darkRed }} />
+                                <Icon name="delete" type="AntDesign" style={{ color: style.darkRed }} />
                             </Button>
                         </Col>
                     </Row>
@@ -112,7 +112,7 @@ export default class Favorite extends Component
                             <Button rounded
                                     style={ buttonStyle }
                                     onPress={ () => Actions.Detail({ dish: this.props.dish }) }>
-                                <Text style={{ color: Style.darkRed, fontSize: 16, fontWeight: "bold" }}>
+                                <Text style={{ color: style.darkRed, fontSize: 16, fontWeight: "bold" }}>
                                     recept
                                 </Text>
                             </Button>

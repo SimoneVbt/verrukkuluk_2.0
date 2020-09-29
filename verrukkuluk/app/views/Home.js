@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Content, Spinner, View, Text } from 'native-base';
-import * as Style from '../resources/styles/styles.js';
-import * as Constants from '../config/constants';
+import * as style from '../resources/styles/styles.js';
+import * as constants from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import DishCard from '../components/DishCard';
@@ -18,10 +18,7 @@ export default class Home extends Component
 
 
     componentDidMount() {
-        const user = API.fetchFromDatabase("gebruiker");
-        const url = Constants.allDishesUrl + user.id;
-
-        API.fetchData(url, "gerecht")
+        API.fetchData({url: constants.allDishesUrl, table: "gerecht", user: true})
             .then( data => {
                 this.setState({
                     isLoaded: true,
@@ -49,15 +46,15 @@ export default class Home extends Component
                 </View>
             );
         } else if (this.state.isLoaded) {
-            return( <Text style={{ color: Style.white, padding: 10 }}>Er is iets mis gegaan. Start de app opnieuw op.</Text> )
+            return( <Text style={{ color: style.white, padding: 10 }}>Er is iets mis gegaan. Start de app opnieuw op.</Text> )
         }
-        return( <Spinner color={ Style.gold } size={60} style={{ paddingBottom: 50 }} /> )
+        return( <Spinner color={ style.gold } size={60} style={{ paddingBottom: 50 }} /> )
     }
 
     
     render() {
         return(
-            <Container style={{ backgroundColor: Style.darkRed }}>
+            <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title={ this.state.title } home />
                 <Content contentContainerStyle= { this.state.isLoaded ? { padding: 10 } : { padding: 10, flex: 1, justifyContent: "center" } }>
                     { this.renderContent() }

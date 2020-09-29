@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Content, Text, View, Card, CardItem, Spinner } from 'native-base';
-import * as Style from '../resources/styles/styles';
-import * as Constants from '../config/constants';
+import * as style from '../resources/styles/styles';
+import * as constants from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import API from '../api/API';
@@ -9,24 +9,21 @@ import Favorite from '../components/Favorite';
 
 export default class Favorites extends Component
 {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoaded: false,
-            favorites: [],
-            error: false
-        }
-        this.handleDelete.bind(this);
-        this.loadData.bind(this);
+    state = {
+        isLoaded: false,
+        favorites: [],
+        error: false
     }
 
+    componentDidMount() {
+        this.loadData();
+    }
 
     _loadData = () => new Promise ( (resolve, reject) => { //was nog geen promise in de API
         resolve(API.fetchFromDatabase("gerecht", "favoriet == true"));
     })
-
     
-    loadData() { //bound in constructor
+    loadData = () => {
         this._loadData()
             .then( favos => {
                 this.setState({
@@ -44,17 +41,14 @@ export default class Favorites extends Component
     }
 
 
-    componentDidMount() {
-        this.loadData(); //werkt hier
-    }
+    handleDelete = (dish_id) => {
 
-
-    handleDelete(dish_id) { //wordt meegegeven als callback aan elke favoriet, getriggered bij onPress button, bound in constructor
-        const user = API.fetchFromDatabase("gebruiker");
-        const url = Constants.deleteFavoUrl + user.id + "/" + dish_id;
-
-        API.deleteData(url, "gerecht", dish_id, true)
-            .then(result => this.loadData() )  // [TypeError: _this3.loadData is not a function. (In '_this3.loadData()', '_this3.loadData' is undefined)] 
+        API.deleteData({ url: constants.deleteFavoUrl,
+                        table: "gerecht",
+                        user: true,
+                        id: dish_id,
+                        favo: true })
+            .then(result => this.loadData() )
             .catch(error => console.warn(error));
     }
 
@@ -83,24 +77,24 @@ export default class Favorites extends Component
         } else if (this.state.isLoaded) {
             return( <View style={{ padding: 15, marginTop: 5 }}><Text>Er is iets mis gegaan. Start de app opnieuw op.</Text></View> )
         }
-        return( <Spinner color={ Style.darkRed } style={{ marginTop: 5 }} /> )
+        return( <Spinner color={ style.darkRed } style={{ marginTop: 5 }} /> )
     }
 
 
     render() {
         return(
-            <Container style={{ backgroundColor: Style.darkRed }}>
+            <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="mijn favorieten" />
                 <Content style={{ padding: 10 }}>
-                    <Card style={{ backgroundColor: Style.beige, marginBottom: 20 }}>
-                        <CardItem style={ Style.cardItemStyle }>
-                            <Text style={ Style.titleStyle }>
+                    <Card style={{ backgroundColor: style.beige, marginBottom: 20 }}>
+                        <CardItem style={ style.cardItemStyle }>
+                            <Text style={ style.titleStyle }>
                                 mijn favorieten
                             </Text>
                         </CardItem>
                         { this.renderContent() }
                     </Card>
-                    { this.state.error && <Text style={ Style.messageStyle }>Er is iets mis gegaan</Text> }
+                    { this.state.error && <Text style={ style.messageStyle }>Er is iets mis gegaan</Text> }
                 </Content>
                <Foot />
             </Container>

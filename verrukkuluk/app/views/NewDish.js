@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Content, Button, Card, CardItem, Text } from 'native-base';
-import * as Style from '../resources/styles/styles.js';
+import * as style from '../resources/styles/styles.js';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 
@@ -8,12 +8,12 @@ export default class NewDish extends Component
 {
     render() {
         return(
-            <Container style={{ backgroundColor: Style.darkRed }}>
+            <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="nieuw gerecht" />
                 <Content style={{ padding: 10 }}>
-                    <Card style={ Style.cardStyle }>
-                        <CardItem style={ Style.cardItemStyle }>
-                            <Text style={ Style.titleStyle }>
+                    <Card style={ style.cardStyle }>
+                        <CardItem style={ style.cardItemStyle }>
+                            <Text style={ style.titleStyle }>
                                 nieuw gerecht
                             </Text>
                         </CardItem>

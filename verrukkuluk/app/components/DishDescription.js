@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Text, Icon, Thumbnail, View, Button, Spinner } from 'native-base';
-import * as Style from '../resources/styles/styles.js';
-import * as Constants from '../config/constants';
+import * as style from '../resources/styles/styles.js';
+import * as constants from '../config/constants';
 import API from '../api/API';
 
 
@@ -26,15 +26,7 @@ const spinnerPosition = {
 export default class DishDescription extends Component
 {
     state = {
-        user: {},
         isLoading: false
-    }
-
-    componentDidMount() {
-        let user = API.fetchFromDatabase("gebruiker");
-        this.setState({
-            user: user[0]
-        })
     }
 
 
@@ -42,30 +34,30 @@ export default class DishDescription extends Component
         return(
             <View style={{ flexDirection: "row", flex: 2, justifyContent: "flex-start" }}>
                 { this.props.dish.gemiddelde_beoordeling >= 1 ?
-                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> :
+                    <Icon name="star-sharp" type="Ionicons" style={ style.starStyle } /> :
                     this.props.dish.gemiddelde_beoordeling == 0.5 ?
-                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                    <Icon name="star-half-sharp" type="Ionicons" style={ style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ style.starStyle } /> }
                 { this.props.dish.gemiddelde_beoordeling >= 2 ?
-                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    <Icon name="star-sharp" type="Ionicons" style={ style.starStyle } /> : 
                     this.props.dish.gemiddelde_beoordeling == 1.5 ?
-                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                    <Icon name="star-half-sharp" type="Ionicons" style={ style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ style.starStyle } /> }
                 { this.props.dish.gemiddelde_beoordeling >= 3 ?
-                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    <Icon name="star-sharp" type="Ionicons" style={ style.starStyle } /> : 
                     this.props.dish.gemiddelde_beoordeling == 2.5 ?
-                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                    <Icon name="star-half-sharp" type="Ionicons" style={ style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ style.starStyle } /> }
                 { this.props.dish.gemiddelde_beoordeling >= 4 ?
-                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    <Icon name="star-sharp" type="Ionicons" style={ style.starStyle } /> : 
                     this.props.dish.gemiddelde_beoordeling == 3.5 ?
-                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                    <Icon name="star-half-sharp" type="Ionicons" style={ style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ style.starStyle } /> }
                 { this.props.dish.gemiddelde_beoordeling == 5 ?
-                    <Icon name="star-sharp" type="Ionicons" style={ Style.starStyle } /> : 
+                    <Icon name="star-sharp" type="Ionicons" style={ style.starStyle } /> : 
                     this.props.dish.gemiddelde_beoordeling == 4.5 ?
-                    <Icon name="star-half-sharp" type="Ionicons" style={ Style.starStyle } /> :
-                    <Icon name="star-outline" type="Ionicons" style={ Style.starStyle } /> }
+                    <Icon name="star-half-sharp" type="Ionicons" style={ style.starStyle } /> :
+                    <Icon name="star-outline" type="Ionicons" style={ style.starStyle } /> }
             </View>            
         )
     }
@@ -78,21 +70,16 @@ export default class DishDescription extends Component
 
 
     _addFavourite() {
+
         this.setState({ isLoading: true })
-
-        let url = `${ Constants.baseUrl }/gerechtinfo/create`;
-        let data = {
-            record_type: "F",
-            gerecht_id: this.props.dish.id,
-            gebruiker_id: this.state.user.id
-        }
-
-        API.postData(url, data)
-            .then(result => {
-                console.warn("gelukt");
-                this.setState({ isLoading: false })
+        API.postData({ url: constants.addInfoUrl, data: { record_type: "F",
+                                                            gerecht_id: this.props.dish.id,
+                                                            user: true } })
+            .then( result => {
+                this.setState({ isLoading: false });
+                this.props.loadDishData(); //callback: undefined
             })
-            .catch(error => console.warn(error))
+            .catch( error => console.warn(error))
     }
 
 
@@ -108,14 +95,14 @@ export default class DishDescription extends Component
             return(
                 <Button bordered
                         onPress={ () => this._deleteFavourite() }
-                        style={{ height: "80%", marginRight: 5, borderColor: Style.darkRed, paddingHorizontal: 1 }}>
-                    <Icon name="star" type="FontAwesome" style={{ color: Style.darkRed }} />
+                        style={{ height: "80%", marginRight: 5, borderColor: style.darkRed, paddingHorizontal: 1 }}>
+                    <Icon name="star" type="FontAwesome" style={{ color: style.darkRed }} />
                 </Button>
             )
         }
         return(
             <Button onPress={ () => this._addFavourite() }
-                    style={{ backgroundColor: Style.darkRed, height: "80%", marginRight: 5 }}>
+                    style={{ backgroundColor: style.darkRed, height: "80%", marginRight: 5 }}>
                 <Icon name="star-o" type="FontAwesome" />
                 <Icon name="add" type="MaterialIcons"
                         style={{ fontSize: 15, alignSelf: "flex-start",
@@ -127,13 +114,13 @@ export default class DishDescription extends Component
 
     render() {
         return(
-            <Card style={ Style.tabCardStyle }>
-                <CardItem style={ Style.cardItemStyle }>
+            <Card style={ style.tabCardStyle }>
+                <CardItem style={ style.cardItemStyle }>
                     <Thumbnail square
                                 source={{ uri: this.props.dish.afbeelding }}
                                 style={{ width: "100%", height: 150 }} />
                 </CardItem>
-                <CardItem style={ Style.cardItemStyle }>
+                <CardItem style={ style.cardItemStyle }>
                     <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between" }}>
                         <View style={{ flexDirection: "column" }}>
                             { this.renderStars() }
@@ -149,27 +136,27 @@ export default class DishDescription extends Component
                         <View style={{ flexDirection: "row" }}>
                             { this.renderFavouriteButton() }
                             <Button onPress={ () => this.addToList() }
-                                    style={{ backgroundColor: Style.darkRed, height: "80%" }}>
+                                    style={{ backgroundColor: style.darkRed, height: "80%" }}>
                                 <Icon name="shopping-cart" type="FontAwesome" />
                                 <Icon name="add" type="MaterialIcons" style={{ fontSize: 15, alignSelf: "flex-start", marginLeft: -15, marginRight: 5 }} />
                             </Button>                            
                         </View>
                     </View>
                 </CardItem>
-                <CardItem style={ Style.cardItemStyle }>
-                    <Text style={ Style.titleStyle }>
+                <CardItem style={ style.cardItemStyle }>
+                    <Text style={ style.titleStyle }>
                         { this.props.dish.titel }
                     </Text>
                 </CardItem>
-                <CardItem style={ Style.cardItemStyle }>
-                    <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: Style.darkRed }}>
+                <CardItem style={ style.cardItemStyle }>
+                    <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: style.darkRed }}>
                         { this.props.dish.type }
                     </Text>
-                    <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: Style.darkRed, textAlign: "right" }}>
+                    <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: style.darkRed, textAlign: "right" }}>
                         { this.props.dish.keuken }
                     </Text>
                 </CardItem>
-                <CardItem style={ Style.cardItemStyle }>
+                <CardItem style={ style.cardItemStyle }>
                     <View style={{ flexDirection: "column" }}>
                         <Text style={ txtStyle }>
                             { this.props.dish.lange_omschrijving }
@@ -178,7 +165,7 @@ export default class DishDescription extends Component
                 </CardItem>
                 { this.state.isLoading && 
                     <View style={ spinnerPosition }>
-                        <Spinner color={ Style.darkRed } style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }} />
+                        <Spinner color={ style.darkRed } style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }} />
                     </View>
                 }
             </Card>

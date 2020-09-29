@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Card, CardItem, Text, ListItem, Thumbnail, Left, Right, View } from 'native-base';
-import * as Style from '../resources/styles/styles.js';
+import * as style from '../resources/styles/styles.js';
 
 export default class DishComments extends Component
 {
@@ -10,7 +10,7 @@ export default class DishComments extends Component
             <ListItem style={{ marginLeft: 5 }}>
                 <Left style={{ flex: 1, flexDirection: "column", alignItems: "center" }}>
                     <Thumbnail source={{ uri: comm.foto }} />
-                    <Text style={{ color: Style.darkRed, fontSize: 10 }} numberOfLines={1}>
+                    <Text style={{ color: style.darkRed, fontSize: 10 }} numberOfLines={1}>
                         { comm.gebruikersnaam }
                     </Text>
                 </Left>
@@ -35,7 +35,7 @@ export default class DishComments extends Component
             )
         } 
         return(
-            <View style={{ paddingBottom: 15, backgroundColor: Style.beige, marginTop: 5 }}>
+            <View style={{ paddingBottom: 15, backgroundColor: style.beige, marginTop: 5 }}>
                 <Text style={{ fontStyle: "italic" }}>
                     Dit gerecht heeft nog geen opmerkingen.
                 </Text>
@@ -46,11 +46,11 @@ export default class DishComments extends Component
 
     render() {
         return(
-            <Card style={ Style.tabCardStyle }>
-                <CardItem style={ Style.cardItemStyle }>
-                    <Text style={ Style.titleStyle }>Opmerkingen</Text>
+            <Card style={ style.tabCardStyle }>
+                <CardItem style={ style.cardItemStyle }>
+                    <Text style={ style.titleStyle }>Opmerkingen</Text>
                 </CardItem>
-                <CardItem style={ Style.cardItemStyle }>
+                <CardItem style={ style.cardItemStyle }>
                     { this.renderList() }        
                 </CardItem>
             </Card>

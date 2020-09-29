@@ -38,7 +38,7 @@ export default class Profile extends Component
         let user = API.fetchFromDatabase("gebruiker");
         if (user) {
             this.setState({
-                user: user[0]
+                user: user
             })
         }
     }

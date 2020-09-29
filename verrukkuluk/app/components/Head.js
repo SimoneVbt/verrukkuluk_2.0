@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
 import { Header, Left, Right, Body, Title, Icon, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import * as Style from '../resources/styles/styles.js';
+import * as style from '../resources/styles/styles.js';
 
 const iconStyle = {
-    color: Style.white,
+    color: style.white,
     fontSize: 30
 }
 
@@ -39,14 +39,14 @@ export default class Head extends Component
 
     render() {
         return(
-            <Header style={ Style.HeaderFooter } hasTabs={ this.props.hasTabs ? true : false } >
-                <StatusBar backgroundColor={ Style.gold } barStyle="light-content" />
+            <Header style={ style.HeaderFooter } hasTabs={ this.props.hasTabs ? true : false } >
+                <StatusBar backgroundColor={ style.gold } barStyle="light-content" />
                 <Left style={{ flex: 1 }}>
                     { this._renderPopButton() }
                 </Left>
                 <Body style={{ flex: 2 }}>
-                    <Title style={{ fontStyle: "italic", color: Style.white }}>
-                        <Icon name="chef-hat" type="MaterialCommunityIcons" style={{ color: Style.white }} />
+                    <Title style={{ fontStyle: "italic", color: style.white }}>
+                        <Icon name="chef-hat" type="MaterialCommunityIcons" style={{ color: style.white }} />
                         { this.props.title.toLowerCase() }
                     </Title>
                 </Body>

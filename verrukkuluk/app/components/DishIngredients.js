@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Card, CardItem, Text, ListItem, CheckBox } from 'native-base';
-import * as Style from '../resources/styles/styles.js';
+import * as style from '../resources/styles/styles.js';
 
 
 class Ingredient extends Component
@@ -19,7 +19,7 @@ class Ingredient extends Component
     render() {
         return( 
             <ListItem onPress={ () => this.handleCheck() }>
-                <CheckBox  color={ Style.darkRed } style={{ marginLeft: -20 }} checked={ this.state.checked }  />
+                <CheckBox  color={ style.darkRed } style={{ marginLeft: -20 }} checked={ this.state.checked }  />
                 <Text>  { this.props.string }</Text>
             </ListItem> 
         )
@@ -47,11 +47,11 @@ export default class DishIngredients extends Component
     
     render() {
         return(
-            <Card style={ Style.tabCardStyle }>
-                <CardItem style={ Style.cardItemStyle }>
-                    <Text style={ Style.titleStyle }>Ingrediënten</Text>
+            <Card style={ style.tabCardStyle }>
+                <CardItem style={ style.cardItemStyle }>
+                    <Text style={ style.titleStyle }>Ingrediënten</Text>
                 </CardItem>
-                <CardItem style={ Style.cardItemStyle }>
+                <CardItem style={ style.cardItemStyle }>
                     <FlatList
                         data={ this.props.ingredients }
                         keyExtractor={ ingr => ingr.id.toString() }
