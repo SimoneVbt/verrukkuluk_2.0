@@ -64,9 +64,9 @@ class GerechtinfoController extends AbstractController
 
 
     /**
-     * @Route("/delete/{id}/{record_type}/{dish_id}", name="delete_gerechtinfo", defaults={"record_type": "false", "extra": "false"})
+     * @Route("/delete/{record_type}/{id}/{dish_id}", name="delete_gerechtinfo", defaults={"dish_id": "false"})
      */
-    public function deleteGerechtinfo($id, $record_type=false, $dish_id=false)
+    public function deleteGerechtinfo($id, $record_type, $dish_id=false)
     {
         /* id: info_id voor B/O, user_id voor W/F */
 

@@ -63,6 +63,7 @@ const schema = {
         primaryKey: "id",
         properties: {
             id: { type: "int", indexed: true },
+            remote_id: "int",
             gebruikersnaam: "string",
             foto_upload: "bool",
             foto: { type: "string", default: defaultImg },

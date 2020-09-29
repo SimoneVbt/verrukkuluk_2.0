@@ -101,8 +101,8 @@ export default class Detail extends Component
             )
         }
         return(
-            <Content contentContainerStyle={{ flex: 1, justifyContent: "center" }}>
-                <Spinner color={ Style.gold } size={50} />
+            <Content contentContainerStyle={{ flex: 1, justifyContent: "center", paddingBottom: 50 }}>
+                <Spinner color={ Style.gold } size={60} />
             </Content>
         )
     }

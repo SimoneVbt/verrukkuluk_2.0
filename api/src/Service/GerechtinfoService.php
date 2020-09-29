@@ -52,9 +52,9 @@ class GerechtinfoService
     }
     
 
-    public function deleteGerechtinfo ($id, $record_type=false, $dish_id=false)
+    public function deleteGerechtinfo ($id, $record_type, $dish_id=false)
     {
-        if (!$record_type) {
+        if ($record_type == "B" || $record_type == "O") {
             return $this->rep->deleteGerechtinfo($id);
         }
         return $this->rep->deleteUserGerechtinfo($id, $record_type, $dish_id);

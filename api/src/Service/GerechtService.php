@@ -38,8 +38,8 @@ class GerechtService
 
     public function getGerecht($dish_id, $user_id)
     {
-        // $ip = "192.168.0.109";
-        $ip = "192.168.1.244";
+        $ip = "192.168.0.109";
+        // $ip = "192.168.1.244";
 
         $dish = $this->rep->getGerecht($dish_id);
 

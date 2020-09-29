@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 18
+    schemaVersion: 19
 });
 
 
@@ -30,16 +30,19 @@ export default class API
 
 
     static fetchFromDatabase(tableName, filter=false) {
-        let results = realm.objects(tableName);
-        let filteredResults = filter ? results.filtered(filter) : results;
-        let data = filteredResults.sorted('id');
 
         if (tableName != "gebruiker") {
-            let dataArray = Array.from(data);
-            return dataArray;
+
+            let results = realm.objects(tableName);
+            let filteredResults = filter ? results.filtered(filter) : results;
+            let sortedResults = filteredResults.sorted('id');
+            let data = Array.from(sortedResults);
+            return data;
+
         }
-        
-        return data;
+
+        let user = realm.objectForPrimaryKey(tableName, 1);
+        return user;
     }
 
 
@@ -91,19 +94,28 @@ export default class API
     })
 
 
-    static deleteData = (url, tableName, id) => new Promise( (resolve, reject) => {
-        let object = realm.objects(tableName).filtered('id =' + id);
+    static deleteData = (url, tableName, id, favo=false) => new Promise( (resolve, reject) => {
 
-        fetch(url, { method: 'DELETE' })
-            .then ( result => {
+        let object = realm.objectForPrimaryKey(tableName, id);
+        
+            fetch(url, { method: 'DELETE' })
+                .then ( result => {
 
-                realm.write(() => {
-                    realm.delete(object);
+                     if (!favo) {
+                        realm.write(() => {
+                            realm.delete(object);
+                        })
+
+                    } else {
+                        realm.write(() => {
+                            object.favoriet = false;
+                        })    
+                    }
+
+                    resolve(result);
+
                 })
-                resolve(result);
-
-            })
-            .catch( error => reject(error))
+                .catch( error => reject(error))  
 
     })
 }

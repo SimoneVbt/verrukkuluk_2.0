@@ -17,39 +17,44 @@ export default class Favorites extends Component
             error: false
         }
         this.handleDelete.bind(this);
+        this.loadData.bind(this);
     }
 
 
-
-    _loadData = () => new Promise ( (resolve, reject) => {
+    _loadData = () => new Promise ( (resolve, reject) => { //was nog geen promise in de API
         resolve(API.fetchFromDatabase("gerecht", "favoriet == true"));
     })
 
-
-    componentDidMount() {
+    
+    loadData() { //bound in constructor
         this._loadData()
             .then( favos => {
                 this.setState({
                     favorites: favos,
                     isLoaded: true
-                })
+                });
             })
             .catch( error => {
+                console.warn(error);
                 this.setState({
                     error: true,
                     isLoaded: true
                 })                
-            });        
+            });
     }
 
 
-    handleDelete(dish_id) {
-        let user = API.fetchFromDatabase("gebruiker");
-        let user_id = user[0].id;
-        let url = `${ Constants.baseUrl }/gerechtinfo/delete/${ user_id }/F/${ dish_id }`;
+    componentDidMount() {
+        this.loadData(); //werkt hier
+    }
 
-        API.deleteData(url, "gerecht", dish_id)
-            .then(result => this.state.favorites.filter(favo => favo.id !== dish_id))
+
+    handleDelete(dish_id) { //wordt meegegeven als callback aan elke favoriet, getriggered bij onPress button, bound in constructor
+        const user = API.fetchFromDatabase("gebruiker");
+        const url = Constants.deleteFavoUrl + user.id + "/" + dish_id;
+
+        API.deleteData(url, "gerecht", dish_id, true)
+            .then(result => this.loadData() )  // [TypeError: _this3.loadData is not a function. (In '_this3.loadData()', '_this3.loadData' is undefined)] 
             .catch(error => console.warn(error));
     }
 

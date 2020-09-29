@@ -19,8 +19,7 @@ export default class Home extends Component
 
     componentDidMount() {
         const user = API.fetchFromDatabase("gebruiker");
-        const user_id = user[0].id;
-        const url = Constants.allDishesUrl + user_id;
+        const url = Constants.allDishesUrl + user.id;
 
         API.fetchData(url, "gerecht")
             .then( data => {
@@ -52,7 +51,7 @@ export default class Home extends Component
         } else if (this.state.isLoaded) {
             return( <Text style={{ color: Style.white, padding: 10 }}>Er is iets mis gegaan. Start de app opnieuw op.</Text> )
         }
-        return( <Spinner color={ Style.gold } size={60} /> )
+        return( <Spinner color={ Style.gold } size={60} style={{ paddingBottom: 50 }} /> )
     }
 
     
