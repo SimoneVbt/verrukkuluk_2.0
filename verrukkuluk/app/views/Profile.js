@@ -35,11 +35,9 @@ export default class Profile extends Component
     }
 
     componentDidMount() {
-        let user = API.fetchFromDatabase("gebruiker");
+        let user = API.fetchFromDatabase("gebruiker", 1);
         if (user) {
-            this.setState({
-                user: user
-            })
+            this.setState({ user: user })
         }
     }
     

@@ -17,8 +17,9 @@ export default class Home extends Component
     }
 
 
+    //firet niet na login
     componentDidMount() {
-        API.fetchData({url: constants.allDishesUrl, table: "gerecht", user: true})
+        API.fetchData({ url: constants.allDishesUrl, table: "gerecht", userInUrl: true })
             .then( data => {
                 this.setState({
                     isLoaded: true,

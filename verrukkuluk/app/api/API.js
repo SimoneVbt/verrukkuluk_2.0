@@ -1,5 +1,4 @@
 import schema from './Model';
-import DishCard from '../components/DishCard';
 
 const timeout = 5000;
 
@@ -19,15 +18,16 @@ export default class API
 
         let url = obj.url;
 
-        if (obj.user) {
-            let user = this.fetchFromDatabase("gebruiker");
+        if (obj.userInUrl) {
+            let user = this.fetchFromDatabase("gebruiker", 1);
             url = url + user.id;
+        }
 
-            if (obj.id) {
-                url = url + "/" + obj.id;
-            }
+        if (obj.userInUrl && obj.id) {
+            url = url + "/";
+        }
 
-        } else if (obj.id) {
+        if (obj.id) {
             url = url + obj.id
         }
 
@@ -50,20 +50,18 @@ export default class API
     }
 
 
-    static fetchFromDatabase(tableName, filter=false) {
+    static fetchFromDatabase(tableName, id=false, filter=false) {
 
-        if (tableName != "gebruiker") {
-
+        if (id === false) {
             let results = realm.objects(tableName);
             let filteredResults = filter ? results.filtered(filter) : results;
             let sortedResults = filteredResults.sorted('id');
             let data = Array.from(sortedResults);
             return data;
-
         }
 
-        let user = realm.objectForPrimaryKey(tableName, 1);
-        return user;
+        let data = realm.objectForPrimaryKey(tableName, id);
+        return data;
     }
 
 
@@ -73,7 +71,7 @@ export default class API
         let url = this.constructUrl(obj);
 
         const tm = setTimeout( () => {
-            resolve(API.fetchFromDatabase(obj.table, obj.filter=false));
+            resolve(API.fetchFromDatabase(obj.table, false, obj.filter=false));
         }, timeout);
 
         fetch(url)
@@ -103,6 +101,17 @@ export default class API
     })
 
 
+    static writeData(obj) {
+
+        if (obj.data.record_type === "F") {
+            let dish = this.fetchFromDatabase("gerecht", obj.data.gerecht_id);
+            realm.write(() => {
+                dish.favoriet = true;
+            })
+        }
+    }
+
+
     //object: minstens url en data
     static postData = (obj) => new Promise( (resolve, reject) => {
 
@@ -114,39 +123,70 @@ export default class API
         }
         
         if (obj.data.user) {
-            let user = this.fetchFromDatabase("gebruiker");
+            let user = this.fetchFromDatabase("gebruiker", 1);
             body.append("gebruiker_id", user.id);
-            // body.delete("user");
-            console.warn(body);
         }
         
+        fetch(url, { method: 'POST', body })
+            .then( result => {
+                
+                if (obj.write) {
+                    this.writeData(obj);
+                }
+                resolve(result)
+            })
+            .catch( error => {
+                console.warn("error")
+                reject(error) 
+            } )
+    })
+
+
+    static login = (url, login, password) => new Promise( (resolve, reject) => {
+        const body = new FormData();
+        body.append("login", login);
+        body.append("wachtwoord", password);
 
         fetch(url, { method: 'POST', body })
-            .then( result => resolve(result) )
-            .catch( error => reject(error) )
+        .then( result => result.json() )
+        .then( result => resolve(result) )
+        .catch( error => reject(error) )
     })
+
+
+    static deleteDataFromDatabase(obj) {
+
+        if (obj.favo || obj.rating) {
+            let record = realm.objectForPrimaryKey(obj.table, obj.id);
+
+            if (obj.favo) {
+                realm.write(() => {
+                    record.favoriet = false;
+                })
+            }
+            if (obj.rating) { //voorlopige versie, nog niet gebruikt
+                realm.write(() => {
+                    record.waardering = obj.rating;
+                })                
+            }
+            
+        } else {
+            realm.write(() => {
+                realm.delete(record);
+            }) 
+        }
+    }
 
 
     //object: minstens url, table en id
     static deleteData = (obj) => new Promise( (resolve, reject) => {
 
         let url = this.constructUrl(obj);
-        let record = realm.objectForPrimaryKey(obj.table, obj.id);
-        
+
             fetch(url, { method: 'DELETE' })
                 .then ( result => {
 
-                     if (!obj.favo) {
-                        realm.write(() => {
-                            realm.delete(record);
-                        })
-
-                    } else {
-                        realm.write(() => {
-                            record.favoriet = false;
-                        })    
-                    }
-
+                    this.deleteDataFromDatabase(obj);
                     resolve(result);
 
                 })

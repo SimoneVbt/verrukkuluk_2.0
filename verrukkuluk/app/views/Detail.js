@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, View, Tabs, Tab, ScrollableTab, Spinner } from 'native-base';
+import { Container, Content, View, Tabs, Tab, ScrollableTab, Spinner, Text } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 import * as constants from '../config/constants';
 import Head from '../components/Head';
@@ -37,7 +37,7 @@ export default class Detail extends Component
 
     componentDidMount() {
         const dish_id = this.props.dish_id;
-        const fetchDish = API.fetchFromDatabase("gerecht", `id == ${ dish_id }`);
+        const fetchDish = API.fetchFromDatabase("gerecht", dish_id);
         const fetchIngr = API.fetchData({ url: constants.ingrUrl, table: "ingredient", id: dish_id });
         const fetchPrep = API.fetchData({ url: constants.prepUrl, table: "gerechtinfo", id: dish_id });
         const fetchComm = API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id });
@@ -46,13 +46,13 @@ export default class Detail extends Component
             .then( values => 
                 this.setState({
                     isLoaded: true,
-                    dish: values[0][0],
+                    dish: values[0],
                     ingredients: values[1],
                     preparation: values[2],
                     comments: values[3]
                 })
             )
-            .catch( err => 
+            .catch( error => 
                 this.setState({
                     isLoaded: true,
                     error: true
@@ -62,17 +62,27 @@ export default class Detail extends Component
 
 
     loadDishData = (dish_id) => {
-        API.fetchFromDatabase("gerecht", `id == ${ dish_id }`)
-            .then( result =>
-                this.setState({
-                    dish: result[0]
-                }))
-            .catch( error => console.warn(error) );
+        let result = API.fetchFromDatabase("gerecht", dish_id);
+        this.setState({
+            dish: result ? result : false,
+            error: result ? false : true
+        })
     }
 
 
     renderContent() {
-        if (this.state.isLoaded) {
+        if (this.state.error) {
+            return(
+                <Content contentContainerStyle={{ padding: 10 }}>
+                    <View style={{ padding: 15, backgroundColor: style.beige, marginTop: 5 }}>
+                        <Text style={{ fontStyle: "italic" }}>
+                            Fout bij ophalen gegevens
+                        </Text>
+                    </View>
+                </Content>                
+            )
+
+        } else if (this.state.isLoaded) {
             return(
                 <Tabs initialPage={0}
                     renderTabBar={ () => <ScrollableTab />}

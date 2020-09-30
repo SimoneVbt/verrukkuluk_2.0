@@ -19,25 +19,14 @@ export default class Favorites extends Component
         this.loadData();
     }
 
-    _loadData = () => new Promise ( (resolve, reject) => { //was nog geen promise in de API
-        resolve(API.fetchFromDatabase("gerecht", "favoriet == true"));
-    })
     
     loadData = () => {
-        this._loadData()
-            .then( favos => {
-                this.setState({
-                    favorites: favos,
-                    isLoaded: true
-                });
-            })
-            .catch( error => {
-                console.warn(error);
-                this.setState({
-                    error: true,
-                    isLoaded: true
-                })                
-            });
+        let data = API.fetchFromDatabase("gerecht", false, "favoriet == true");
+        this.setState({
+            favorites: data ? data : false,
+            isLoaded: true,
+            error: data ? false : true
+        })
     }
 
 

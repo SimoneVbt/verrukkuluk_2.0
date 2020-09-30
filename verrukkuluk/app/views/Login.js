@@ -24,14 +24,10 @@ export default class Login extends Component
         this.setState({
             isLoading: true
         });
-        let data = {
-            login: this.state.login,
-            wachtwoord: this.state.wachtwoord
-        }
         
-        API.postData({ url: constants.loginUrl, data: data })
+        API.login(constants.loginUrl, this.state.login, this.state.wachtwoord)
             .then( result => {
-
+                
                 if (result.id > 0) {
                     API.fetchData({ url: constants.userUrl, table: "gebruiker", id: result.id })
                         .then( user => Actions.Home() )
@@ -40,6 +36,7 @@ export default class Login extends Component
                 } else {
                     this.setState({ isLoading: false, failure: true });
                 }
+                
             })
             .catch( err => this.setState({ isLoading: false, error: true }) )
     }
