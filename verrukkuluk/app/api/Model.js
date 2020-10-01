@@ -21,7 +21,9 @@ const schema = {
             calorieen: { type: "int", default: 0 },
             totale_prijs: { type: "string", default: "" },
             afbeelding: "string",
+            favoriet_id: { type: "int", default: 0 },
             favoriet: "bool",
+            waardering_id: { type: "int", default: 0 },
             waardering: { type: "int", default: 0 }
         }
     },

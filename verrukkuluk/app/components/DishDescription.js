@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Modal, Alert, Pressable } from 'react-native';
-import { Card, CardItem, Text, Icon, Thumbnail, View, Button, Spinner, Grid, Col, Row } from 'native-base';
+import { Pressable } from 'react-native';
+import { Card, CardItem, Text, Icon, Thumbnail, View, Button, Spinner } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 import * as constants from '../config/constants';
+import RatingMenu from '../components/RatingMenu';
+import Stars from '../components/Stars';
 import API from '../api/API';
 
 
@@ -32,42 +34,28 @@ export default class DishDescription extends Component
     }
 
 
-    renderStars() {
-        let rating = this.props.dish.waardering ? this.props.dish.waardering : this.props.dish.gemiddelde_beoordeling;
-        let ratingStyle = this.props.dish.waardering ? style.ratedStarStyle : style.starStyle;
-
-        return(
-            <View style={{ flexDirection: "row", flex: 2, alignItems: "center" }}>
-                { rating >= 1 ? <Icon name="star-sharp" type="Ionicons" style={ ratingStyle } /> :
-                rating == 0.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ ratingStyle } /> :
-                                <Icon name="star-outline" type="Ionicons" style={ ratingStyle } /> }
-                { rating >= 2 ? <Icon name="star-sharp" type="Ionicons" style={ ratingStyle } /> : 
-                rating == 1.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ ratingStyle } /> :
-                                <Icon name="star-outline" type="Ionicons" style={ ratingStyle } /> }
-                { rating >= 3 ? <Icon name="star-sharp" type="Ionicons" style={ ratingStyle } /> : 
-                rating == 2.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ ratingStyle } /> :
-                                <Icon name="star-outline" type="Ionicons" style={ ratingStyle } /> }
-                { rating >= 4 ? <Icon name="star-sharp" type="Ionicons" style={ ratingStyle } /> : 
-                rating == 3.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ ratingStyle } /> :
-                                <Icon name="star-outline" type="Ionicons" style={ ratingStyle } /> }
-                { rating == 5 ? <Icon name="star-sharp" type="Ionicons" style={ ratingStyle } /> : 
-                rating == 4.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ ratingStyle } /> :
-                                <Icon name="star-outline" type="Ionicons" style={ ratingStyle } /> } 
-            </View>            
-        )
-    }
-
-
     addToList() {
         this.setState({ isLoading: true });
         setTimeout( () => this.setState({ isLoading: false }), 3000 )
     }
 
 
-    _addFavourite() {
+    _handleFavourite(addOrDelete) {
         this.setState({ isLoading: true })
-        API.postData({ url: constants.addInfoUrl, write: true,
-                        data: { record_type: "F", gerecht_id: this.props.dish.id, user: true } })
+
+        let apiData = addOrDelete === "add" ?
+                        { url: constants.addInfoUrl,
+                            type: "post",
+                            data: { record_type: "F", gerecht_id: this.props.dish.id, user: true } } :
+                    addOrDelete === "delete" ?
+                        { url: constants.deleteInfoUrl,
+                            type: "delete",
+                            table: "gerecht",
+                            favo: true,
+                            id: this.props.dish.favoriet_id,
+                            dish_id: this.props.dish.id } : false;
+
+        API.postData(apiData)
             .then( result => {
                 this.props.loadDishData(this.props.dish.id);
                 this.setState({ isLoading: false })
@@ -80,37 +68,18 @@ export default class DishDescription extends Component
     }
 
 
-    _deleteFavourite() {
-        this.setState({ isLoading: true });
-        API.deleteData({ url: constants.deleteFavoUrl,
-                        table: "gerecht",
-                        user: true,
-                        id: this.props.dish.id,
-                        favo: true })
-            .then( result => {
-                this.props.loadDishData(this.props.dish.id);
-                this.setState({ isLoading: false });
-            })
-            .catch( error =>
-                this.setState({ 
-                    isLoading: false,
-                    error: true
-            }));
-    }
-
-
     renderFavouriteButton() {
         if (this.props.dish.favoriet) {
             return(
                 <Button bordered
-                        onPress={ () => this._deleteFavourite() }
+                        onPress={ () => this._handleFavourite("delete") }
                         style={{ height: "80%", marginRight: 5, borderColor: style.darkRed, paddingHorizontal: 1 }}>
                     <Icon name="star" type="FontAwesome" style={{ color: style.darkRed }} />
                 </Button>
             )
         }
         return(
-            <Button onPress={ () => this._addFavourite() }
+            <Button onPress={ () => this._handleFavourite("add") }
                     style={{ backgroundColor: style.darkRed, height: "80%", marginRight: 5 }}>
                 <Icon name="star-o" type="FontAwesome" />
                 <Icon name="add" type="MaterialIcons"
@@ -121,32 +90,18 @@ export default class DishDescription extends Component
     }
 
 
-    setRatingMenuVisible = (visible) => {
-        this.setState({ ratingMenuVisible: visible })
+    setRatingMenuVisible = (bool) => {
+        this.setState({ ratingMenuVisible: bool })
     }
 
 
-    //grid: height wordt 100%
-    //kruisje: in rechterbovenhoek
     renderModal(ratingMenuVisible) {
         return(
-            <Modal visible={ ratingMenuVisible } transparent>
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    <View style={ overlay }>
-                        <View style={{ backgroundColor: style.beige, flexDirection: "row",
-                                        marginTop: 150, padding: 20,
-                                        borderColor: style.darkRed, borderWidth: 2 }}>
-                            <View>
-                                <Text>Heeeeeeeey</Text>
-                            </View>
-                            <Button transparent 
-                                    onPress={ () => this.setRatingMenuVisible(!ratingMenuVisible) }>
-                                <Icon name="cross" type="Entypo" style={{ color: style.darkRed, fontSize: 30 }} />
-                            </Button>
-                        </View>                      
-                    </View>
-                </View>
-            </Modal>
+            <RatingMenu ratingMenuVisible={ ratingMenuVisible }
+                        setRatingMenuVisible={ this.setRatingMenuVisible }
+                        dish={ this.props.dish }
+                        loadDishData={ this.props.loadDishData }
+                        overlay={ overlay } />
         )
     }
 
@@ -164,7 +119,9 @@ export default class DishDescription extends Component
                 <CardItem style={ style.cardItemStyle }>
                     <View style={{ width: "100%", flexDirection: "row" }}>
                         <Pressable style={{ flexDirection: "column" }} onPress={ () => this.setRatingMenuVisible(!ratingMenuVisible) }>
-                            { this.renderStars() }
+                            <View style={{ flex: 2 }}>
+                                <Stars dish={ this.props.dish } type={ this.props.dish.waardering ? "personal" : "average" } />
+                            </View>
                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text style={{ fontSize: 14 }}>
                                     { this.props.dish.calorieen } kcal
@@ -205,7 +162,7 @@ export default class DishDescription extends Component
                     </View>
                 </CardItem>
                 { this.state.error && 
-                     <View style={ overlay }>
+                    <View style={ overlay }>
                         <Text style={{ fontSize: 20, padding: 20, color: style.darkRed, fontWeight: "bold", opacity: 1 }}>
                             Er is iets mis gegaan. Vernieuw de pagina en probeer opnieuw.
                         </Text>

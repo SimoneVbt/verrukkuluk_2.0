@@ -23,22 +23,6 @@ const subtitleStyle = {
     fontWeight: "bold"
 }
 
-const starStyle = {
-    color: darkRed,
-    fontSize: 28,
-    paddingLeft: 2,
-    paddingBottom: 2,
-    margin: -1
-}
-
-const ratedStarStyle = {
-    color: gold,
-    fontSize: 28,
-    paddingLeft: 2,
-    paddingBottom: 2,
-    margin: -1
-}
-
 const messageStyle = {
     backgroundColor: white,
     color: "#000",
@@ -112,7 +96,7 @@ const labelStyle = {
 
 export {
     gold, darkRed, white, beige,
-    HeaderFooter, titleStyle, subtitleStyle, messageStyle, starStyle, ratedStarStyle,
+    HeaderFooter, titleStyle, subtitleStyle, messageStyle,
     tabStyle, tabTextStyle,
     cardStyle, cardItemStyle, tabCardStyle,
     buttonStyle, buttonTextStyle,

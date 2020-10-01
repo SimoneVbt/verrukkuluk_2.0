@@ -62,11 +62,10 @@ export default class Detail extends Component
 
 
     loadDishData = (dish_id) => {
-        let result = API.fetchFromDatabase("gerecht", dish_id);
-        this.setState({
-            dish: result ? result : false,
-            error: result ? false : true
-        })
+        API.fetchData({ url: constants.dishUrl, table: "gerecht", id: dish_id, userInUrl: true })
+            .then( result => this.setState({ dish: result }) )
+            .catch( error => this.setState({ error: true }) )
+
     }
 
 

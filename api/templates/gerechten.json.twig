@@ -14,8 +14,10 @@
         "gemiddelde_beoordeling": {{ dish.gemiddeldeBeoordeling }},
         "calorieen": {{ dish.calorieen|number_format(0) }},
         "totale_prijs": "{{ dish.totalePrijs|number_format(2, ',', '.') }}",
+        "favoriet_id": {{ dish.favoriet  ? dish.favoriet.id : "0" }},
         "favoriet": {{ dish.favoriet  ? "true" : "false" }},
-        "waardering": {{ dish.waardering ? dish.waardering : "0" }}
+        "waardering_id": {{ dish.waardering  ? dish.waardering.id : "0" }},
+        "waardering": {{ dish.waardering ? dish.waardering.nummeriekveld : "0" }}
     {{ dish == dishes|last ? "}" : "}," }}
     {% endfor %}
 ]

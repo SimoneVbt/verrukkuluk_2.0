@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 19
+    schemaVersion: 21
 });
 
 
@@ -18,35 +18,16 @@ export default class API
 
         let url = obj.url;
 
+        let url2 = obj.id                   ?   url + obj.id    : url;
+        let url3 = obj.id && obj.userInUrl  ?   url2 + "/"      : url2;
+        let finalUrl = url3;
+
         if (obj.userInUrl) {
             let user = this.fetchFromDatabase("gebruiker", 1);
-            url = url + user.id;
+            finalUrl = url3 + user.id;
         }
 
-        if (obj.userInUrl && obj.id) {
-            url = url + "/";
-        }
-
-        if (obj.id) {
-            url = url + obj.id
-        }
-
-        return url;
-    }
-
-
-    static clearDatabase() {
-        try {
-            realm.beginTransaction();
-            realm.deleteAll();
-            realm.commitTransaction();
-        }
-        catch {
-            return false;
-        }
-        finally {
-            return true;
-        }
+        return finalUrl;
     }
 
 
@@ -101,6 +82,40 @@ export default class API
     })
 
 
+    //object: minstens url en data (post) of id (delete) en table (delete)
+    static postData = (obj) => new Promise( (resolve, reject) => {
+
+        let url = this.constructUrl(obj);
+        const body = new FormData();
+
+        if (obj.type === "post") {
+            for (let item in obj.data) {
+                body.append(item, obj.data[item]);
+            }
+            
+            if (obj.data.user) {
+                let user = this.fetchFromDatabase("gebruiker", 1);
+                body.append("gebruiker_id", user.id);
+            }
+        }
+
+        let apiObj = obj.type === "post" ? { method: 'post', body } : { method: 'delete' };
+        
+        fetch(url, apiObj)
+            .then( result => {
+
+                obj.type === "post" ? this.writeData(obj):
+                obj.type === "delete" ? this.deleteDataFromDatabase(obj) : false;
+
+                resolve(result)
+            })
+            .catch( error => {
+                console.warn(error)
+                reject(error) 
+            } )
+    })
+    
+
     static writeData(obj) {
 
         if (obj.data.record_type === "F") {
@@ -110,54 +125,12 @@ export default class API
             })
         }
     }
-
-
-    //object: minstens url en data
-    static postData = (obj) => new Promise( (resolve, reject) => {
-
-        let url = this.constructUrl(obj);
-        const body = new FormData();
-        
-        for (let item in obj.data) {
-            body.append(item, obj.data[item]);
-        }
-        
-        if (obj.data.user) {
-            let user = this.fetchFromDatabase("gebruiker", 1);
-            body.append("gebruiker_id", user.id);
-        }
-        
-        fetch(url, { method: 'POST', body })
-            .then( result => {
-                
-                if (obj.write) {
-                    this.writeData(obj);
-                }
-                resolve(result)
-            })
-            .catch( error => {
-                console.warn("error")
-                reject(error) 
-            } )
-    })
-
-
-    static login = (url, login, password) => new Promise( (resolve, reject) => {
-        const body = new FormData();
-        body.append("login", login);
-        body.append("wachtwoord", password);
-
-        fetch(url, { method: 'POST', body })
-        .then( result => result.json() )
-        .then( result => resolve(result) )
-        .catch( error => reject(error) )
-    })
-
+    
 
     static deleteDataFromDatabase(obj) {
 
         if (obj.favo || obj.rating) {
-            let record = realm.objectForPrimaryKey(obj.table, obj.id);
+            let record = realm.objectForPrimaryKey(obj.table, obj.dish_id);
 
             if (obj.favo) {
                 realm.write(() => {
@@ -178,19 +151,29 @@ export default class API
     }
 
 
-    //object: minstens url, table en id
-    static deleteData = (obj) => new Promise( (resolve, reject) => {
+    static login = (url, login, password) => new Promise( (resolve, reject) => {
+        const body = new FormData();
+        body.append("login", login);
+        body.append("wachtwoord", password);
 
-        let url = this.constructUrl(obj);
-
-            fetch(url, { method: 'DELETE' })
-                .then ( result => {
-
-                    this.deleteDataFromDatabase(obj);
-                    resolve(result);
-
-                })
-                .catch( error => reject(error))  
-
+        fetch(url, { method: 'POST', body })
+        .then( result => result.json() )
+        .then( result => resolve(result) )
+        .catch( error => reject(error) )
     })
+
+
+    static clearDatabase() {
+        try {
+            realm.beginTransaction();
+            realm.deleteAll();
+            realm.commitTransaction();
+        }
+        catch {
+            return false;
+        }
+        finally {
+            return true;
+        }
+    }
 }

@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { CardItem, Text, Button, Icon, Thumbnail, Grid, Col, Row } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import * as style from '../resources/styles/styles.js';
+import Stars from '../components/Stars';
 
 const buttonStyle = {
     borderColor: style.darkRed,
@@ -22,25 +23,10 @@ const rowStyle = {
 export default class Favorite extends Component
 {
     renderStars() {
-        const rating = this.props.dish.waardering;
-        if (rating > 0) {
+        if (this.props.dish.waardering > 0) {
             return(
                 <Row>
-                    { rating >= 1 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
-                    rating == 0.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> }
-                    { rating >= 2 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> : 
-                    rating == 1.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> }
-                    { rating >= 3 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> : 
-                    rating == 2.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> }
-                    { rating >= 4 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> : 
-                    rating == 3.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> }
-                    { rating == 5 ? <Icon name="star-sharp" type="Ionicons" style={ style.ratedStarStyle } /> : 
-                    rating == 4.5 ? <Icon name="star-half-sharp" type="Ionicons" style={ style.ratedStarStyle } /> :
-                                    <Icon name="star-outline" type="Ionicons" style={ style.ratedStarStyle } /> } 
+                    <Stars dish={ this.props.dish } type="personal" />
                 </Row>
             )
         }
@@ -61,7 +47,7 @@ export default class Favorite extends Component
             [
                 {
                     text: 'ja',
-                    onPress: () => this.props.handleDelete(this.props.dish.id)
+                    onPress: () => this.props.handleDelete(this.props.dish.id, this.props.dish.favoriet_id)
                 },
                 {
                     text: 'nee',

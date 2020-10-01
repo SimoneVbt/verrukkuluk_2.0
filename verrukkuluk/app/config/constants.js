@@ -10,18 +10,19 @@ const userPhotoUrl = `http://${ ip }/verrukkuluk_2.0/api/public/gebruikers/`;
 const loginUrl = baseUrl + "/gebruiker/login";
 const userUrl = baseUrl + "/gebruiker/get/";
 
+const dishUrl = baseUrl + "/gerecht/get/";
 const allDishesUrl = baseUrl + "/gerecht/get_all/";
 const ingrUrl = baseUrl + "/ingredient/get/";
 
 const addInfoUrl = baseUrl + "/gerechtinfo/create";
+const deleteInfoUrl = baseUrl + "/gerechtinfo/delete/";
 const prepUrl = baseUrl + "/gerechtinfo/get/B/";
 const commUrl = baseUrl + "/gerechtinfo/get/O/";
-const deleteFavoUrl = baseUrl + "/gerechtinfo/delete/F/"
 
 
 export {
     baseUrl,userPhotoUrl, 
     loginUrl, userUrl,
-    allDishesUrl, ingrUrl,
-    addInfoUrl, prepUrl, commUrl, deleteFavoUrl
+    dishUrl, allDishesUrl, ingrUrl,
+    addInfoUrl, deleteInfoUrl, prepUrl, commUrl
 };
