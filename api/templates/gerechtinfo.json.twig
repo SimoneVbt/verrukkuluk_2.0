@@ -4,10 +4,11 @@
         "id": {{ info.id }},
         "record_type": "{{ info.recordType }}",
         "gerecht_id": {{ info.gerechtId }},
-        "gebruiker_id": {% if info.gebruikerId != 0 %}{{ info.gebruikerId }}{% else %}null{% endif %},
-        "gebruikersnaam": {% if info.gebruikersnaam is defined %}"{{ info.gebruikersnaam }}"{% else %}null{% endif %},
-        "foto": {% if info.foto is defined %}"{{ info.foto }}"{% else %}null{% endif %},
-        "datum_huidig": "{{ info.datumHuidig|date('Y-m-d') }}",
+        "gebruiker_id": {{ info.gebruikerId != 0 ? info.gebruikerId : "null" }},
+        "gebruikersnaam": {{ info.gebruikersnaam is defined ? "info.gebruikersnaam" : "null" }},
+        "foto": {{ info.foto is defined ? "info.foto" : "null" }},
+        "datum": "{{ info.datum|date('Y-m-d') }}", {# undefined variable #}
+        "datum_bewerkt": {{ info.datumBewerkt ? "info.datumBewerkt|date('Y-m-d')" : "null" }},
         "nummeriekveld": {{ info.nummeriekveld }},
         "tekstveld": "{{ info.tekstveld|e('js')|raw }}"
     {{ info == gerechtinfo|last ? "}" : "}," }}

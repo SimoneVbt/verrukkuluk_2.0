@@ -7,13 +7,14 @@ import * as style from '../resources/styles/styles.js';
 export default class DishPreparation extends Component
 {
     renderPrepStep(step, index) {
+        let text = step.tekstveld.replace(/\\n/g,'\n');
         return(
             <ListItem style={{ flexDirection: "column", marginLeft: 5 }}>
                 <Text style={{ color: style.darkRed, fontWeight: "bold", fontSize: 18 }}>
                     - { index + 1 } -
                 </Text>
                 <Text style={{ textAlign: "center" }}>
-                    { step.tekstveld }
+                    { text }
                 </Text>
             </ListItem>
         )

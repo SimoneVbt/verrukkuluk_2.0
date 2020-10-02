@@ -21,7 +21,7 @@ class GerechtinfoService
     
     public function createGerechtinfo($params)
     {
-        $params["datum_huidig"] = new \DateTime(date_default_timezone_get());
+        $params["datum"] = new \DateTime(date_default_timezone_get());
         return $this->rep->createGerechtinfo($params);
     }
 

@@ -34,9 +34,11 @@ const schema = {
         properties: {
             id: { type: "int", indexed: true },
             record_type: "string",
+            gebruiker_id: "int?",
             gebruikersnaam: "string?",
             foto: "string?",
-            datum_huidig: "date",
+            datum: "date",
+            datum_bewerkt: "date",
             nummeriekveld: "int?",
             tekstveld: "string?"
         }

@@ -35,7 +35,7 @@ class Gerechtinfo
     /**
      * @ORM\Column(type="date")
      */
-    private $datum_huidig;
+    private $datum;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -46,6 +46,11 @@ class Gerechtinfo
      * @ORM\Column(type="string", length=1000, nullable=true)
      */
     private $tekstveld;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datum_bewerkt;
 
     public function getId(): ?int
     {
@@ -88,14 +93,14 @@ class Gerechtinfo
         return $this;
     }
 
-    public function getDatumHuidig(): ?\DateTimeInterface
+    public function getDatum(): ?\DateTimeInterface
     {
-        return $this->datum_huidig;
+        return $this->$datum;
     }
 
-    public function setDatumHuidig(\DateTimeInterface $datum_huidig): self
+    public function setDatum(\DateTimeInterface $datum): self
     {
-        $this->datum_huidig = $datum_huidig;
+        $this->datum = $datum;
 
         return $this;
     }
@@ -120,6 +125,18 @@ class Gerechtinfo
     public function setTekstveld(?string $tekstveld): self
     {
         $this->tekstveld = $tekstveld;
+
+        return $this;
+    }
+
+    public function getDatumBewerkt(): ?\DateTimeInterface
+    {
+        return $this->datum_bewerkt;
+    }
+
+    public function setDatumBewerkt(?\DateTimeInterface $datum_bewerkt): self
+    {
+        $this->datum_bewerkt = $datum_bewerkt;
 
         return $this;
     }

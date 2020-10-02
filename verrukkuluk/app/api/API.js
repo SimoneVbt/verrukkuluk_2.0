@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 21
+    schemaVersion: 23
 });
 
 
@@ -52,7 +52,7 @@ export default class API
         let url = this.constructUrl(obj);
 
         const tm = setTimeout( () => {
-            resolve(API.fetchFromDatabase(obj.table, false, obj.filter=false));
+            resolve(API.fetchFromDatabase(obj.table, obj.id=false, obj.filter=false));
         }, timeout);
 
         fetch(url)

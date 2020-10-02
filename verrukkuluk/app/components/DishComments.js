@@ -1,32 +1,67 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Card, CardItem, Text, ListItem, Thumbnail, Left, Right, View, Icon } from 'native-base';
+import { Card, CardItem, Text, ListItem, Thumbnail, Left, Body, Right, View, Icon, Button } from 'native-base';
 import * as style from '../resources/styles/styles.js';
+import API from '../api/API';
 
 export default class DishComments extends Component
 {
+    state = {
+        user: {}
+    }
+
+
+    componentDidMount() {
+        let user = API.fetchFromDatabase("gebruiker", 1);
+        this.setState({
+            user: user
+        })
+    }
+
+
+    editComment() {
+        console.warn("edit");
+    }
+
+
     renderEditButton(comm) {
-        if (comm.gebruiker_id === //user_id --> afmaken hier )
-        return(
-            <Icon name="edit" type="MaterialIcons" style={{ alignSelf: "flex-end" }} />
-        )
+        if (comm.gebruiker_id === this.state.user.id ) {
+            return(
+                <Button iconRight transparent
+                        style={{ alignSelf: "flex-end", marginRight: -20 }}
+                        onPress={ () => this.editComment }>
+                    <Icon name="edit" type="Entypo" style={{ color: style.darkRed }} />
+                </Button>
+            )
+        }
     }
 
 
     renderItem(comm) {
+        let date = comm.datum;
+        let day = date.slice(8, 10);
+        let month = date.slice(5, 7);
+        let year = date.slice(0, 4);
+        let formattedDate = `${day}-${month}-${year}`;
+        
         return(
             <ListItem style={{ marginLeft: 5 }}>
-                <Left style={{ flex: 1, flexDirection: "column", alignItems: "center" }}>
-                    <Thumbnail source={{ uri: comm.foto }} />
+                <Left style={{ flex: 3, flexDirection: "column", alignItems: "center" }}>
                     <Text style={{ color: style.darkRed, fontSize: 10 }} numberOfLines={1}>
                         { comm.gebruikersnaam }
                     </Text>
+                    <Thumbnail source={{ uri: comm.foto }} />
+                    <Text style={{ fontSize: 10, color: style.darkRed }}>
+                        { formattedDate }
+                    </Text>
                 </Left>
-                <Right style={{ flex: 4, flexDirection: "column", alignItems: "flex-start", marginLeft: 20, marginRight: -10 }}>
-                    {/* { this.renderEditButton(comm) } */}
+                <Body style={{ flex: 10, flexDirection: "column", marginLeft: 20, marginRight: -10 }}>
                     <Text>
                         { comm.tekstveld }
                     </Text>
+                </Body>
+                <Right style ={{ flex: 1 }}>
+                    { this.renderEditButton(comm) }
                 </Right>
             </ListItem>
         )
@@ -37,7 +72,7 @@ export default class DishComments extends Component
             return(
                 <FlatList
                     data={ this.props.comments }
-                    keyExtractor={ comm => comm.id.toString() }
+                    keyExtractor={ comm => comm.id }
                     renderItem={ ({item}) => this.renderItem(item) }
                     style={{ marginBottom: 20 }}
                     />
