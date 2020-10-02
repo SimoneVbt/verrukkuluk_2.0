@@ -28,7 +28,7 @@ export default class RatingMenu extends Component
             data.id = this.props.dish.waardering_id
         }
 
-        API.postData({ url: constants.addInfoUrl, type: "post", data: data, rating: true })
+        API.postData({ url: constants.addInfoUrl, type: "post", data: data, noDelete: true })
             .then(result => {
                 this.setState({ isLoading: false });
                 this.props.loadDishData(this.props.dish.id);

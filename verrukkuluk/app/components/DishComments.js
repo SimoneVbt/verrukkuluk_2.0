@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Card, CardItem, Text, ListItem, Thumbnail, Left, Right, View } from 'native-base';
+import { Card, CardItem, Text, ListItem, Thumbnail, Left, Right, View, Icon } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 
 export default class DishComments extends Component
 {
+    renderEditButton(comm) {
+        if (comm.gebruiker_id === //user_id --> afmaken hier )
+        return(
+            <Icon name="edit" type="MaterialIcons" style={{ alignSelf: "flex-end" }} />
+        )
+    }
+
+
     renderItem(comm) {
         return(
             <ListItem style={{ marginLeft: 5 }}>
@@ -15,9 +23,10 @@ export default class DishComments extends Component
                     </Text>
                 </Left>
                 <Right style={{ flex: 4, flexDirection: "column", alignItems: "flex-start", marginLeft: 20, marginRight: -10 }}>
+                    {/* { this.renderEditButton(comm) } */}
                     <Text>
                         { comm.tekstveld }
-                    </Text>                    
+                    </Text>
                 </Right>
             </ListItem>
         )
@@ -31,7 +40,7 @@ export default class DishComments extends Component
                     keyExtractor={ comm => comm.id.toString() }
                     renderItem={ ({item}) => this.renderItem(item) }
                     style={{ marginBottom: 20 }}
-                    />     
+                    />
             )
         } 
         return(

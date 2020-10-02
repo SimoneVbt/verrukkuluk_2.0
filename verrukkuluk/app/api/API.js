@@ -129,24 +129,17 @@ export default class API
 
     static deleteDataFromDatabase(obj) {
 
-        if (obj.favo || obj.rating) {
-            let record = realm.objectForPrimaryKey(obj.table, obj.dish_id);
-
-            if (obj.favo) {
-                realm.write(() => {
-                    record.favoriet = false;
-                })
-            }
-            if (obj.rating) { //voorlopige versie, nog niet gebruikt
-                realm.write(() => {
-                    record.waardering = obj.rating;
-                })                
-            }
-            
-        } else {
+        if (!obj.noDelete) {
             realm.write(() => {
                 realm.delete(record);
             }) 
+        }
+        if (obj.favo) {
+            let record = realm.objectForPrimaryKey(obj.table, obj.dish_id);
+            realm.write(() => {
+                record.favoriet = false;
+                record.favoriet_id = 0;
+            })
         }
     }
 

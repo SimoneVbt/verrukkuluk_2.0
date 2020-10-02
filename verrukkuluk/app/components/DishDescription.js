@@ -51,9 +51,8 @@ export default class DishDescription extends Component
                         { url: constants.deleteInfoUrl,
                             type: "delete",
                             table: "gerecht",
-                            favo: true,
-                            id: this.props.dish.favoriet_id,
-                            dish_id: this.props.dish.id } : false;
+                            noDelete: true,
+                            id: this.props.dish.favoriet_id } : false;
 
         API.postData(apiData)
             .then( result => {
@@ -170,7 +169,7 @@ export default class DishDescription extends Component
                 }
                 { this.state.isLoading && 
                     <View style={ overlay }>
-                        <Spinner color={ style.darkRed } style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }} />
+                        <Spinner color={ style.darkRed } size={80} />
                     </View>
                 }
             </Card>

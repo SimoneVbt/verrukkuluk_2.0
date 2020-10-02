@@ -31,10 +31,10 @@ export default class Favorites extends Component
 
 
     handleDelete = (dish_id, info_id) => {
-
         API.postData({ url: constants.deleteInfoUrl,
                         table: "gerecht",
                         type: "delete",
+                        noDelete: true,
                         favo: true,
                         id: info_id,
                         dish_id: dish_id })

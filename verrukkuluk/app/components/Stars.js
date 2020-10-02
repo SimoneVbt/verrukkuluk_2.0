@@ -10,8 +10,20 @@ export default class Stars extends Component
     }
     
     componentDidMount() {
+        this.setRating();
+    }
+
+
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) {
+            this.setRating();
+        }
+    }
+
+
+    setRating() {
         let rating = this.props.type === "average" ? this.props.dish.gemiddelde_beoordeling : this.props.dish.waardering;
-        this.setState({ rating: rating });
+        this.setState({ rating: rating });          
     }
 
 
