@@ -35,7 +35,7 @@ class Gerechtinfo
     /**
      * @ORM\Column(type="date")
      */
-    private $datum;
+    private $datum_huidig;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -93,14 +93,14 @@ class Gerechtinfo
         return $this;
     }
 
-    public function getDatum(): ?\DateTimeInterface
+    public function getDatumHuidig(): ?\DateTimeInterface
     {
-        return $this->$datum;
+        return $this->datum_huidig;
     }
 
-    public function setDatum(\DateTimeInterface $datum): self
+    public function setDatumHuidig(\DateTimeInterface $datum_huidig): self
     {
-        $this->datum = $datum;
+        $this->datum_huidig = $datum_huidig;
 
         return $this;
     }

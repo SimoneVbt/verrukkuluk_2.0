@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 23
+    schemaVersion: 24
 });
 
 
@@ -62,9 +62,11 @@ export default class API
 
                 if (Array.isArray(data)) {
                     data.forEach( item => {
+
                         realm.write(() => {
                             realm.create(obj.table, item, true);
                         });
+
                     });
 
                 } else {
@@ -93,7 +95,7 @@ export default class API
                 body.append(item, obj.data[item]);
             }
             
-            if (obj.data.user) {
+            if (obj.user) {
                 let user = this.fetchFromDatabase("gebruiker", 1);
                 body.append("gebruiker_id", user.id);
             }
@@ -123,6 +125,11 @@ export default class API
             realm.write(() => {
                 dish.favoriet = true;
             })
+
+        } else if (obj.data.record_type === "O") { //nog niet: bewerken!
+            realm.write(() => {
+                realm.create("gerechtinfo", obj.data, true);
+            })
         }
     }
     
@@ -130,11 +137,12 @@ export default class API
     static deleteDataFromDatabase(obj) {
 
         if (!obj.noDelete) {
+            let record = realm.objectForPrimaryKey(obj.table, obj.id);
             realm.write(() => {
                 realm.delete(record);
-            }) 
-        }
-        if (obj.favo) {
+            })
+
+        } else if (obj.favo) {
             let record = realm.objectForPrimaryKey(obj.table, obj.dish_id);
             realm.write(() => {
                 record.favoriet = false;

@@ -20,7 +20,6 @@ export default class RatingMenu extends Component
         let data = {
             record_type: "W",
             gerecht_id: this.props.dish.id,
-            user: true,
             nummeriekveld: rating
         }
 
@@ -28,11 +27,14 @@ export default class RatingMenu extends Component
             data.id = this.props.dish.waardering_id
         }
 
-        API.postData({ url: constants.addInfoUrl, type: "post", data: data, noDelete: true })
+        API.postData({ url: constants.addInfoUrl,
+                        type: "post",
+                        data: data,
+                        user: true,
+                        noDelete: true })
             .then(result => {
                 this.setState({ isLoading: false });
                 this.props.loadDishData(this.props.dish.id);
-                //deze twee callback maakt de sterren in description goud, maar zonder goede data
             })
             .catch(error => 
                 { console.warn(error)

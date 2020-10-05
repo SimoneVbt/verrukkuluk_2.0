@@ -46,7 +46,9 @@ export default class DishDescription extends Component
         let apiData = addOrDelete === "add" ?
                         { url: constants.addInfoUrl,
                             type: "post",
-                            data: { record_type: "F", gerecht_id: this.props.dish.id, user: true } } :
+                            user: true,
+                            data: { record_type: "F",
+                                    gerecht_id: this.props.dish.id } } :
                     addOrDelete === "delete" ?
                         { url: constants.deleteInfoUrl,
                             type: "delete",

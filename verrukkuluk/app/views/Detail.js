@@ -69,6 +69,13 @@ export default class Detail extends Component
     }
 
 
+    loadCommentData = (dish_id) => {
+        API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id })
+            .then( result => this.setState({ comments: result }) )
+            .catch( error => this.setState({ error: true }) );
+    }
+
+
     renderContent() {
         if (this.state.error) {
             return(
@@ -114,7 +121,7 @@ export default class Detail extends Component
                         tabStyle={ style.tabStyle } activeTabStyle={ style.tabStyle }
                         textStyle={ style.tabTextStyle } activeTextStyle={ style.tabTextStyle }>
                         <View style={ viewStyle }>
-                            <DishComments comments={ this.state.comments } />
+                            <DishComments comments={ this.state.comments } dish_id={ this.state.dish.id } loadCommentData={ this.loadCommentData } />
                         </View>
                     </Tab>
                 </Tabs>                

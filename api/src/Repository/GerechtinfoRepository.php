@@ -23,7 +23,7 @@ class GerechtinfoRepository extends ServiceEntityRepository
 
         } else {
             $info = new Gerechtinfo();
-            $info->setDatum($params["datum"]);
+            $info->setDatumHuidig($params["datum"]);
             $info->setRecordType($params["record_type"]);
             $info->setGerechtId($params["gerecht_id"]);
                 

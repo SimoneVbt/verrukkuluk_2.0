@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Card, CardItem, Text, ListItem, Thumbnail, Left, Body, Right, View, Icon, Button } from 'native-base';
+import { 
+    Card, CardItem, Text, View, Spinner,
+    } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 import API from '../api/API';
+import NewComment from '../components/NewComment';
+import Comment from '../components/Comment';
 
 export default class DishComments extends Component
 {
     state = {
-        user: {}
+        user: {},
+        isLoading: false,
+        error: false
     }
 
 
@@ -19,62 +25,15 @@ export default class DishComments extends Component
     }
 
 
-    editComment() {
-        console.warn("edit");
-    }
-
-
-    renderEditButton(comm) {
-        if (comm.gebruiker_id === this.state.user.id ) {
-            return(
-                <Button iconRight transparent
-                        style={{ alignSelf: "flex-end", marginRight: -20 }}
-                        onPress={ () => this.editComment }>
-                    <Icon name="edit" type="Entypo" style={{ color: style.darkRed }} />
-                </Button>
-            )
-        }
-    }
-
-
-    renderItem(comm) {
-        let date = comm.datum;
-        let day = date.slice(8, 10);
-        let month = date.slice(5, 7);
-        let year = date.slice(0, 4);
-        let formattedDate = `${day}-${month}-${year}`;
-        
-        return(
-            <ListItem style={{ marginLeft: 5 }}>
-                <Left style={{ flex: 3, flexDirection: "column", alignItems: "center" }}>
-                    <Text style={{ color: style.darkRed, fontSize: 10 }} numberOfLines={1}>
-                        { comm.gebruikersnaam }
-                    </Text>
-                    <Thumbnail source={{ uri: comm.foto }} />
-                    <Text style={{ fontSize: 10, color: style.darkRed }}>
-                        { formattedDate }
-                    </Text>
-                </Left>
-                <Body style={{ flex: 10, flexDirection: "column", marginLeft: 20, marginRight: -10 }}>
-                    <Text>
-                        { comm.tekstveld }
-                    </Text>
-                </Body>
-                <Right style ={{ flex: 1 }}>
-                    { this.renderEditButton(comm) }
-                </Right>
-            </ListItem>
-        )
-    }
-
+    //probleem: door margin reageert onderkant flatlist niet op touch
     renderList() {
         if (this.props.comments.length > 0) {
             return(
                 <FlatList
                     data={ this.props.comments }
-                    keyExtractor={ comm => comm.id }
-                    renderItem={ ({item}) => this.renderItem(item) }
-                    style={{ marginBottom: 20 }}
+                    keyExtractor={ comm => comm.id.toString() }
+                    renderItem={ ({item}) => <Comment comment={ item } user_id={ this.state.user.id } /> }
+                    style={{ marginBottom: 10 }}
                     />
             )
         } 
@@ -88,12 +47,22 @@ export default class DishComments extends Component
         
     }
 
+
     render() {
+        const cardStyle = {
+            backgroundColor: style.beige,
+            paddingTop: 5,
+            paddingBottom: 5,
+            marginBottom: 240,
+            flexDirection: "column"
+        }
+
         return(
-            <Card style={ style.tabCardStyle }>
+            <Card style={ cardStyle }>
                 <CardItem style={ style.cardItemStyle }>
                     <Text style={ style.titleStyle }>Opmerkingen</Text>
                 </CardItem>
+                <NewComment dish_id={ this.props.dish_id } loadCommentData={ this.props.loadCommentData } />
                 <CardItem style={ style.cardItemStyle }>
                     { this.renderList() }        
                 </CardItem>

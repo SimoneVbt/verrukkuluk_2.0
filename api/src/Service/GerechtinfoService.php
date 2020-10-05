@@ -29,13 +29,15 @@ class GerechtinfoService
     public function getGerechtInfo($dish_id, $record_type)
     {
         $info = $this->rep->getGerechtinfo($dish_id, $record_type);
-        foreach ($info as $inf) {
-            if ($inf->getRecordType() === "O") {
+
+        if ($record_type === "O") {
+            foreach ($info as $inf) {
                 $user = $this->gs->getGebruiker($inf->getGebruikerId());
                 $inf->gebruikersnaam = $user->getUsername();
                 $inf->foto = $user->foto;
             }
         }
+        
         return $info;
     }
 

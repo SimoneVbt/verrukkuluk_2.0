@@ -38,7 +38,7 @@ const schema = {
             gebruikersnaam: "string?",
             foto: "string?",
             datum: "date",
-            datum_bewerkt: "date",
+            datum_bewerkt: "date?",
             nummeriekveld: "int?",
             tekstveld: "string?"
         }

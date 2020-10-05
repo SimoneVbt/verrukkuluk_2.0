@@ -5,12 +5,14 @@
         "record_type": "{{ info.recordType }}",
         "gerecht_id": {{ info.gerechtId }},
         "gebruiker_id": {{ info.gebruikerId != 0 ? info.gebruikerId : "null" }},
-        "gebruikersnaam": {{ info.gebruikersnaam is defined ? "info.gebruikersnaam" : "null" }},
-        "foto": {{ info.foto is defined ? "info.foto" : "null" }},
-        "datum": "{{ info.datum|date('Y-m-d') }}", {# undefined variable #}
-        "datum_bewerkt": {{ info.datumBewerkt ? "info.datumBewerkt|date('Y-m-d')" : "null" }},
-        "nummeriekveld": {{ info.nummeriekveld }},
-        "tekstveld": "{{ info.tekstveld|e('js')|raw }}"
+        "gebruikersnaam": "{{ info.gebruikersnaam is defined ? info.gebruikersnaam : null }}",
+        "foto": "{{ info.foto is defined ? info.foto : null }}",
+        "datum": "{{ info.datumHuidig|date('Y-m-d') }}",
+        {% if info.datumBewerkt %}
+        "datum_bewerkt": "{{info.datumBewerkt|date('Y-m-d')}}",
+        {% endif %}
+        "nummeriekveld": {{ info.nummeriekveld ? info.nummeriekveld: "0" }},
+        "tekstveld": "{{ info.tekstveld ? info.tekstveld|e('js')|raw : null }}"
     {{ info == gerechtinfo|last ? "}" : "}," }}
 {% endfor %}
 ]

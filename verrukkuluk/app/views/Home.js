@@ -17,7 +17,7 @@ export default class Home extends Component
     }
 
 
-    //firet niet na login
+    //firet niet na login (onFocus, want nog mounted?)
     componentDidMount() {
         API.fetchData({ url: constants.allDishesUrl, table: "gerecht", userInUrl: true })
             .then( data => {
