@@ -31,7 +31,17 @@ class ArtikelService
 
     public function getAllArtikelen()
     {
-        return $this->getAllArtikelen();
+        $articles = $this->getAllArtikelen();
+
+        // $ip = "192.168.0.109";
+        // $ip = "192.168.1.244";
+        $ip = "192.168.11.112";
+        
+        foreach ($articles as $article) {
+            $article->afbeelding = "http://".$ip."/verrukkuluk_2.0/api/public/artikelen/artikel".$article->getId().".jpg";
+        }
+
+        return $articles;
     }
 
 

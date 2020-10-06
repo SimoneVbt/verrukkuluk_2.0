@@ -4,6 +4,7 @@
         "id": {{ bs.id }},
         "artikel_id": {{ bs.artikelId }},
         "product": "{{ bs.product|e('js')|raw }}",
+        "afbeelding": "{{ bs.afbeelding }}",
         "eenheid": "{{ bs.eenheid }}",
         "verpakking": {{ bs.verpakking }},
         "prijs": {{ bs.prijs|number_format(2) }},

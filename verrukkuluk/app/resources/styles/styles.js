@@ -51,6 +51,12 @@ const cardStyle = {
     paddingBottom: 15
 }
 
+const backgroundCardStyle = {
+    backgroundColor: beige,
+    paddingTop: 5,
+    marginBottom: 20
+}
+
 const cardItemStyle = {
     backgroundColor: beige,
     paddingTop: 10,
@@ -98,7 +104,7 @@ export {
     gold, darkRed, white, beige,
     HeaderFooter, titleStyle, subtitleStyle, messageStyle,
     tabStyle, tabTextStyle,
-    cardStyle, cardItemStyle, tabCardStyle,
+    cardStyle, backgroundCardStyle, cardItemStyle, tabCardStyle,
     buttonStyle, buttonTextStyle,
     itemStyle, inputStyle, labelStyle
 }

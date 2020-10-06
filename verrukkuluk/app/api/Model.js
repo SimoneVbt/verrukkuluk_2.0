@@ -84,6 +84,7 @@ const schema = {
             id: { type: "int", indexed: true },
             artikel_id: "int",
             product: "string",
+            afbeelding: "string?",
             eenheid: "string",
             verpakking: "int",
             prijs: "float",

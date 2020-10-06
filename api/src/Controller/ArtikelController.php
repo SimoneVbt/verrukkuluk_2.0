@@ -41,6 +41,7 @@ class ArtikelController extends AbstractController
      */
     public function getAllArtikelen()
     {
+        //probleem: te veel artikelen
         $articles = $this->as->getAllArtikelen();
         $json = $this->renderView('artikelen.json.twig', ["articles" => $articles]);
         $response = new Response($json);

@@ -13,6 +13,7 @@ const userUrl = baseUrl + "/gebruiker/get/";
 const dishUrl = baseUrl + "/gerecht/get/";
 const allDishesUrl = baseUrl + "/gerecht/get_all/";
 const ingrUrl = baseUrl + "/ingredient/get/";
+const listUrl = baseUrl + "/boodschappen/get/";
 
 const addInfoUrl = baseUrl + "/gerechtinfo/create";
 const deleteInfoUrl = baseUrl + "/gerechtinfo/delete/";
@@ -23,6 +24,6 @@ const commUrl = baseUrl + "/gerechtinfo/get/O/";
 export {
     baseUrl,userPhotoUrl, 
     loginUrl, userUrl,
-    dishUrl, allDishesUrl, ingrUrl,
+    dishUrl, allDishesUrl, ingrUrl, listUrl,
     addInfoUrl, deleteInfoUrl, prepUrl, commUrl
 };

@@ -46,28 +46,30 @@ export default class Favorites extends Component
     renderContent() {
         if (this.state.isLoaded && this.state.favorites.length > 0 && Array.isArray(this.state.favorites)) {
             return(
-                <View style={{ paddingBottom: 18, paddingTop: 5 }}>
-                    {
-                        this.state.favorites.map( dish => {
-
-                            return( <Favorite key={ dish.id } dish={ dish } handleDelete={ this.handleDelete } /> )
-                            
-                        })
-                    }
+                <View style={{ margin: 10 }}>
+                    { this.state.favorites.map( dish => { 
+                        return <Favorite key={ dish.id } dish={ dish } handleDelete={ this.handleDelete } />
+                    }) }
                 </View>
             )
         } else if (this.state.isLoaded && this.state.favorites.length == 0) {
             return(
-                <View style={{ padding: 15, marginTop: 5 }}>
-                    <Text style={{ fontStyle: "italic" }}>
+                <CardItem style={ style.cardItemStyle }>
+                    <Text style={{ fontStyle: "italic", marginBottom: 20 }}>
                         Geen favorieten om weer te geven. Voeg favorieten toe via de detailpagina's van de gerechten.
                     </Text>
-                </View>
+                </CardItem>
             )
-        } else if (this.state.isLoaded) {
-            return( <View style={{ padding: 15, marginTop: 5 }}><Text>Er is iets mis gegaan. Start de app opnieuw op.</Text></View> )
+        } else if (this.state.error) {
+            return(
+                <CardItem style={ style.cardItemStyle }>
+                    <Text style={{ marginBottom: 20 }}>
+                        Er is iets mis gegaan. Probeer later opnieuw.
+                    </Text>
+                </CardItem>
+            )
         }
-        return( <Spinner color={ style.darkRed } style={{ marginTop: 5 }} /> )
+        return( <Spinner color={ style.darkRed } size={50} style={{ marginVertical: 10 }} /> )
     }
 
 
@@ -76,7 +78,7 @@ export default class Favorites extends Component
             <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="mijn favorieten" />
                 <Content style={{ padding: 10 }}>
-                    <Card style={{ backgroundColor: style.beige, marginBottom: 20 }}>
+                    <Card style={ style.backgroundCardStyle }>
                         <CardItem style={ style.cardItemStyle }>
                             <Text style={ style.titleStyle }>
                                 mijn favorieten
@@ -84,7 +86,6 @@ export default class Favorites extends Component
                         </CardItem>
                         { this.renderContent() }
                     </Card>
-                    { this.state.error && <Text style={ style.messageStyle }>Er is iets mis gegaan</Text> }
                 </Content>
                <Foot />
             </Container>

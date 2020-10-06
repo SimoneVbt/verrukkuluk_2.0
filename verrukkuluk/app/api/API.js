@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 25
+    schemaVersion: 26
 });
 
 
