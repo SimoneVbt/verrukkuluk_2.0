@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { 
-    Card, CardItem, Text, View, Spinner,
-    } from 'native-base';
+import { Card, CardItem, Text, View } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 import API from '../api/API';
 import NewComment from '../components/NewComment';
 import Comment from '../components/Comment';
 
+
 export default class DishComments extends Component
 {
     state = {
         user: {},
+        comments: this.props.comments,
         isLoading: false,
         error: false
     }
@@ -19,21 +19,28 @@ export default class DishComments extends Component
 
     componentDidMount() {
         let user = API.fetchFromDatabase("gebruiker", 1);
-        this.setState({
-            user: user
-        })
+        this.setState({ user: user })
     }
 
 
-    //probleem: door margin reageert onderkant flatlist niet op touch
+    componentDidUpdate(prevProps) {
+        if (prevProps.comments != this.props.comments) {
+            this.setState({ comments: this.props.comments })
+        }
+    }
+
+
     renderList() {
-        if (this.props.comments.length > 0) {
+        if (this.state.comments.length > 0) {
             return(
                 <FlatList
-                    data={ this.props.comments }
+                    data={ this.state.comments }
                     keyExtractor={ comm => comm.id.toString() }
-                    renderItem={ ({item}) => <Comment comment={ item } user_id={ this.state.user.id } /> }
-                    style={{ marginBottom: 10 }}
+                    renderItem={ ({item}) =>
+                        <Comment comment={ item }
+                                user_id={ this.state.user.id }
+                                dish_id={ this.props.dish_id }
+                                loadCommentData={ this.props.loadCommentData }/>}
                     />
             )
         } 
@@ -53,7 +60,6 @@ export default class DishComments extends Component
             backgroundColor: style.beige,
             paddingTop: 5,
             paddingBottom: 5,
-            marginBottom: 240,
             flexDirection: "column"
         }
 
@@ -62,10 +68,13 @@ export default class DishComments extends Component
                 <CardItem style={ style.cardItemStyle }>
                     <Text style={ style.titleStyle }>Opmerkingen</Text>
                 </CardItem>
-                <NewComment dish_id={ this.props.dish_id } loadCommentData={ this.props.loadCommentData } />
                 <CardItem style={ style.cardItemStyle }>
-                    { this.renderList() }        
+                    <View style={{ height: 230, width: "100%" }}>
+                        { this.renderList() }   
+                    </View>
                 </CardItem>
+                <NewComment dish_id={ this.props.dish_id }
+                            loadCommentData={ this.props.loadCommentData } />
             </Card>
         );
     }

@@ -48,7 +48,8 @@ class GerechtinfoRepository extends ServiceEntityRepository
 
     public function getGerechtinfo($dish_id, $record_type) 
     {
-        $info = $this->findBy(["gerecht_id" => $dish_id, "record_type" => $record_type]);
+        $sort = $record_type === "B" ? ["nummeriekveld" => "ASC"] : ["id" => "DESC"];
+        $info = $this->findBy(["gerecht_id" => $dish_id, "record_type" => $record_type], $sort);
         return $info ? $info : null;
     }
 

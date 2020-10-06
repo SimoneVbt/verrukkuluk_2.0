@@ -27,6 +27,7 @@ export default class Home extends Component
                 })
             })
             .catch( err => {
+                console.warn(err);
                 this.setState({
                     isLoaded: true,
                     title: "fout bij ophalen gegevens"

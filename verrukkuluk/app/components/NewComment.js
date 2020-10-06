@@ -15,21 +15,33 @@ export default class NewComment extends Component
     }
 
 
-    _submitComment() {
-        if (this.state.comment.length != "") {
+    componentDidMount() {
+        if (this.props.comment) {
+            this.setState({ comment: this.props.comment })
+        }
+    }
+
+
+    submitComment() {
+        if (this.state.comment != "") {
 
             this.setState({
                 isLoading: true,
                 emptyError: false
             });
             
+            let data = { record_type: "O",
+                        gerecht_id: this.props.dish_id,
+                        tekstveld: this.state.comment }
+
+            this.props.comment ? data.id = this.props.id : false;
+            
             API.postData({
                 url: constants.addInfoUrl,
                 type: "post",
                 user: true,
-                data: { record_type: "O",
-                        gerecht_id: this.props.dish_id,
-                        tekstveld: this.state.comment }
+                data: data,
+                edit: true
             }).then( result => {
                 this.props.loadCommentData(this.props.dish_id);
                 this.setState({
@@ -53,10 +65,29 @@ export default class NewComment extends Component
     }
 
 
-    _handleChange(text) {
+    handleChange(text) {
         this.setState({
             comment: text
         })
+    }
+
+
+    renderText() {
+        if (!this.props.comment) {
+            return(
+                <Text style={{ fontStyle: "italic", fontSize: 14 }}>
+                    { this.state.error &&
+                        "Er is iets misgegaan.\n Probeer later opnieuw."
+                    }
+                    { this.state.isLoading &&
+                        "Opmerking plaatsen..."
+                    }
+                    { this.state.emptyError &&
+                        "Geen opmerking om te plaatsen."
+                    }
+                </Text>                 
+            )
+        }
     }
     
 
@@ -68,31 +99,21 @@ export default class NewComment extends Component
                             type="text"
                             value={ this.state.comment }
                             placeholder="Plaats een opmerking"
-                            onChangeText={ (text) => this._handleChange(text) }
+                            onChangeText={ (text) => this.handleChange(text) }
                             style={{ fontStyle: "italic", fontSize: 14, width: "100%" }} />
                 </Item>
                 <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
-                    <Text style={{ fontStyle: "italic", fontSize: 14 }}>
-                        { this.state.error &&
-                            "Er is iets misgegaan.\n Probeer later opnieuw."
-                        }
-                        { this.state.isLoading &&
-                            "Opmerking plaatsen..."
-                        }
-                        { this.state.emptyError &&
-                            "Geen opmerking om te plaatsen."
-                        }
-                    </Text>
+                    { this.renderText() }
                     <Button small
                             style={ style.buttonStyle }
-                            onPress={ () => this._submitComment() } >
+                            onPress={ () => this.submitComment() } >
                         { this.state.isLoading &&
                             <Spinner color={ style.white } size={20} style={{ marginLeft: 5, marginRight: -5 }} />
                         }
                         <Text style={{ color: style.white }}>
-                            plaatsen
+                            { this.props.comment ? "bewerken" : "plaatsen" }
                         </Text>
-                    </Button>                    
+                    </Button>
                 </View>
             </CardItem>
         )

@@ -33,6 +33,7 @@ const schema = {
         primaryKey: "id",
         properties: {
             id: { type: "int", indexed: true },
+            gerecht_id: "int",
             record_type: "string",
             gebruiker_id: "int?",
             gebruikersnaam: "string?",

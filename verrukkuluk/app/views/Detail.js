@@ -38,9 +38,9 @@ export default class Detail extends Component
     componentDidMount() {
         const dish_id = this.props.dish_id;
         const fetchDish = API.fetchFromDatabase("gerecht", dish_id);
-        const fetchIngr = API.fetchData({ url: constants.ingrUrl, table: "ingredient", id: dish_id });
-        const fetchPrep = API.fetchData({ url: constants.prepUrl, table: "gerechtinfo", id: dish_id });
-        const fetchComm = API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id });
+        const fetchIngr = API.fetchData({ url: constants.ingrUrl, table: "ingredient", id: dish_id, filter: `gerecht_id == ${dish_id}` });
+        const fetchPrep = API.fetchData({ url: constants.prepUrl, table: "gerechtinfo", id: dish_id, filter: `gerecht_id == ${dish_id}` });
+        const fetchComm = API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id, filter: `gerecht_id == ${dish_id}` });
 
         Promise.all([fetchDish, fetchIngr, fetchPrep, fetchComm])
             .then( values => 
@@ -72,7 +72,11 @@ export default class Detail extends Component
     loadCommentData = (dish_id) => {
         API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id })
             .then( result => this.setState({ comments: result }) )
-            .catch( error => this.setState({ error: true }) );
+            .catch( error => {
+                console.warn('catch loadCommentData');
+                console.warn(error);
+                this.setState({ error: true }) 
+            });
     }
 
 

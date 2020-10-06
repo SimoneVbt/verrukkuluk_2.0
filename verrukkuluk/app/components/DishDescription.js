@@ -14,14 +14,11 @@ const txtStyle = {
 
 const overlay = {
     position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    left: 0, right: 0, top: 0, bottom: 0,
+    backgroundColor: "rgba(255, 255, 251, 0.5)",
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 50,
-    backgroundColor: "rgba(255, 255, 251, 0.5)",
 }
 
 

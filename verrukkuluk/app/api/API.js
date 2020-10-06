@@ -1,6 +1,6 @@
 import schema from './Model';
 
-const timeout = 5000;
+const timeout = 2000;
 
 let realm = new Realm({
     schema: [ schema.gerecht,
@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 24
+    schemaVersion: 25
 });
 
 
@@ -17,26 +17,29 @@ export default class API
     static constructUrl(obj) {
 
         let url = obj.url;
+        let finalUrl = url;
 
-        let url2 = obj.id                   ?   url + obj.id    : url;
-        let url3 = obj.id && obj.userInUrl  ?   url2 + "/"      : url2;
-        let finalUrl = url3;
+        if (obj.id && !obj.edit) {
+            let idUrl = url + obj.id;
+            finalUrl = obj.userInUrl ? idUrl + "/" : idUrl;
+        }
 
         if (obj.userInUrl) {
             let user = this.fetchFromDatabase("gebruiker", 1);
-            finalUrl = url3 + user.id;
+            finalUrl += user.id;
         }
 
+        // console.warn(finalUrl);
         return finalUrl;
     }
 
 
-    static fetchFromDatabase(tableName, id=false, filter=false) {
+    static fetchFromDatabase(tableName, id=false, filter=false, sort="id") {
 
         if (id === false) {
             let results = realm.objects(tableName);
             let filteredResults = filter ? results.filtered(filter) : results;
-            let sortedResults = filteredResults.sorted('id');
+            let sortedResults = filteredResults.sorted(sort);
             let data = Array.from(sortedResults);
             return data;
         }
@@ -50,9 +53,10 @@ export default class API
     static fetchData = (obj) => new Promise( (resolve, reject) => {
 
         let url = this.constructUrl(obj);
-
+        // console.warn(url);
+        
         const tm = setTimeout( () => {
-            resolve(API.fetchFromDatabase(obj.table, obj.id=false, obj.filter=false));
+            resolve(API.fetchFromDatabase(obj.table, obj.id=false, obj.filter=false, obj.sort="id"));
         }, timeout);
 
         fetch(url)
@@ -66,9 +70,8 @@ export default class API
                         realm.write(() => {
                             realm.create(obj.table, item, true);
                         });
-
                     });
-
+                    
                 } else {
                     realm.write(() => {
                         realm.create(obj.table, data, true)
@@ -79,6 +82,7 @@ export default class API
             })
             .catch( error => {
                 clearTimeout(tm);
+                console.warn("catch API.fetchData");
                 console.warn(error);
             })
     })
@@ -88,6 +92,7 @@ export default class API
     static postData = (obj) => new Promise( (resolve, reject) => {
 
         let url = this.constructUrl(obj);
+        // console.warn(url);
         const body = new FormData();
 
         if (obj.type === "post") {
@@ -100,7 +105,6 @@ export default class API
                 body.append("gebruiker_id", user.id);
             }
         }
-
         let apiObj = obj.type === "post" ? { method: 'post', body } : { method: 'delete' };
         
         fetch(url, apiObj)
@@ -109,11 +113,12 @@ export default class API
                 obj.type === "post" ? this.writeData(obj):
                 obj.type === "delete" ? this.deleteDataFromDatabase(obj) : false;
 
-                resolve(result)
+                resolve(result);
             })
             .catch( error => {
-                console.warn(error)
-                reject(error) 
+                console.warn("catch API.postData");
+                console.warn(error);
+                reject(error);
             } )
     })
     
@@ -124,11 +129,6 @@ export default class API
             let dish = this.fetchFromDatabase("gerecht", obj.data.gerecht_id);
             realm.write(() => {
                 dish.favoriet = true;
-            })
-
-        } else if (obj.data.record_type === "O") { //nog niet: bewerken!
-            realm.write(() => {
-                realm.create("gerechtinfo", obj.data, true);
             })
         }
     }
