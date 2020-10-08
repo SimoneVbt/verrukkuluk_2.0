@@ -9,7 +9,7 @@ import API from '../api/API';
 import Article from '../components/Article';
 
 
-export default class ShoppingCart extends Component
+export default class ShoppingList extends Component
 {
     state = {
         items: [],
@@ -19,6 +19,11 @@ export default class ShoppingCart extends Component
 
 
     componentDidMount() {
+        this.loadData();
+    }
+
+
+    loadData = () => {
         API.fetchData({ url: constants.listUrl, table: "boodschappen", userInUrl: true })
             .then( result => this.setState({
                 items: result,
@@ -27,7 +32,7 @@ export default class ShoppingCart extends Component
             .catch( error => this.setState({
                 isLoaded: true,
                 error: true
-            }))
+            }))        
     }
 
 
@@ -45,20 +50,17 @@ export default class ShoppingCart extends Component
     }
 
 
+    //probleem: lijst aan onderkant scherm onklikbaar
     renderContent() {
         if (this.state.isLoaded && this.state.items.length > 0 && Array.isArray(this.state.items)) {
             return(
-                <View style={{ marginBottom: 10, width: "100%" }}>
-                    {/* {
-                        this.state.items.map( item => {
-                            return <Article key={ item.id } item={ item } />
-                        })
-                    } */}
+                <View style={{ width: "100%" }}>
                 
                     <FlatList data={ this.state.items }
                                 keyExtractor={ item => item.id.toString() }
+                                contentContainerStyle={{ marginBottom: 10 }}
                                 renderItem={ ({item}) =>
-                                    <Article item={ item } /> } />
+                                    <Article item={ item } loadData={ this.loadData } /> } />
                 </View>
             )
         } else if (this.state.isLoaded && this.state.items.length == 0) {

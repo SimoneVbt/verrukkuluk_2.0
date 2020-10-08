@@ -34,7 +34,6 @@ const messageStyle = {
 
 
 /* === tabs === */
-
 const tabStyle = {
     backgroundColor: darkRed
 }
@@ -100,11 +99,32 @@ const labelStyle = {
 }
 
 
+/* === modals === */
+const overlay = {
+    position: 'absolute',
+    left: 0, right: 0, top: 0, bottom: 0,
+    backgroundColor: "rgba(255, 255, 251, 0.5)",
+    alignItems: 'center',
+    justifyContent: 'center'
+}
+
+const modalStyle = {
+    backgroundColor: beige,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginBottom: 50,
+    borderColor: darkRed,
+    borderWidth: 2,
+    width: "80%"
+}
+
+
 export {
     gold, darkRed, white, beige,
     HeaderFooter, titleStyle, subtitleStyle, messageStyle,
     tabStyle, tabTextStyle,
     cardStyle, backgroundCardStyle, cardItemStyle, tabCardStyle,
     buttonStyle, buttonTextStyle,
-    itemStyle, inputStyle, labelStyle
+    itemStyle, inputStyle, labelStyle,
+    overlay, modalStyle
 }

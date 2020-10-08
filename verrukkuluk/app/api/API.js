@@ -88,7 +88,7 @@ export default class API
     })
 
 
-    //object: minstens url en data (post) of id (delete) en table (delete)
+    //object: minstens url, type en data (post) of id, type en table (delete)
     static postData = (obj) => new Promise( (resolve, reject) => {
 
         let url = this.constructUrl(obj);

@@ -3,22 +3,13 @@ import { Pressable } from 'react-native';
 import { Card, CardItem, Text, Icon, Thumbnail, View, Button, Spinner } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 import * as constants from '../config/constants';
+import API from '../api/API';
 import RatingMenu from '../components/RatingMenu';
 import Stars from '../components/Stars';
-import API from '../api/API';
-
+import ShoppingMenu from '../components/ShoppingMenu';
 
 const txtStyle = {
     paddingBottom: 10
-}
-
-const overlay = {
-    position: 'absolute',
-    left: 0, right: 0, top: 0, bottom: 0,
-    backgroundColor: "rgba(255, 255, 251, 0.5)",
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingTop: 50,
 }
 
 
@@ -27,13 +18,8 @@ export default class DishDescription extends Component
     state = {
         isLoading: false,
         error: false,
-        ratingMenuVisible: false
-    }
-
-
-    addToList() {
-        this.setState({ isLoading: true });
-        setTimeout( () => this.setState({ isLoading: false }), 3000 )
+        ratingMenuVisible: false,
+        shoppingMenuVisible: false
     }
 
 
@@ -92,23 +78,36 @@ export default class DishDescription extends Component
         this.setState({ ratingMenuVisible: bool })
     }
 
+    setShoppingMenuVisible = (bool) => {
+        this.setState({ shoppingMenuVisible: bool })
+    }
 
-    renderModal(ratingMenuVisible) {
+
+    renderRatingMenu(ratingMenuVisible) {
         return(
             <RatingMenu ratingMenuVisible={ ratingMenuVisible }
                         setRatingMenuVisible={ this.setRatingMenuVisible }
                         dish={ this.props.dish }
-                        loadDishData={ this.props.loadDishData }
-                        overlay={ overlay } />
+                        loadDishData={ this.props.loadDishData } />
+        )
+    }
+
+    renderShoppingMenu(shoppingMenuVisible) {
+        return(
+            <ShoppingMenu shoppingMenuVisible={ shoppingMenuVisible }
+                            setShoppingMenuVisible={ this.setShoppingMenuVisible }
+                            dish={ this.props.dish } />
         )
     }
 
 
     render() {
         const { ratingMenuVisible } = this.state;
+        const { shoppingMenuVisible } = this.state;
         return(
             <Card style={ style.tabCardStyle }>
-                { this.renderModal(ratingMenuVisible) }
+                { this.renderRatingMenu(ratingMenuVisible) }
+                { this.renderShoppingMenu(shoppingMenuVisible) }
                 <CardItem style={ style.cardItemStyle }>
                     <Thumbnail square
                                 source={{ uri: this.props.dish.afbeelding }}
@@ -131,7 +130,7 @@ export default class DishDescription extends Component
                         </Pressable>
                         <View style={{ flexDirection: "row", justifyContent: "flex-end", flexGrow: 1 }}>
                             { this.renderFavouriteButton() }
-                            <Button onPress={ () => this.addToList() }
+                            <Button onPress={ () => this.setShoppingMenuVisible(!shoppingMenuVisible) }
                                     style={{ backgroundColor: style.darkRed, height: "80%" }}>
                                 <Icon name="shopping-cart" type="FontAwesome" />
                                 <Icon name="add" type="MaterialIcons" style={{ fontSize: 15, alignSelf: "flex-start", marginLeft: -15, marginRight: 5 }} />
@@ -160,15 +159,15 @@ export default class DishDescription extends Component
                     </View>
                 </CardItem>
                 { this.state.error && 
-                    <View style={ overlay }>
+                    <View style={ style.overlay }>
                         <Text style={{ fontSize: 20, padding: 20, color: style.darkRed, fontWeight: "bold", opacity: 1 }}>
                             Er is iets mis gegaan. Vernieuw de pagina en probeer opnieuw.
                         </Text>
                     </View>               
                 }
                 { this.state.isLoading && 
-                    <View style={ overlay }>
-                        <Spinner color={ style.darkRed } size={80} />
+                    <View style={ style.overlay }>
+                        <Spinner color={ style.darkRed } size={80} style={{ marginBottom: 230 }} />
                     </View>
                 }
             </Card>

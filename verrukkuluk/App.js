@@ -5,7 +5,7 @@ import API from './app/api/API';
 import Home from './app/views/Home';
 import Detail from './app/views/Detail';
 import Login from './app/views/Login';
-import ShoppingCart from './app/views/ShoppingCart';
+import ShoppingList from './app/views/ShoppingList';
 import Favorites from './app/views/Favorites';
 import MyDishes from './app/views/MyDishes';
 import Search from './app/views/Search';
@@ -39,7 +39,7 @@ export default class App extends Component
           <Scene key="Detail" component={ Detail } />
           <Scene key="Search" component={ Search } />
 
-          <Scene key="ShoppingCart" component={ ShoppingCart } />
+          <Scene key="ShoppingList" component={ ShoppingList } />
           <Scene key="Favorites" component={ Favorites } />
           <Scene key="MyDishes" component={ MyDishes } />
           <Scene key="NewDish" component={ NewDish } />

@@ -36,7 +36,7 @@ export default class Foot extends Component
                         <Icon name="star" type="FontAwesome" style={ iconStyle } />
                         <Text style={ txtStyle }>favorieten</Text>
                     </Button>
-                    <Button vertical onPress={ () => Actions.ShoppingCart() } >
+                    <Button vertical onPress={ () => Actions.ShoppingList() } >
                         <Icon name="shopping-cart" type="FontAwesome" style={ iconStyle } />
                         <Text style={ txtStyle }>lijstje</Text>
                     </Button>
