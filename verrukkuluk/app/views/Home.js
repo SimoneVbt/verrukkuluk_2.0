@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Spinner, View, Text } from 'native-base';
+import { Container, Content, Spinner, Text } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 import * as constants from '../config/constants';
 import Head from '../components/Head';
@@ -38,13 +38,9 @@ export default class Home extends Component
     renderContent() {
         if (this.state.isLoaded && Array.isArray(this.state.data)) {
             return(
-                <View>
-                    {
-                        this.state.data.map( dish => {
-                            return( <DishCard key={ dish.id } dish={ dish } /> );
-                        })
-                    }
-                </View>
+                this.state.data.map( dish => {
+                    return( <DishCard key={ dish.id } dish={ dish } /> );
+                })
             );
         } else if (this.state.isLoaded) {
             return( <Text style={{ color: style.white, padding: 10 }}>Er is iets mis gegaan. Start de app opnieuw op.</Text> )
@@ -60,7 +56,7 @@ export default class Home extends Component
                 <Content contentContainerStyle= { this.state.isLoaded ? { padding: 10 } : { padding: 10, flex: 1, justifyContent: "center" } }>
                     { this.renderContent() }
                 </Content>
-                <Foot home />
+                <Foot />
             </Container>
         )
     }

@@ -10,7 +10,6 @@ import Favorite from '../components/Favorite';
 export default class Favorites extends Component
 {
     state = {
-        isLoaded: false,
         favorites: [],
         error: false
     }
@@ -24,7 +23,6 @@ export default class Favorites extends Component
         let data = API.fetchFromDatabase("gerecht", false, "favoriet == true");
         this.setState({
             favorites: data ? data : false,
-            isLoaded: true,
             error: data ? false : true
         })
     }
@@ -44,7 +42,7 @@ export default class Favorites extends Component
 
 
     renderContent() {
-        if (this.state.isLoaded && this.state.favorites.length > 0 && Array.isArray(this.state.favorites)) {
+        if (this.state.favorites.length > 0 && Array.isArray(this.state.favorites)) {
             return(
                 <View style={{ margin: 10 }}>
                     { this.state.favorites.map( dish => { 
@@ -52,7 +50,7 @@ export default class Favorites extends Component
                     }) }
                 </View>
             )
-        } else if (this.state.isLoaded && this.state.favorites.length == 0) {
+        } else if (this.state.favorites.length == 0 && !this.state.error) {
             return(
                 <CardItem style={ style.cardItemStyle }>
                     <Text style={{ fontStyle: "italic", marginBottom: 20 }}>

@@ -49,10 +49,6 @@ class BoodschappenService
     public function getBoodschappen($user_id)
     {
         $boodschappen = $this->rep->getBoodschappen($user_id);
-
-        // $ip = "192.168.0.109";
-        // $ip = "192.168.1.244";
-        $ip = "192.168.11.112";
         
         foreach ($boodschappen as $bs) {
             $article = $this->as->getArtikel($bs->getArtikelId());

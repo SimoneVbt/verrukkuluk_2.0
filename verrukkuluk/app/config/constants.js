@@ -1,8 +1,7 @@
-// const environment = 1;
-// const home = "192.168.0.108"; //wifi is 108, kabel is 109
-// const work = "192.168.1.244";
-// const ip = environment === 1 ? home : work;
-const ip = "192.168.11.112";
+const environment = 1;
+const home = "192.168.0.109";
+const work = "192.168.1.244";
+const ip = environment === 1 ? home : work;
 
 //basis
 const baseUrl = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api`;

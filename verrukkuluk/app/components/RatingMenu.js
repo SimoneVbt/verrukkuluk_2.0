@@ -10,7 +10,14 @@ export default class RatingMenu extends Component
 {
     state = {
         isLoading: false,
-        error: false
+        error: false,
+        user: {}
+    }
+
+
+    componentDidMount() {
+        let user = API.fetchFromDatabase("gebruiker", 1);
+        this.setState({ user: user });
     }
 
 
@@ -44,6 +51,39 @@ export default class RatingMenu extends Component
                 })})
     }
 
+
+    renderRatingStars() {
+        if (this.state.user.remote_id != this.props.dish.gebruiker_id) {
+            return(
+                <View>
+                    <View>
+                        <Text>
+                            Jouw beoordeling:
+                        </Text>
+                    </View>
+                    <View style={{ paddingBottom: 10 }}>
+                        <Stars dish={ this.props.dish } type="rating" addRating={ this.addRating } />
+                    </View>
+                    { 
+                        this.state.error && 
+                        <Text style={{ fontStyle: "italic", fontSize: 15, marginTop: -10, marginBottom: 10, color: style.darkRed }}>
+                            Er is iets misgegaan bij het versturen van je beoordeling. Probeer later opnieuw.
+                        </Text>
+                    }
+                    <Text style={{ fontStyle: "italic", fontSize: 16 }}>
+                        Raak de ster aan die jouw beoordeling weergeeft
+                    </Text>
+                </View>
+            )
+        }
+        return(
+            <Text style={{ fontStyle: "italic" }}>
+                Je kunt je eigen gerechten niet beoordelen.
+            </Text>
+        )
+    }
+
+
     render() {
         const { ratingMenuVisible } = this.props;
         return(
@@ -71,27 +111,7 @@ export default class RatingMenu extends Component
                         <View style={{ paddingBottom: 10 }}>
                             <Stars dish={ this.props.dish } type="average" />
                         </View>
-                        <View>
-                            <View>
-                                <Text>
-                                    Jouw beoordeling:
-                                </Text>
-                            </View>
-                            <View style={{ paddingBottom: 10 }}>
-                                <Stars dish={ this.props.dish } type="rating" addRating={ this.addRating } />
-                            </View>
-                            { 
-                                this.state.error && 
-                                <Text style={{ fontStyle: "italic", fontSize: 15, marginTop: -10, marginBottom: 10, color: style.darkRed }}>
-                                    Er is iets misgegaan bij het versturen van je beoordeling. Probeer later opnieuw.
-                                </Text>
-                            }
-                        </View>
-                        <View>
-                            <Text style={{ fontStyle: "italic", fontSize: 16 }}>
-                                Raak de ster aan die jouw beoordeling weergeeft
-                            </Text>
-                        </View>
+                        { this.renderRatingStars() }
                         {
                             this.state.isLoading && 
                             <View style={ style.overlay }>

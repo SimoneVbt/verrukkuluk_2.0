@@ -9,11 +9,13 @@ class ArtikelService
 {
     private $em;
     private $rep;
+    private $ip;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, string $ip)
     {
         $this->em = $em;
         $this->rep = $em->getRepository(Artikel::class);
+        $this->ip = $ip;
     }
 
 
@@ -26,12 +28,7 @@ class ArtikelService
     public function getArtikel($article_id)
     {
         $article = $this->rep->getArtikel($article_id);
-
-        // $ip = "192.168.0.109";
-        // $ip = "192.168.1.244";
-        $ip = "192.168.11.112";
-        $article->afbeelding = "http://".$ip."/verrukkuluk_2.0/api/public/artikelen/artikel".$article->getId().".jpg";
-        
+        $article->afbeelding = "http://".$this->ip."/verrukkuluk_2.0/api/public/artikelen/artikel".$article->getId().".jpg";
         return $article;
     }
 
