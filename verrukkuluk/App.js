@@ -22,11 +22,9 @@ export default class App extends Component
   }
 
   componentDidMount() {
-    let user = API.fetchFromDatabase("gebruiker");
-    if (user) {
-      this.setState({ userPresence: true })
-    }
-  }    
+    let user = API.fetchFromDatabase("gebruiker", 1);
+    if (user) { this.setState({ userPresence: true }) }
+  }
 
   render() {
     return(

@@ -64,7 +64,7 @@ class BoodschappenService
             $bs->prijs = $price;
             $bs->eenheid = $article->getEenheid();
             $bs->verpakking = $package;
-            $bs->afbeelding = "http://".$ip."/verrukkuluk_2.0/api/public/artikelen/artikel".$article->getId().".jpg";
+            $bs->afbeelding = $article->afbeelding;
 
             $bs->aantal_verpakkingen = ceil($bs->getAantal() / $package);
             $bs->totalePrijs = $bs->aantal_verpakkingen * $price;

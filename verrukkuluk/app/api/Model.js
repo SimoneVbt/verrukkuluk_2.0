@@ -54,6 +54,7 @@ const schema = {
             artikel_id: "int",
             aantal: "int",
             naam: "string",
+            afbeelding: "string",
             omschrijving: "string?",
             prijs: "float",
             eenheid: "string",

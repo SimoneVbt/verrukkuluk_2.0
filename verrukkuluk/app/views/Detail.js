@@ -103,7 +103,7 @@ export default class Detail extends Component
                         textStyle={ style.tabTextStyle }  activeTextStyle={ style.tabTextStyle }>
                         <Content style={ contentStyle }>
                             <View style={{ marginBottom: 20 }}>
-                                <DishDescription dish={ this.state.dish } loadDishData={ this.loadDishData } />
+                                <DishDescription dish={ this.state.dish } ingredients={ this.state.ingredients } loadDishData={ this.loadDishData } />
                             </View>
                         </Content>
                     </Tab>

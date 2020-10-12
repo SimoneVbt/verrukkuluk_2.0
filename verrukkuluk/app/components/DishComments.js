@@ -33,15 +33,14 @@ export default class DishComments extends Component
     renderList() {
         if (this.state.comments.length > 0) {
             return(
-                <FlatList
-                    data={ this.state.comments }
-                    keyExtractor={ comm => comm.id.toString() }
-                    renderItem={ ({item}) =>
-                        <Comment comment={ item }
-                                user_id={ this.state.user.id }
-                                dish_id={ this.props.dish_id }
-                                loadCommentData={ this.props.loadCommentData }/>}
-                    />
+                <FlatList  data={ this.state.comments }
+                            keyExtractor={ comm => comm.id.toString() }
+                            renderItem={ ({item}) =>
+                                <Comment comment={ item }
+                                        user_id={ this.state.user.id }
+                                        dish_id={ this.props.dish_id }
+                                        loadCommentData={ this.props.loadCommentData }/>}
+                />
             )
         } 
         return(

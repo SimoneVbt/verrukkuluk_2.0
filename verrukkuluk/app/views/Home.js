@@ -16,8 +16,7 @@ export default class Home extends Component
         title: "verukkuluk!nl"
     }
 
-
-    //firet niet na login (onFocus, want nog mounted?)
+    
     componentDidMount() {
         API.fetchData({ url: constants.allDishesUrl, table: "gerecht", userInUrl: true })
             .then( data => {

@@ -54,13 +54,15 @@ export default class ShoppingList extends Component
     renderContent() {
         if (this.state.isLoaded && this.state.items.length > 0 && Array.isArray(this.state.items)) {
             return(
-                <View style={{ width: "100%" }}>
-                
+                <View style={{ width: "100%", maxHeight: 360 }}>
+
                     <FlatList data={ this.state.items }
                                 keyExtractor={ item => item.id.toString() }
-                                contentContainerStyle={{ marginBottom: 10 }}
+                                contentContainerStyle={{ paddingBottom: 10, paddingRight: 5 }}
                                 renderItem={ ({item}) =>
-                                    <Article item={ item } loadData={ this.loadData } /> } />
+                                    <Article item={ item } loadData={ this.loadData } /> }
+                    />
+                    
                 </View>
             )
         } else if (this.state.isLoaded && this.state.items.length == 0) {
@@ -88,7 +90,7 @@ export default class ShoppingList extends Component
         return(
             <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="mijn lijstje" />
-                <View style={{ backgroundColor: style.darkRed, padding: 10, flex: 1, marginBottom: 140 }}>
+                <View style={{ backgroundColor: style.darkRed, padding: 10, flex: 1 }}>
                     <Card style={ style.backgroundCardStyle }>
                         <CardItem style={ style.cardItemStyle }>
                             <Text style={ style.titleStyle }>

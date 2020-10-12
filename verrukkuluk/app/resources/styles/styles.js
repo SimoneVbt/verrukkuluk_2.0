@@ -2,6 +2,7 @@ const gold = "rgb(240, 170, 40)";
 const darkRed = "rgb(178, 51, 8)";
 const white = "rgb(255, 255, 255)";
 const beige = "rgb(254, 246, 231)";
+const green = "rgb(40, 128, 40)";
 
 
 /* === standard style */
@@ -78,6 +79,12 @@ const buttonStyle = {
     borderRadius: 10
 }
 
+const checkedButtonStyle = {
+    backgroundColor: green,
+    margin: 5,
+    borderRadius: 10
+}
+
 const buttonTextStyle = {
     color: white,
     fontWeight: "bold"
@@ -103,7 +110,7 @@ const labelStyle = {
 const overlay = {
     position: 'absolute',
     left: 0, right: 0, top: 0, bottom: 0,
-    backgroundColor: "rgba(255, 255, 251, 0.5)",
+    backgroundColor: "rgba(255, 255, 251, 0.75)",
     alignItems: 'center',
     justifyContent: 'center'
 }
@@ -120,11 +127,11 @@ const modalStyle = {
 
 
 export {
-    gold, darkRed, white, beige,
+    gold, darkRed, white, beige, green,
     HeaderFooter, titleStyle, subtitleStyle, messageStyle,
     tabStyle, tabTextStyle,
     cardStyle, backgroundCardStyle, cardItemStyle, tabCardStyle,
-    buttonStyle, buttonTextStyle,
+    buttonStyle, checkedButtonStyle, buttonTextStyle,
     itemStyle, inputStyle, labelStyle,
     overlay, modalStyle
 }

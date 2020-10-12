@@ -25,6 +25,7 @@ const commUrl = baseUrl + "/gerechtinfo/get/O/";
 
 //boodschappen
 const listUrl = baseUrl + "/boodschappen/get/";
+const addToListUrl = baseUrl + "/boodschappen/add";
 const addDishToListUrl = baseUrl + "/boodschappen/add_dish";
 const setAmountUrl = baseUrl + "/boodschappen/set_amount";
 const deleteListUrl = baseUrl + "/boodschappen/delete/";
@@ -35,5 +36,5 @@ export {
     loginUrl, userUrl,
     dishUrl, allDishesUrl, ingrUrl,
     addInfoUrl, deleteInfoUrl, prepUrl, commUrl,
-    listUrl, addDishToListUrl, setAmountUrl, deleteListUrl
+    listUrl, addToListUrl, addDishToListUrl, setAmountUrl, deleteListUrl
 };

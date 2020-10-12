@@ -4,48 +4,45 @@ import { Text, Icon, View, Button, Spinner } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 import * as constants from '../config/constants';
 import API from '../api/API';
-import Article from '../components/Article';
+import ShopArticle from '../components/ShopArticle';
 
 
 export default class ShoppingMenu extends Component
 {
     state = {
-        items: [],
-        isLoaded: false,
-        error: false
+        isLoading: false,
+        error: false,
+        allAdded: false
     }
 
 
-    componentDidMount() {
-        this.loadData();
-    }
-
-
-    loadData = () => {
-        API.fetchData({ url: constants.listUrl, table: "boodschappen", userInUrl: true })
-            .then( result => this.setState({
-                items: result,
-                isLoaded: true,
-            }))
-            .catch( error => this.setState({
-                isLoaded: true,
+    addAll() {
+        this.setState({ isLoading: true });
+        API.postData({ url: constants.addDishToListUrl,
+                        type: "post",
+                        user: true,
+                        data: { gerecht_id: this.props.dish_id }                 
+        }).then( result =>
+            this.setState({
+                allAdded: true,
+                isLoading: false
+            })
+        ).catch( error => 
+            this.setState({
+                isLoading: false,
                 error: true
-            }))        
+            }));
     }
 
 
     renderList() {
-        if (this.state.isLoaded) {
-            return(
-                <FlatList data={ this.state.items }
-                        keyExtractor={ item => item.id.toString() }
-                        contentContainerStyle={{ marginBottom: 10 }}
-                        renderItem={ ({item}) =>
-                            <Article item={ item } add /> } />                
-            )
-        }
         return(
-            <Spinner color={ style.darkRed } size={50} />
+            <FlatList data={ this.props.ingredients }
+                    keyExtractor={ article => article.id.toString() }
+                    contentContainerStyle={{ marginBottom: 10 }}
+                    renderItem={ ({item}) =>
+                        <ShopArticle article={ item } allAdded={ this.state.allAdded } />
+                    } />
         )
     }
 
@@ -56,27 +53,39 @@ export default class ShoppingMenu extends Component
             <Modal visible={ shoppingMenuVisible } transparent>
                 <View style={ style.overlay }>
                     <View style={ style.modalStyle }>
-                        <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-                            <View style={{ flex: 4 }}>
-                                <Text style={ style.subtitleStyle }>
-                                    Artikelen toevoegen aan boodschappenlijstje
-                                </Text>
+                        <View style={{ maxHeight: 400, width: "100%" }}>
+                            <View style={{ flexDirection: "row", paddingBottom: 10 }}>
+                                <View style={{ flex: 4 }}>
+                                    <Text style={ style.subtitleStyle }>
+                                        Artikelen toevoegen aan boodschappenlijstje
+                                    </Text>
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <Button transparent small iconLeft
+                                            onPress={ (shoppingMenuVisible) => this.props.setShoppingMenuVisible(!shoppingMenuVisible) }>
+                                        <Icon name="cross" type="Entypo" style={{ color: style.darkRed, fontSize: 40 }} />
+                                    </Button>                                    
+                                </View>
                             </View>
-                            <View style={{ flex: 1 }}>
-                                <Button transparent small iconLeft
-                                        onPress={ (shoppingMenuVisible) => this.props.setShoppingMenuVisible(!shoppingMenuVisible) }>
-                                    <Icon name="cross" type="Entypo" style={{ color: style.darkRed, fontSize: 40 }} />
-                                </Button>                                    
-                            </View>
-                        </View>
-                        {/* hier misschien een bevestiging van toevoeging schrijven? */}
-                        { this.renderList() }
-                        <View style={{ paddingTop: 10, flexDirection: "row", justifyContent: "center" }}>
-                            <Button style={ style.buttonStyle }>
-                                <Text style={ style.buttonTextStyle } >
-                                    alle artikelen toevoegen
-                                </Text>
-                            </Button>
+                            {/* hier misschien een bevestiging van toevoeging schrijven? */}
+                            { this.renderList() }
+                            <View style={{ paddingTop: 10, flexDirection: "row", justifyContent: "center" }}>
+                                <Button disabled={ this.state.allAdded ? true : false }
+                                        style={{ backgroundColor: this.state.allAdded ? style.green : style.darkRed,
+                                                margin: 5,
+                                                borderRadius: 10,
+                                                width: "100%",
+                                                justifyContent: "center" }}
+                                        onPress={ () => this.addAll() }>
+                                    {
+                                        this.state.isLoading ?
+                                        <Spinner color={ style.white } /> :
+                                        <Text style={ style.buttonTextStyle }>
+                                            { this.state.allAdded ? "artikelen toegevoegd" : "alle artikelen toevoegen" }
+                                        </Text>                                        
+                                    }
+                                </Button>
+                            </View>                            
                         </View>
                     </View>
                 </View>

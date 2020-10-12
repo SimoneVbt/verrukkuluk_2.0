@@ -96,7 +96,8 @@ export default class DishDescription extends Component
         return(
             <ShoppingMenu shoppingMenuVisible={ shoppingMenuVisible }
                             setShoppingMenuVisible={ this.setShoppingMenuVisible }
-                            dish={ this.props.dish } />
+                            ingredients={ this.props.ingredients }
+                            dish_id={ this.props.dish.id } />
         )
     }
 

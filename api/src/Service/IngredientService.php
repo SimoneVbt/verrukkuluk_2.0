@@ -37,6 +37,7 @@ class IngredientService
         foreach ($ingredients as $ingr) {
             $art = $this->as->getArtikel($ingr->getArtikelId());
             $ingr->naam = $art->getNaam();
+            $ingr->afbeelding = $art->afbeelding;
             $ingr->omschrijving = $art->getOmschrijving();
             $ingr->prijs = $art->getPrijs();
             $ingr->eenheid = $art->getEenheid();

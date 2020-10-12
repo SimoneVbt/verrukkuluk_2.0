@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 26
+    schemaVersion: 27
 });
 
 
@@ -171,6 +171,7 @@ export default class API
             realm.commitTransaction();
         }
         catch {
+            console.warn("fout bij clearDatabase()");
             return false;
         }
         finally {

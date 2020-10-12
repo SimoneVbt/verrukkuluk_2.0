@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { View, Text, Left, Body, Right, CardItem, Thumbnail, Button, Icon, Spinner } from 'native-base';
 import * as style from '../resources/styles/styles';
-import ArticleMenu from './ArticleMenu';
 import * as constants from '../config/constants';
 import API from '../api/API';
-
+import ArticleMenu from './ArticleMenu';
 
 export default class Article extends Component
 {
@@ -69,49 +68,15 @@ export default class Article extends Component
     }
 
 
-    renderRight() {
-        if (this.props.add) {
-            return(
-                <View style={{ marginRight: -15 }}>
-                    <Button style={ style.buttonStyle }>
-                        <Icon name="add" type="Ionicons" style={ style.buttonTextStyle } />
-                    </Button>                    
-                </View>
-            )
-        }
-        return(
-            <View style={{ flexDirection: "row", marginRight: -15 }}>
-                <View style={{ flexDirection: "column" }}>
-                    <Button bordered
-                            style={{ borderColor: style.darkRed }}
-                            onPress={ () => this.setArticleMenuVisible(!articleMenuVisible) }>
-                        <Text style={{ color: "#333" }}>
-                            { this.props.item.aantal_verpakkingen }
-                        </Text>
-                    </Button>
-                    <Text style={{ fontSize: 14 }}>
-                        € { this.props.item.totale_prijs.toFixed(2).toString().replace(".", ",") }
-                    </Text>
-                </View>
-                <Button style={{ alignSelf: "flex-start" }}
-                        iconLeft transparent
-                        onPress={ () => this.deleteArticle() }>
-                    <Icon name="delete" type="AntDesign" style={{ color: style.darkRed, fontSize: 16 }} />
-                </Button>
-            </View>           
-        )
-    }
-
-
     render() {
         const { articleMenuVisible } = this.state;
         return(
             <CardItem style={ style.cardItemStyle }>
                 { this.renderModal(articleMenuVisible) }
-                <Left style={ this.props.add ? { flex: 1, marginLeft: -15 } : { flex: 1 }}>
+                <Left style={{ flex: 1 }}>
                     <Thumbnail source={{ uri: this.props.item.afbeelding }} />
                 </Left>
-                <Body style={ this.props.add ? { flex: 2, marginHorizontal: 5 } : { flex: 2 }}>
+                <Body style={{ flex: 2 }}>
                     {
                         this.state.error &&
                         <Text style={{ color: style.darkRed, fontSize: 12, fontStyle: "italic" }}>
@@ -126,7 +91,25 @@ export default class Article extends Component
                     </Text>
                 </Body>
                 <Right style={{ flex: 1 }}>
-                    { this.renderRight() }
+                    <View style={{ flexDirection: "row", marginRight: -15 }}>
+                        <View style={{ flexDirection: "column" }}>
+                            <Button bordered
+                                    style={{ borderColor: style.darkRed }}
+                                    onPress={ () => this.setArticleMenuVisible(!articleMenuVisible) }>
+                                <Text style={{ color: "#333" }}>
+                                    { this.props.item.aantal_verpakkingen }
+                                </Text>
+                            </Button>
+                            <Text style={{ fontSize: 14 }}>
+                                € { this.props.item.totale_prijs.toFixed(2).toString().replace(".", ",") }
+                            </Text>
+                        </View>
+                        <Button style={{ alignSelf: "flex-start" }}
+                                iconLeft transparent
+                                onPress={ () => this.deleteArticle() }>
+                            <Icon name="delete" type="AntDesign" style={{ color: style.darkRed, fontSize: 16 }} />
+                        </Button>
+                    </View>
                 </Right>
                 {
                     this.state.isLoading &&
