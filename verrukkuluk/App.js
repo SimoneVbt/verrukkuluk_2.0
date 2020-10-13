@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Stack, Scene } from 'react-native-router-flux';
 import API from './app/api/API';
-
 import Home from './app/views/Home';
 import Detail from './app/views/Detail';
 import Login from './app/views/Login';
@@ -13,6 +12,7 @@ import Profile from './app/views/Profile';
 import EditProfile from './app/views/EditProfile';
 import Register from './app/views/Register';
 import NewDish from './app/views/NewDish';
+import Camera from './app/views/Camera';
 
 
 export default class App extends Component
@@ -39,8 +39,10 @@ export default class App extends Component
 
           <Scene key="ShoppingList" component={ ShoppingList } />
           <Scene key="Favorites" component={ Favorites } />
+
           <Scene key="MyDishes" component={ MyDishes } />
           <Scene key="NewDish" component={ NewDish } />
+          <Scene key="Camera" component={ Camera } />
 
           <Scene key="Profile" component={ Profile } />
           <Scene key="EditProfile" component={ EditProfile }/>

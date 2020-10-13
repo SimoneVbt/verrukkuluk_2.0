@@ -79,6 +79,12 @@ const buttonStyle = {
     borderRadius: 10
 }
 
+const fullButtonStyle = {
+    backgroundColor: darkRed,
+    borderRadius: 10,
+    width: "100%"
+}
+
 const checkedButtonStyle = {
     backgroundColor: green,
     margin: 5,
@@ -131,7 +137,7 @@ export {
     HeaderFooter, titleStyle, subtitleStyle, messageStyle,
     tabStyle, tabTextStyle,
     cardStyle, backgroundCardStyle, cardItemStyle, tabCardStyle,
-    buttonStyle, checkedButtonStyle, buttonTextStyle,
+    buttonStyle, fullButtonStyle, checkedButtonStyle, buttonTextStyle,
     itemStyle, inputStyle, labelStyle,
     overlay, modalStyle
 }
