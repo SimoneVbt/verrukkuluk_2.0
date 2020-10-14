@@ -26,6 +26,9 @@ class GerechtRepository extends ServiceEntityRepository
         $dish->setTitel($params["titel"]);
         $dish->setKorteOmschrijving($params["korte_omschrijving"]);
         $dish->setLangeOmschrijving($params["lange_omschrijving"]);
+        if ($params["complete"]) {
+            $dish->setComplete($params["complete"]);
+        }
 
         $em = $this->getEntityManager();
         $em->persist($dish);

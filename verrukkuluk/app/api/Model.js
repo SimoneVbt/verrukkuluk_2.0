@@ -24,7 +24,8 @@ const schema = {
             favoriet_id: { type: "int", default: 0 },
             favoriet: "bool",
             waardering_id: { type: "int", default: 0 },
-            waardering: { type: "int", default: 0 }
+            waardering: { type: "int", default: 0 },
+            complete: { type: "bool", default: false }
         }
     },
 

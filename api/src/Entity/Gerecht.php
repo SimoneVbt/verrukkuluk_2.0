@@ -52,6 +52,11 @@ class Gerecht
      */
     private $lange_omschrijving;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $complete;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class Gerecht
     public function setLangeOmschrijving(string $lange_omschrijving): self
     {
         $this->lange_omschrijving = $lange_omschrijving;
+
+        return $this;
+    }
+
+    public function getComplete(): ?bool
+    {
+        return $this->complete;
+    }
+
+    public function setComplete(bool $complete): self
+    {
+        $this->complete = $complete;
 
         return $this;
     }

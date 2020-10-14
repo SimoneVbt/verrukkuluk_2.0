@@ -85,9 +85,8 @@ export default class RatingMenu extends Component
 
 
     render() {
-        const { ratingMenuVisible } = this.props;
         return(
-            <Modal visible={ ratingMenuVisible } transparent>
+            <Modal visible={ this.props.ratingMenuVisible } transparent>
                 <View style={ style.overlay }>
                     <View style={ style.modalStyle }>
                         <View style={{ flexDirection: "row", paddingBottom: 10 }}>
@@ -98,7 +97,7 @@ export default class RatingMenu extends Component
                             </View>
                             <View style={{ flex: 1 }}>
                                 <Button transparent small iconLeft
-                                        onPress={ (ratingMenuVisible) => this.props.setRatingMenuVisible(!ratingMenuVisible) }>
+                                        onPress={ () => this.props.setRatingMenuVisible(false) }>
                                     <Icon name="cross" type="Entypo" style={{ color: style.darkRed, fontSize: 40 }} />
                                 </Button>                                    
                             </View>

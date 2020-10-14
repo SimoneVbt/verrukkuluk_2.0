@@ -128,7 +128,8 @@ const modalStyle = {
     marginBottom: 50,
     borderColor: darkRed,
     borderWidth: 2,
-    width: "80%"
+    width: "80%",
+    maxHeight: "85%"
 }
 
 

@@ -8,7 +8,7 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen ],
-    schemaVersion: 27
+    schemaVersion: 28
 });
 
 
@@ -84,6 +84,7 @@ export default class API
                 clearTimeout(tm);
                 console.warn("catch API.fetchData");
                 console.warn(error);
+                console.warn(url);
             })
     })
 

@@ -48,9 +48,8 @@ export default class ShoppingMenu extends Component
 
 
     render() {
-        const { shoppingMenuVisible } = this.props;
         return(
-            <Modal visible={ shoppingMenuVisible } transparent>
+            <Modal visible={ this.props.shoppingMenuVisible } transparent>
                 <View style={ style.overlay }>
                     <View style={ style.modalStyle }>
                         <View style={{ maxHeight: 400, width: "100%" }}>
@@ -62,7 +61,7 @@ export default class ShoppingMenu extends Component
                                 </View>
                                 <View style={{ flex: 1 }}>
                                     <Button transparent small iconLeft
-                                            onPress={ (shoppingMenuVisible) => this.props.setShoppingMenuVisible(!shoppingMenuVisible) }>
+                                            onPress={ () => this.props.setShoppingMenuVisible(false) }>
                                         <Icon name="cross" type="Entypo" style={{ color: style.darkRed, fontSize: 40 }} />
                                     </Button>                                    
                                 </View>
