@@ -37,11 +37,11 @@ class KeukenTypeController extends AbstractController
 
 
     /**
-     * @Route("/get/{kt_id}", name="get_kt")
+     * @Route("/get", name="get_kt")
      */
-    public function getKeukenType($kt_id)
+    public function getAllKeukenTypes()
     {
-        $kt = $this->kts->getKeukenType($kt_id);
+        $kt = $this->kts->getAllKeukenTypes();
         $json = $this->renderView('keukentype.json.twig', ["kt" => $kt]);
         $response = new Response($json);
         $response->headers->set('Content-Type', 'application/json');

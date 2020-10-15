@@ -9,13 +9,11 @@ class GebruikerService
 {
     private $em;
     private $rep;
-    private $ip;
 
-    public function __construct(EntityManagerInterface $em, string $ip)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->rep = $em->getRepository(Gebruiker::class);
-        $this->ip = $ip;
     }
     
 
@@ -25,12 +23,7 @@ class GebruikerService
 
 
     public function getGebruiker($user_id) {
-        $user = $this->rep->getGebruiker($user_id);
-
-        if ($user->getFotoUpload()) {
-            $user->foto = "http://".$this->ip."/verrukkuluk_2.0/api/public/gebruikers/gebruiker".$user->getId().".jpg";
-        }
-        return $user;
+        return $this->rep->getGebruiker($user_id);
     }
 
 

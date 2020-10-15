@@ -1,7 +1,3 @@
-import { userPhotoUrl } from '../config/constants.js';
-
-const defaultImg = userPhotoUrl + "default.png";
-
 const schema = {
 
     gerecht: {
@@ -73,7 +69,7 @@ const schema = {
             remote_id: "int",
             gebruikersnaam: "string",
             foto_upload: "bool",
-            foto: { type: "string", default: defaultImg },
+            foto: "string?",
             email: "string",
             wachtwoord: "string"
         }
@@ -86,7 +82,7 @@ const schema = {
             id: { type: "int", indexed: true },
             artikel_id: "int",
             product: "string",
-            afbeelding: "string?",
+            afbeelding: "string",
             eenheid: "string",
             verpakking: "int",
             prijs: "float",
@@ -94,6 +90,16 @@ const schema = {
             aantal_verpakkingen: "int",
             totale_prijs: "float"
         }
+    },
+
+    keukentype: {
+        name: "boodschappen",
+        primaryKey: "id",
+        properties: {
+            id: { type: "int", indexed: true },
+            record_type: "string",
+            omschrijving: "string"
+        }    
     }
     
 }

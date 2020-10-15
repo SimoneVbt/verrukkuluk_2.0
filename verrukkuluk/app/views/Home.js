@@ -39,8 +39,9 @@ export default class Home extends Component
         if (this.state.isLoaded && Array.isArray(this.state.data)) {
             return(
                 this.state.data.map( dish => {
-                    /* filter: complete = true */
-                    return( <DishCard key={ dish.id } dish={ dish } /> );
+                    if (dish.complete) {
+                        return( <DishCard key={ dish.id } dish={ dish } /> );
+                    }
                 })
             );
         } else if (this.state.isLoaded) {

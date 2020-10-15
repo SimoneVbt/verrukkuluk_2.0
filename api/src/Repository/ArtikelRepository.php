@@ -26,6 +26,7 @@ class ArtikelRepository extends ServiceEntityRepository
         $article->setVerpakking($params["verpakking"]);
         $article->setCalorieenPer100g($params["calorieen_per_100g"]);
         isset($params["omzetting_naar_g"]) ? $article->setOmzettingNaarG($params["omzetting_naar_g"]) : null;
+        $article->setAfbeelding($params["afbeelding"]);
 
         $em = $this->getEntityManager();
         $em->persist($article);

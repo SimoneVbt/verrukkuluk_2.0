@@ -34,18 +34,24 @@ class IngredientService
     public function getDishIngredients($dish_id)
     {
         $ingredients = $this->rep->getDishIngredients($dish_id);
-        foreach ($ingredients as $ingr) {
-            $art = $this->as->getArtikel($ingr->getArtikelId());
-            $ingr->naam = $art->getNaam();
-            $ingr->afbeelding = $art->afbeelding;
-            $ingr->omschrijving = $art->getOmschrijving();
-            $ingr->prijs = $art->getPrijs();
-            $ingr->eenheid = $art->getEenheid();
-            $ingr->verpakking = $art->getVerpakking();
-            $ingr->calorieenPer100g = $art->getCalorieenPer100g();
-            $ingr->omzettingNaarG = $art->getOmzettingNaarG();
+
+        if ($ingredients) {
+            foreach ($ingredients as $ingr) {
+
+                $art = $this->as->getArtikel($ingr->getArtikelId());
+                $ingr->naam = $art->getNaam();
+                $ingr->afbeelding = $art->getAfbeelding();
+                $ingr->omschrijving = $art->getOmschrijving();
+                $ingr->prijs = $art->getPrijs();
+                $ingr->eenheid = $art->getEenheid();
+                $ingr->verpakking = $art->getVerpakking();
+                $ingr->calorieenPer100g = $art->getCalorieenPer100g();
+                $ingr->omzettingNaarG = $art->getOmzettingNaarG();
+                
+            }
+            return $ingredients;
         }
-        return $ingredients;
+        return [];
     }
 
 

@@ -40,8 +40,13 @@ class GebruikerRepository extends ServiceEntityRepository implements PasswordUpg
         if (!$u) {
             $user = new Gebruiker();
             $user->setRoles($params['roles']);
+            
         } else {
             $user = $u;
+            if ($params["foto_upload"]) {
+                $user->setFotoUpload(true);
+                $user->setAfbeelding($params["afbeelding"]);
+            }
         }
         $user->setEmail($params['email']);
         $user->setUsername($params['gebruikersnaam']);

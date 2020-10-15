@@ -111,6 +111,11 @@ const labelStyle = {
     fontStyle: "italic"   
 }
 
+const darkLabelStyle = {
+    color: darkRed,
+    fontStyle: "italic"
+}
+
 
 /* === modals === */
 const overlay = {
@@ -139,6 +144,6 @@ export {
     tabStyle, tabTextStyle,
     cardStyle, backgroundCardStyle, cardItemStyle, tabCardStyle,
     buttonStyle, fullButtonStyle, checkedButtonStyle, buttonTextStyle,
-    itemStyle, inputStyle, labelStyle,
+    itemStyle, inputStyle, labelStyle, darkLabelStyle,
     overlay, modalStyle
 }

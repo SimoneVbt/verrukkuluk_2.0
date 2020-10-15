@@ -49,24 +49,28 @@ class BoodschappenService
     public function getBoodschappen($user_id)
     {
         $boodschappen = $this->rep->getBoodschappen($user_id);
-        
-        foreach ($boodschappen as $bs) {
-            $article = $this->as->getArtikel($bs->getArtikelId());
+
+        if ($boodschappen) {
+            foreach ($boodschappen as $bs) {
+                
+                $article = $this->as->getArtikel($bs->getArtikelId());
+                
+                $price = $article->getPrijs();
+                $package = $article->getVerpakking();
+
+                $bs->product = $article->getNaam();
+                $bs->prijs = $price;
+                $bs->eenheid = $article->getEenheid();
+                $bs->verpakking = $package;
+                $bs->afbeelding = $article->getAfbeelding();
+
+                $bs->aantal_verpakkingen = ceil($bs->getAantal() / $package);
+                $bs->totalePrijs = $bs->aantal_verpakkingen * $price;
+            }
             
-            $price = $article->getPrijs();
-            $package = $article->getVerpakking();
-
-            $bs->product = $article->getNaam();
-            $bs->prijs = $price;
-            $bs->eenheid = $article->getEenheid();
-            $bs->verpakking = $package;
-            $bs->afbeelding = $article->afbeelding;
-
-            $bs->aantal_verpakkingen = ceil($bs->getAantal() / $package);
-            $bs->totalePrijs = $bs->aantal_verpakkingen * $price;
+            return $boodschappen;
         }
-        
-        return $boodschappen;
+        return [];
     }
 
 

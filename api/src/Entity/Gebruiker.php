@@ -44,6 +44,11 @@ class Gebruiker implements UserInterface
      */
     private $foto_upload = false;
 
+    /**
+     * @ORM\Column(type="string", length=1000000, nullable=true)
+     */
+    private $afbeelding;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class Gebruiker implements UserInterface
     public function setFotoUpload(bool $foto_upload): self
     {
         $this->foto_upload = $foto_upload;
+
+        return $this;
+    }
+
+    public function getAfbeelding(): ?string
+    {
+        return $this->afbeelding;
+    }
+
+    public function setAfbeelding(string $afbeelding): self
+    {
+        $this->afbeelding = $afbeelding;
 
         return $this;
     }

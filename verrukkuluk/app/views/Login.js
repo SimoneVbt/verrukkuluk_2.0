@@ -40,17 +40,11 @@ export default class Login extends Component
             })
             .catch( err => this.setState({ isLoading: false, error: true }) )
     }
+    
 
-
-    handleLoginChange(text) {
+    handleChange(text, type) {
         this.setState({
-            login: text
-        })
-    }
-
-    handlePasswordChange(text) {
-        this.setState({
-            wachtwoord: text
+            [type]: text
         })
     }
 
@@ -67,14 +61,14 @@ export default class Login extends Component
                             <Label style={ style.labelStyle }>Gebruikersnaam / Email</Label>
                             <Input value={ this.state.login }
                                     keyboardType="email-address"
-                                    onChangeText={ (text) => this.handleLoginChange(text) }
+                                    onChangeText={ (text) => this.handleChange(text, "login") }
                                     style={ style.inputStyle } />
                         </Item>
                         <Item stackedLabel style={ style.itemStyle }>
                             <Label style={ style.labelStyle }>Wachtwoord</Label>
                             <Input value={ this.state.wachtwoord } 
                                     secureTextEntry
-                                    onChangeText={ (text) => this.handlePasswordChange(text) }
+                                    onChangeText={ (text) => this.handleChange(text, "wachtwoord") }
                                     style={ style.inputStyle } />
                         </Item>
                         <Button large onPress={ () => this.login() }

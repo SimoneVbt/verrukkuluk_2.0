@@ -3,7 +3,6 @@
     "remote_id": {{ user.id }},
     "gebruikersnaam": "{{ user.username }}",
     "email": "{{ user.email }}",
-    "foto_upload": {{ user.fotoUpload ? "true" : "false" }},
-    {% if user.foto is defined %}"foto": "{{ user.foto }}",{% endif %}
+    {% if user.foto is defined %}"foto": "{{ user.afbeelding }}",{% endif %}
     "wachtwoord": "{{ user.password }}"
 }

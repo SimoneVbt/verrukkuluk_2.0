@@ -29,11 +29,11 @@ export default class MyDishes extends Component
     renderContent() {
         if (this.state.dishes.length > 0) {
             return(
-                <View style={{ marginBottom: 0 }}>
+                <View style={{ marginBottom: 20 }}>
                     {
                         this.state.dishes.map( dish => {
                             return( 
-                                <DishCard key={ dish.id } dish={ dish } mydishes />
+                                <DishCard key={ dish.id } dish={ dish } editable />
                             )
                         })                        
                     }
@@ -44,7 +44,7 @@ export default class MyDishes extends Component
                 <Card style={ style.cardStyle }>
                     <CardItem style={ style.cardItemStyle }>
                         <Text style={{ fontStyle: "italic" }}>
-                            Je hebt nog geen gerechten gepost op verrukkuluk.nl. Voeg een gerecht toe via de knop hierboven.
+                            Je hebt nog geen gerechten gepost op verrukkuluk.nl. Voeg een gerecht toe via de knop rechtsonder.
                         </Text>                        
                     </CardItem>
                 </Card>                

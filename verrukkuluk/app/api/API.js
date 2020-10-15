@@ -7,8 +7,9 @@ let realm = new Realm({
             schema.ingredient,
             schema.gerechtinfo,
             schema.gebruiker,
-            schema.boodschappen ],
-    schemaVersion: 28
+            schema.boodschappen,
+            schema.keukentype ],
+    schemaVersion: 30
 });
 
 
@@ -26,7 +27,7 @@ export default class API
 
         if (obj.userInUrl) {
             let user = this.fetchFromDatabase("gebruiker", 1);
-            finalUrl += user.id;
+            finalUrl += user.remote_id;
         }
 
         // console.warn(finalUrl);
@@ -103,7 +104,7 @@ export default class API
             
             if (obj.user) {
                 let user = this.fetchFromDatabase("gebruiker", 1);
-                body.append("gebruiker_id", user.id);
+                body.append("gebruiker_id", user.remote_id);
             }
         }
         let apiObj = obj.type === "post" ? { method: 'post', body } : { method: 'delete' };

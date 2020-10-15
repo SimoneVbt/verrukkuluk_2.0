@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardItem, Text, Button, View, Thumbnail } from 'native-base';
+import { Card, CardItem, Text, Button, View, Thumbnail, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import * as style from '../resources/styles/styles.js';
 import Stars from '../components/Stars';
@@ -15,20 +15,66 @@ const buttonStyle = {
 
 
 export default class DishCard extends Component
-{    
-    render() {
-        return(
-            <Card style={ style.cardStyle }>
+{
+    renderTitle() {
+        if (!this.props.editable) {
+            return(
                 <CardItem header style={ style.cardItemStyle }>
                     <Text style={ style.titleStyle }>
                         { this.props.dish.titel }
                     </Text>
                 </CardItem>
+            )            
+        }
+        return(
+            <CardItem header style={ style.cardItemStyle }>
+                <View style={{ flexDirection: "column", flex: 3 }}>
+                    <Text style={ style.titleStyle }>
+                        { this.props.dish.titel }
+                    </Text>                    
+                </View>
+                <View style={{ flexDirection: "column", flex: 1 }}>
+                    <Button transparent
+                            onPress={ () => Actions.NewDish({ dish: this.props.dish }) }
+                            style={{ alignSelf: "flex-end" }}>
+                        <Icon name="edit" type="FontAwesome" style={{ color: style.darkRed, fontSize: 28 }} />
+                    </Button>
+                </View>
+            </CardItem>
+        )
+    }
+
+
+    renderIncompleteMessage() {
+        if (!this.props.dish.complete) {
+            return(
+                <CardItem style={ style.cardItemStyle }>
+                    <View style={{ flexDirection: "row" }}>
+                        <View style={{ flexDirection: "column", flex: 1 }}>
+                            <Icon name="warning" type="Entypo" style={{ color: style.darkRed }} />
+                        </View>
+                        <View style={{ flexDirection: "column", flex: 6 }}>
+                            <Text style={{ color: style.darkRed, fontStyle: "italic", fontSize: 16, fontWeight: "bold" }}>
+                                Nog niet gepubliceerd: {"\n"} missende gegevens
+                            </Text>                            
+                        </View>
+                    </View>
+                </CardItem>                
+            )
+        }
+    }
+    
+
+    render() {
+        return(
+            <Card style={ style.cardStyle }>
+                { this.renderTitle() }
                 <CardItem style={ style.cardItemStyle }>
                     <Thumbnail square
                                 source={{ uri: this.props.dish.afbeelding }}
-                                style={{ width: "100%", height: 100 }} />
+                                style={{ width: "100%", height: 120 }} />
                 </CardItem>
+                { this.renderIncompleteMessage() }
                 <CardItem style={ style.cardItemStyle }>
                     <Text style={{ fontStyle: "italic", fontSize: 14, flex: 1, color: style.darkRed }}>
                         { this.props.dish.type }

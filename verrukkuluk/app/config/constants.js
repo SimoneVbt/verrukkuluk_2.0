@@ -6,6 +6,7 @@ const ip = environment === 1 ? home : work;
 //basis
 const baseUrl = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api`;
 const userPhotoUrl = `http://${ ip }/verrukkuluk_2.0/api/public/gebruikers/`;
+const defaultImg = userPhotoUrl + "default.png";
 
 //login
 const loginUrl = baseUrl + "/gebruiker/login";
@@ -31,7 +32,7 @@ const deleteListUrl = baseUrl + "/boodschappen/delete/";
 
 
 export {
-    baseUrl,userPhotoUrl, 
+    baseUrl, userPhotoUrl, defaultImg,
     loginUrl, userUrl,
     dishUrl, allDishesUrl, ingrUrl,
     addInfoUrl, deleteInfoUrl, prepUrl, commUrl,

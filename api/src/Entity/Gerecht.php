@@ -38,17 +38,17 @@ class Gerecht
     private $datum_toegevoegd;
 
     /**
-     * @ORM\Column(type="string", length=40)
+     * @ORM\Column(type="string", length=50)
      */
     private $titel;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=250)
      */
     private $korte_omschrijving;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=1500)
      */
     private $lange_omschrijving;
 
@@ -56,6 +56,11 @@ class Gerecht
      * @ORM\Column(type="boolean")
      */
     private $complete;
+
+    /**
+     * @ORM\Column(type="string", length=1000000)
+     */
+    private $afbeelding;
 
     public function getId(): ?int
     {
@@ -154,6 +159,18 @@ class Gerecht
     public function setComplete(bool $complete): self
     {
         $this->complete = $complete;
+
+        return $this;
+    }
+
+    public function getAfbeelding(): ?string
+    {
+        return $this->afbeelding;
+    }
+
+    public function setAfbeelding(string $afbeelding): self
+    {
+        $this->afbeelding = $afbeelding;
 
         return $this;
     }

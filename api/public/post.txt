@@ -1,5 +1,0 @@
-Array
-(
-    [login] => Admin
-    [wachtwoord] => admin
-)

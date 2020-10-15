@@ -18,7 +18,7 @@ class Artikel
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=30)
      */
     private $naam;
 
@@ -51,6 +51,11 @@ class Artikel
      * @ORM\Column(type="float", nullable=true)
      */
     private $omzetting_naar_g;
+
+    /**
+     * @ORM\Column(type="string", length=1000000)
+     */
+    private $afbeelding;
 
     public function getId(): ?int
     {
@@ -137,6 +142,18 @@ class Artikel
     public function setOmzettingNaarG(float $omzetting_naar_g): self
     {
         $this->omzetting_naar_g = $omzetting_naar_g;
+
+        return $this;
+    }
+
+    public function getAfbeelding(): ?string
+    {
+        return $this->afbeelding;
+    }
+
+    public function setAfbeelding(string $afbeelding): self
+    {
+        $this->afbeelding = $afbeelding;
 
         return $this;
     }

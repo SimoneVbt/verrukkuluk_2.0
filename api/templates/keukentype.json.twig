@@ -1,5 +1,9 @@
-{
-    "id": {{ kt.id }},
-    "record_type": "{{ kt.recordType|e('js')|raw }}",
-    "omschrijving": "{{ kt.omschrijving|e('js')|raw }}"
-}
+[
+    {% for kt_ in kt %}
+    {
+        "id": {{ kt_.id }},
+        "record_type": "{{ kt_.recordType|e('js')|raw }}",
+        "omschrijving": "{{ kt_.omschrijving|e('js')|raw }}"
+    {{ kt_ == kt|last ? "}" : "}," }}
+    {% endfor %}
+]
