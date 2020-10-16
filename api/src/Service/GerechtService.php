@@ -43,7 +43,7 @@ class GerechtService
         $dish->gemiddeldeBeoordeling = $this->calcAverageRating($dish_id);
         $dish->calorieen = $this->calcCalories($dish_id);
         $dish->totalePrijs = $this->calcPrice($dish_id);
-
+        
         $dish->keuken = $this->kts->getKeukenType($dish->getKeukenId())->getOmschrijving();
         $dish->type = $this->kts->getKeukenType($dish->getTypeId())->getOmschrijving();
         $dish->gebruiker = $this->gs->getGebruiker($dish->getGebruikerId())->getUsername();

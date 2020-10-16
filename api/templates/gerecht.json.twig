@@ -1,7 +1,9 @@
 {
     "id": {{ dish.id }},
     "keuken": "{{ dish.keuken|e('js')|raw }}",
+    "keuken_id": {{ dish.keukenId }},
     "type": "{{ dish.type|e('js')|raw }}",
+    "type_id": {{ dish.typeId }},
     "gebruiker_id": {{ dish.gebruikerId }},
     "gebruiker": "{{ dish.gebruiker|e('js')|raw }}",
     "afbeelding": "{{ dish.afbeelding }}",

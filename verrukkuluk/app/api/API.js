@@ -9,7 +9,7 @@ let realm = new Realm({
             schema.gebruiker,
             schema.boodschappen,
             schema.keukentype ],
-    schemaVersion: 31
+    schemaVersion: 32
 });
 
 
@@ -56,7 +56,10 @@ export default class API
         let url = this.constructUrl(obj);
         
         const tm = setTimeout( () => {
-            resolve(API.fetchFromDatabase(obj.table, obj.id=false, obj.filter=false, obj.sort="id"));
+            resolve(API.fetchFromDatabase(obj.table,
+                                            obj.id ? obj.id : false,
+                                            obj.filter ? obj.filter : false,
+                                            obj.sort ? obj.sort : "id"));
         }, timeout);
 
         fetch(url)
@@ -93,7 +96,7 @@ export default class API
     static postData = (obj) => new Promise( (resolve, reject) => {
 
         let url = this.constructUrl(obj);
-        // console.warn(url);
+         console.warn(url);
         const body = new FormData();
 
         if (obj.type === "post") {

@@ -5,11 +5,12 @@ import { Container, Content, Text, View,
 import { Actions } from 'react-native-router-flux';
 import * as style from '../resources/styles/styles.js';
 import * as constants from '../config/constants';
+import API from '../api/API.js';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import base64 from 'react-native-base64';
+import { Picker } from '@react-native-community/picker';
 import PhotoInterface from '../components/PhotoInterface';
-import API from '../api/API.js';
 
 
 export default class NewDish extends Component
@@ -19,12 +20,15 @@ export default class NewDish extends Component
         kitchens: [],
         types: [],
         isLoaded: false,
-        isLoading: false,
         error: false,
+        isLoading: false, //submit
+        submitError: false, //submit
         id: 0,
         picture: "",
         kitchen: "",
+        kitchenId: 0,
         type: "",
+        typeId: 0,
         title: "",
         shortDescription: "",
         longDescription: ""
@@ -57,7 +61,9 @@ export default class NewDish extends Component
                 id: dish.id,
                 picture: dish.afbeelding,
                 kitchen: dish.keuken,
+                kitchenId: dish.keuken_id,
                 type: dish.type,
+                typeId: dish.type_id,
                 title: dish.titel,
                 shortDescription: dish.korte_omschrijving,
                 longDescription: dish.lange_omschrijving
@@ -83,27 +89,55 @@ export default class NewDish extends Component
     }
 
 
-    // keuken/type: fetchen!
-    // keuken/type: select maken, kiezen uit database
+    handleValueChange(value, index, type) {
+        if (value == null) { return }
+        
+        function findKt(kt) {
+            return kt.omschrijving === value
+        }
+        const object = type === "kitchen" ? this.state.kitchens.find(findKt) : this.state.types.find(findKt);
+        const typeId = type + "Id";
+        
+        this.setState({
+            [type]: value,
+            [typeId]: object.id
+        })
+    }
+
+
     submit() {
+        if (!this.state.picture) {
+            return false; // errorbericht maken!
+        }
+        // in db/api: kolom datum_bewerkt maken?
         const base64Picture = base64.encode(this.state.picture);
         const data = {
             id: this.state.id > 0 ? this.state.id : false,
-            //keuken_id: this.state.keuken,
-            //type_id: this.state.type,
+            keuken_id: this.state.kitchenId,
+            type_id: this.state.typeId,
             titel: this.state.title,
             korte_omschrijving: this.state.shortDescription,
             lange_omschrijving: this.state.longDescription,
             afbeelding: base64Picture
         }
 
-        // API.postData({ url: ..., type: "post", data: data, user: true })
-        //     .then( Actions.pop() )
-        //     .catch( error => console.warn(error) )
+        // post lukt, maar updatet niets in db
+        API.postData({ url: constants.createDishUrl, type: "post", data: data, user: true })
+            .then( result => console.warn("toegevoegd/bijgewerkt")) //Actions.pop() )
+            .catch( error => console.warn(error) )
     }
 
 
     renderForm() {
+        if (this.state.error) {
+            return(
+                <CardItem style={ style.cardItemStyle }>
+                    <Text>
+                        Er is iets misgegaan. Probeer later opnieuw.
+                    </Text>
+                </CardItem>
+            )
+        }
         if (this.state.isLoaded) {
             return(
                 <Form>
@@ -112,15 +146,29 @@ export default class NewDish extends Component
                         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Item stackedLabel style={{ flex: 1 }}>
                                 <Label style={ style.darkLabelStyle }>Keuken</Label>
-                                <Input value={ this.state.kitchen }
-                                        onChangeText={ (text) => this.handleChange(text, "kitchen") }
-                                />
+                                <Picker style={{ width: "100%" }}
+                                        selectedValue={ this.state.kitchen }
+                                        onValueChange={ (value, index) => this.handleValueChange(value, index, "kitchen") }>
+                                    <Picker.Item label="(keuken)" value={null} />
+                                    {
+                                        this.state.kitchens.map( kitchen => 
+                                            <Picker.Item label={ kitchen.omschrijving } value={ kitchen.omschrijving } key={ kitchen.id } />
+                                        )
+                                    }
+                                </Picker>
                             </Item>
                             <Item stackedLabel style={{ flex: 1 }}>
                                 <Label style={ style.darkLabelStyle }>Type</Label>
-                                <Input value={ this.state.type }
-                                        onChangeText={ (text) => this.handleChange(text, "type") }
-                                />
+                                <Picker style={{ width: "100%" }}
+                                        selectedValue={ this.state.type }
+                                        onValueChange={ (value, index) => this.handleValueChange(value, index, "type") }>
+                                    <Picker.Item label="(type)" value={null} />
+                                    {
+                                        this.state.types.map( type => 
+                                            <Picker.Item label={ type.omschrijving } value={ type.omschrijving } key={ type.id } />
+                                        )
+                                    }
+                                </Picker>
                             </Item>
                         </View>
                     </CardItem>

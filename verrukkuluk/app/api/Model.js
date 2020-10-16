@@ -6,7 +6,9 @@ const schema = {
         properties: {
             id: { type: "int", indexed: true },
             keuken: { type: "string", default: "" },
+            keuken_id: "int",
             type: { type: "string", default: "" },
+            type_id: "int",
             gebruiker_id: "int",
             gebruiker: { type: "string", default: "" },
             datum_toegevoegd: "date",
