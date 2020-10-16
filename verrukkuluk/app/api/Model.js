@@ -16,7 +16,7 @@ const schema = {
             gemiddelde_beoordeling: { type: "float", default: 0 },
             calorieen: { type: "int", default: 0 },
             totale_prijs: { type: "string", default: "" },
-            afbeelding: "string",
+            afbeelding: { type: "string", default: "" },
             favoriet_id: { type: "int", default: 0 },
             favoriet: "bool",
             waardering_id: { type: "int", default: 0 },
@@ -34,7 +34,7 @@ const schema = {
             record_type: "string",
             gebruiker_id: "int?",
             gebruikersnaam: "string?",
-            foto: "string?",
+            afbeelding: "string?",
             datum: "date",
             datum_bewerkt: "date?",
             nummeriekveld: "int?",
@@ -68,8 +68,7 @@ const schema = {
             id: { type: "int", indexed: true },
             remote_id: "int",
             gebruikersnaam: "string",
-            foto_upload: "bool",
-            foto: "string?",
+            afbeelding: "string?",
             email: "string",
             wachtwoord: "string"
         }
@@ -93,7 +92,7 @@ const schema = {
     },
 
     keukentype: {
-        name: "boodschappen",
+        name: "keukentype",
         primaryKey: "id",
         properties: {
             id: { type: "int", indexed: true },

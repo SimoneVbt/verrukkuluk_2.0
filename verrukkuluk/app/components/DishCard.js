@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardItem, Text, Button, View, Thumbnail, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import * as style from '../resources/styles/styles.js';
+import { defaultDish } from '../config/constants';
 import Stars from '../components/Stars';
 
 const buttonStyle = {
@@ -71,7 +72,7 @@ export default class DishCard extends Component
                 { this.renderTitle() }
                 <CardItem style={ style.cardItemStyle }>
                     <Thumbnail square
-                                source={{ uri: this.props.dish.afbeelding }}
+                                source={{ uri: this.props.dish.afbeelding ? this.props.dish.afbeelding : defaultDish }}
                                 style={{ width: "100%", height: 120 }} />
                 </CardItem>
                 { this.renderIncompleteMessage() }

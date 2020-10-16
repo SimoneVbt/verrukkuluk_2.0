@@ -149,14 +149,15 @@ export default class Comment extends Component
     }
 
 
-    render() {        
+    render() {
+        const { afbeelding } = this.props.comment;
         return(
             <ListItem style={{ marginLeft: 5 }} >
                 <Left style={{ flex: 3, flexDirection: "column", alignItems: "center" }}>
                     <Text style={ smallTextStyle } numberOfLines={1}>
                         { this.props.comment.gebruikersnaam }
                     </Text>
-                    <Thumbnail source={{ uri: this.props.comment.foto }} />
+                    <Thumbnail source={{ uri: afbeelding ? afbeelding : constants.defaultUser }} />
                     <Text style={ smallTextStyle }>
                         { this.formatDate(this.props.comment.datum) }
                     </Text>

@@ -29,10 +29,21 @@ class KeukenTypeRepository extends ServiceEntityRepository
     }
 
 
-    // nu K en T samen (want allebei nodig): beter apart?
-    public function getAllKeukenTypes()
+    public function getKeukenType($kt_id)
     {
-        return $this->findAll();
+        return $this->find($kt_id);
+    }
+
+
+    public function getAllKeukens()
+    {
+        return $this->findBy(["record_type" => "K"], ["omschrijving" => "ASC"]);
+    }
+
+
+    public function getAllTypes()
+    {
+        return $this->findBy(["record_type" => "T"], ["omschrijving" => "ASC"]);
     }
 
 

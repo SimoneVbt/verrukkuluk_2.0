@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { CardItem, Text, Button, Icon, Thumbnail, Grid, Col, Row } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import * as style from '../resources/styles/styles.js';
+import { defaultDish } from '../config/constants';
 import Stars from '../components/Stars';
 
 const buttonStyle = {
@@ -59,6 +60,7 @@ export default class Favorite extends Component
 
 
     render() {
+        const { afbeelding } = this.props.dish;
         return(
             <CardItem style={{ backgroundColor: style.beige, flexDirection: "column", 
                                 borderWidth: 1, borderColor: style.darkRed, margin: 5 }}>
@@ -81,7 +83,7 @@ export default class Favorite extends Component
                         <Col>
                             <Thumbnail square
                                         style={{ width: "80%", height: 80 }}
-                                        source={{ uri: this.props.dish.afbeelding }} />
+                                        source={{ uri: afbeelding ? afbeelding : defaultDish }} />
                         </Col>
                         <Col>
                             <Text style={{ fontSize: 14 }} numberOfLines={4}>

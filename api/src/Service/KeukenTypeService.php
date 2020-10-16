@@ -23,9 +23,21 @@ class KeukenTypeService
     }
 
 
-    public function getAllKeukenTypes()
+    public function getKeukenType($kt_id)
     {
-        return $this->rep->getAllKeukenTypes();
+        return $this->rep->getKeukenType($kt_id);
+    }
+
+
+    public function getAllKeukens()
+    {
+        return $this->rep->getAllKeukens();
+    }
+
+
+    public function getAllTypes()
+    {
+        return $this->rep->getAllTypes();
     }
 
 

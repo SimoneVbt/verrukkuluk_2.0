@@ -2,22 +2,23 @@ import React, { Component, Fragment } from 'react';
 import { Alert } from 'react-native';
 import { Container, Content, View, Text, Card, CardItem, Thumbnail, Grid, Col, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import * as Style from '../resources/styles/styles';
+import * as style from '../resources/styles/styles';
+import { defaultUser } from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import API from '../api/API';
 
-const subtitleStyle = {
-    color: Style.darkRed,
+const subtitlestyle = {
+    color: style.darkRed,
     fontWeight: "bold",
     paddingTop: 10,
     fontSize: 18    
 }
 
-const loginButtonStyle = {
-    backgroundColor: Style.beige,
-    color: Style.darkRed,
-    borderColor: Style.darkRed,
+const loginButtonstyle = {
+    backgroundColor: style.beige,
+    color: style.darkRed,
+    borderColor: style.darkRed,
     borderWidth: 2,
     height: 60,
     width: "50%",
@@ -68,28 +69,29 @@ export default class Profile extends Component
 
 
     renderProfile() {
+        const { afbeelding } = this.state;
         if (this.state.user) {
             return(
                 <Fragment>
-                    <CardItem style={ Style.cardItemStyle }>
+                    <CardItem style={ style.cardItemstyle }>
                         <Text>
                             Hey { this.state.user.gebruikersnaam }!
                         </Text>
                     </CardItem>                            
-                    <CardItem style={ Style.cardItemStyle }>
+                    <CardItem style={ style.cardItemstyle }>
                         <Grid style={{ paddingVertical: 20 }}>
                             <Col size={2}>
-                                <Thumbnail source={{ uri: this.state.user.foto }}
+                                <Thumbnail source={{ uri: afbeelding ? afbeelding : defaultUser }}
                                             style={{ marginTop: 10, width: size, height: size, borderRadius: size / 2 }} />
                             </Col>
                             <Col size={3}>
-                                <Text style={ subtitleStyle }>
+                                <Text style={ subtitlestyle }>
                                     Gebruikersnaam
                                 </Text>
                                 <Text>
                                     { this.state.user.gebruikersnaam }
                                 </Text>
-                                <Text style={ subtitleStyle }>
+                                <Text style={ subtitlestyle }>
                                     Email
                                 </Text>
                                 <Text>
@@ -98,22 +100,22 @@ export default class Profile extends Component
                             </Col>
                         </Grid>
                     </CardItem>
-                    <CardItem style={ Style.cardItemStyle }>
+                    <CardItem style={ style.cardItemstyle }>
                         <View style={{ width: "100%" }}>
-                            <Button style={ Style.buttonStyle }
+                            <Button style={ style.buttonstyle }
                                     onPress={ () => Actions.EditProfile( )}>
-                                <Text style={ Style.buttonTextStyle }>
+                                <Text style={ style.buttonTextstyle }>
                                     Bewerk profiel
                                 </Text>
                             </Button>
-                            <Button style={ Style.buttonStyle }>
-                                <Text style={ Style.buttonTextStyle }>
+                            <Button style={ style.buttonstyle }>
+                                <Text style={ style.buttonTextstyle }>
                                     Wachtwoord veranderen
                                 </Text>
                             </Button>
                             <Button style={{ margin: 5, borderRadius: 10, backgroundColor: "#000" }}
                                     onPress={ () => this.logout() }>
-                                <Text style={ Style.buttonTextStyle }>
+                                <Text style={ style.buttonTextstyle }>
                                     Uitloggen
                                 </Text>
                             </Button>
@@ -124,17 +126,17 @@ export default class Profile extends Component
         } else {
             return(
                 <Fragment>
-                    <CardItem style={ Style.cardItemStyle }>
+                    <CardItem style={ style.cardItemstyle }>
                         <Text>
                             Er is iets misgegaan.
                             
                         </Text>
                     </CardItem>
-                    <CardItem style={ Style.cardItemStyle }>
+                    <CardItem style={ style.cardItemstyle }>
                         <Button  rounded 
                                 onPress={ () => Actions.Login() }
-                                style={ loginButtonStyle }>
-                            <Text style={{ color: Style.darkRed }}>Login</Text>
+                                style={ loginButtonstyle }>
+                            <Text style={{ color: style.darkRed }}>Login</Text>
                         </Button>                    
                     </CardItem>
                 </Fragment>
@@ -145,13 +147,13 @@ export default class Profile extends Component
 
     render() {
         return(
-            <Container style={{ backgroundColor: Style.darkRed }}>
+            <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="mijn profiel" />
                 <Content style={{ padding: 10 }}>
                     <View style={{ paddingBottom: 18}}>
-                        <Card style={ Style.cardStyle }>
-                            <CardItem style={ Style.cardItemStyle }>
-                                <Text style={ Style.titleStyle }>
+                        <Card style={ style.cardstyle }>
+                            <CardItem style={ style.cardItemstyle }>
+                                <Text style={ style.titlestyle }>
                                     mijn profiel
                                 </Text>
                             </CardItem>

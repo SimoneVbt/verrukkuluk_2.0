@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Content, Text, View,
-        Card, CardItem, Button, Thumbnail,
+        Card, CardItem, Button, Spinner,
         Form, Textarea, Input, Label, Item  } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import * as style from '../resources/styles/styles.js';
+import * as constants from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import base64 from 'react-native-base64';
@@ -15,6 +16,9 @@ export default class NewDish extends Component
 {
     state = {
         photoMenuVisible: false,
+        kitchens: [],
+        types: [],
+        isLoaded: false,
         isLoading: false,
         error: false,
         id: 0,
@@ -28,6 +32,25 @@ export default class NewDish extends Component
 
 
     componentDidMount() {
+        const kitchens = API.fetchData({ url: constants.kitchenUrl, table: "keukentype", filter: 'record_type = "K"', sort: "omschrijving" })
+        const types = API.fetchData({ url: constants.typeUrl, table: "keukentype",  filter: 'record_type = "T"', sort: "omschrijving" })
+
+        Promise.all([kitchens, types])
+            .then( values =>
+                this.setState({
+                    isLoaded: true,
+                    kitchens: values[0],
+                    types: values[1]
+                })
+            )
+            .catch( error => {
+                console.warn(error);
+                this.setState({
+                    isLoaded: true,
+                    error: true
+                })
+            })
+
         if (this.props.dish) {
             let dish = this.props.dish;
             this.setState({
@@ -81,79 +104,84 @@ export default class NewDish extends Component
 
 
     renderForm() {
-        return(
-            <Form>
-                <PhotoInterface picture={ this.state.picture } setPictureCallback={ this.setPictureCallback } />
-                <CardItem style={ style.cardItemStyle }>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Item stackedLabel style={{ flex: 1 }}>
-                            <Label style={ style.darkLabelStyle }>Keuken</Label>
-                            <Input value={ this.state.kitchen }
-                                    onChangeText={ (text) => this.handleChange(text, "kitchen") }
+        if (this.state.isLoaded) {
+            return(
+                <Form>
+                    <PhotoInterface picture={ this.state.picture } setPictureCallback={ this.setPictureCallback } />
+                    <CardItem style={ style.cardItemStyle }>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <Item stackedLabel style={{ flex: 1 }}>
+                                <Label style={ style.darkLabelStyle }>Keuken</Label>
+                                <Input value={ this.state.kitchen }
+                                        onChangeText={ (text) => this.handleChange(text, "kitchen") }
+                                />
+                            </Item>
+                            <Item stackedLabel style={{ flex: 1 }}>
+                                <Label style={ style.darkLabelStyle }>Type</Label>
+                                <Input value={ this.state.type }
+                                        onChangeText={ (text) => this.handleChange(text, "type") }
+                                />
+                            </Item>
+                        </View>
+                    </CardItem>
+                    <CardItem style={ style.cardItemStyle }>
+                        <Item stackedLabel style={{ width: "100%" }}>
+                            <Label style={ style.darkLabelStyle }>Titel</Label>
+                            <Input value={ this.state.title }
+                                    onChangeText={ (text) => this.handleChange(text, "title") }
+                                    maxLength={50}
                             />
                         </Item>
-                        <Item stackedLabel style={{ flex: 1 }}>
-                            <Label style={ style.darkLabelStyle }>Type</Label>
-                            <Input value={ this.state.type }
-                                    onChangeText={ (text) => this.handleChange(text, "type") }
-                            />
-                        </Item>
-                    </View>
-                </CardItem>
-                <CardItem style={ style.cardItemStyle }>
-                    <Item stackedLabel style={{ width: "100%" }}>
-                        <Label style={ style.darkLabelStyle }>Titel</Label>
-                        <Input value={ this.state.title }
-                                onChangeText={ (text) => this.handleChange(text, "title") }
-                                maxLength={50}
-                        />
-                    </Item>
-                </CardItem>
-                <CardItem style={ style.cardItemStyle }>
-                    <Text style={{ alignSelf: "flex-end", fontSize: 12, marginLeft: 10, marginTop: -5, fontStyle: "italic" }}>
-                        { this.state.title.length } / 50 tekens
-                    </Text>
-                </CardItem>
-                <CardItem style={ style.cardItemStyle }>
-                    <Item stackedLabel style={{ width: "100%" }}>
-                        <Label style={ style.darkLabelStyle }>Korte omschrijving</Label>
-                        <Textarea value={ this.state.shortDescription }
-                                    onChangeText={ (text) => this.handleChange(text, "shortDescription") }
-                                    maxLength={250}
-                                    rowSpan={3}
-                        />
-                    </Item>
-                </CardItem>
-                <CardItem style={ style.cardItemStyle }>
-                    <Text style={{ alignSelf: "flex-end", fontSize: 12, marginLeft: 10, marginTop: -5, fontStyle: "italic" }}>
-                        { this.state.shortDescription.length } / 250 tekens
-                    </Text>
-                </CardItem>
-                <CardItem style={ style.cardItemStyle }>
-                    <Item stackedLabel style={{ width: "100%" }}>
-                        <Label style={ style.darkLabelStyle }>Lange omschrijving</Label>
-                        <Textarea value={ this.state.longDescription }
-                                    onChangeText={ (text) => this.handleChange(text, "longDescription") }
-                                    maxLength={1500}
-                                    rowSpan={6}
-                        />
-                    </Item>
-                </CardItem>
-                <CardItem style={ style.cardItemStyle }>
-                    <Text style={{ alignSelf: "flex-end", fontSize: 12, marginLeft: 10, marginTop: -5, fontStyle: "italic" }}>
-                        { this.state.longDescription.length } / 1500 tekens
-                    </Text>
-                </CardItem>
-                <CardItem style={ style.cardItemStyle }>
-                    <Button block 
-                            onPress={ () => this.submit() }
-                            style={ style.fullButtonStyle }>
-                        <Text style={ style.buttonTextStyle }>
-                            toevoegen
+                    </CardItem>
+                    <CardItem style={ style.cardItemStyle }>
+                        <Text style={{ fontSize: 12, marginLeft: 10, marginTop: -5, fontStyle: "italic" }}>
+                            { this.state.title.length } / 50 tekens
                         </Text>
-                    </Button>
-                </CardItem>
-            </Form>
+                    </CardItem>
+                    <CardItem style={ style.cardItemStyle }>
+                        <Item stackedLabel style={{ width: "100%" }}>
+                            <Label style={ style.darkLabelStyle }>Korte omschrijving</Label>
+                            <Textarea value={ this.state.shortDescription }
+                                        onChangeText={ (text) => this.handleChange(text, "shortDescription") }
+                                        maxLength={250}
+                                        rowSpan={3}
+                            />
+                        </Item>
+                    </CardItem>
+                    <CardItem style={ style.cardItemStyle }>
+                        <Text style={{ fontSize: 12, marginLeft: 10, marginTop: -5, fontStyle: "italic" }}>
+                            { this.state.shortDescription.length } / 250 tekens
+                        </Text>
+                    </CardItem>
+                    <CardItem style={ style.cardItemStyle }>
+                        <Item stackedLabel style={{ width: "100%" }}>
+                            <Label style={ style.darkLabelStyle }>Lange omschrijving</Label>
+                            <Textarea value={ this.state.longDescription }
+                                        onChangeText={ (text) => this.handleChange(text, "longDescription") }
+                                        maxLength={1500}
+                                        rowSpan={6}
+                            />
+                        </Item>
+                    </CardItem>
+                    <CardItem style={ style.cardItemStyle }>
+                        <Text style={{ fontSize: 12, marginLeft: 10, marginTop: -5, marginBottom: 10, fontStyle: "italic" }}>
+                            { this.state.longDescription.length } / 1500 tekens
+                        </Text>
+                    </CardItem>
+                    <CardItem style={ style.cardItemStyle }>
+                        <Button block 
+                                onPress={ () => this.submit() }
+                                style={ style.fullButtonStyle }>
+                            <Text style={ style.buttonTextStyle }>
+                                toevoegen
+                            </Text>
+                        </Button>
+                    </CardItem>
+                </Form>
+            )
+        }
+        return(
+            <Spinner color={ style.darkRed } size={50} style={{ marginVertical: 10 }} />
         )
     }
     

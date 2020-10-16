@@ -9,7 +9,7 @@ let realm = new Realm({
             schema.gebruiker,
             schema.boodschappen,
             schema.keukentype ],
-    schemaVersion: 30
+    schemaVersion: 31
 });
 
 
@@ -54,7 +54,6 @@ export default class API
     static fetchData = (obj) => new Promise( (resolve, reject) => {
 
         let url = this.constructUrl(obj);
-        // console.warn(url);
         
         const tm = setTimeout( () => {
             resolve(API.fetchFromDatabase(obj.table, obj.id=false, obj.filter=false, obj.sort="id"));

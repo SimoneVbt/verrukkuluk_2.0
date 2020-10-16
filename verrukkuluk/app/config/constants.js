@@ -5,8 +5,11 @@ const ip = environment === 1 ? home : work;
 
 //basis
 const baseUrl = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api`;
-const userPhotoUrl = `http://${ ip }/verrukkuluk_2.0/api/public/gebruikers/`;
-const defaultImg = userPhotoUrl + "default.png";
+const publicDir = `http://${ ip }/verrukkuluk_2.0/api/public/`;
+
+//defaults
+const defaultDish = publicDir + "defaultdish.png";
+const defaultUser = publicDir + "defaultuser.png";
 
 //login
 const loginUrl = baseUrl + "/gebruiker/login";
@@ -30,11 +33,17 @@ const addDishToListUrl = baseUrl + "/boodschappen/add_dish";
 const setAmountUrl = baseUrl + "/boodschappen/set_amount";
 const deleteListUrl = baseUrl + "/boodschappen/delete/";
 
+//keukentype
+const typeUrl = baseUrl + "/kt/get/types";
+const kitchenUrl = baseUrl + "/kt/get/kitchens";
+
 
 export {
-    baseUrl, userPhotoUrl, defaultImg,
+    baseUrl, publicDir,
+    defaultDish, defaultUser,
     loginUrl, userUrl,
     dishUrl, allDishesUrl, ingrUrl,
     addInfoUrl, deleteInfoUrl, prepUrl, commUrl,
-    listUrl, addToListUrl, addDishToListUrl, setAmountUrl, deleteListUrl
+    listUrl, addToListUrl, addDishToListUrl, setAmountUrl, deleteListUrl,
+    typeUrl, kitchenUrl
 };
