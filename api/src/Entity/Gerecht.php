@@ -62,6 +62,11 @@ class Gerecht
      */
     private $afbeelding;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datum_bewerkt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +176,18 @@ class Gerecht
     public function setAfbeelding(string $afbeelding): self
     {
         $this->afbeelding = $afbeelding;
+
+        return $this;
+    }
+
+    public function getDatumBewerkt(): ?\DateTimeInterface
+    {
+        return $this->datum_bewerkt;
+    }
+
+    public function setDatumBewerkt(?\DateTimeInterface $datum_bewerkt): self
+    {
+        $this->datum_bewerkt = $datum_bewerkt;
 
         return $this;
     }

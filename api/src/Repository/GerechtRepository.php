@@ -17,17 +17,23 @@ class GerechtRepository extends ServiceEntityRepository
     
     public function createGerecht($params)
     {
-        $dish = isset($params["id"]) ? $this->find($params["id"]) : new Gerecht();
+        if (isset($params["id"])) {
+            $dish = $this->find($params["id"]);
+            $dish->setDatumBewerkt($params["datum"]);
+
+        } else {
+            $dish = new Gerecht();
+            $dish->setDatumToegevoegd($params["datum"]);
+        }
 
         $dish->setKeukenId($params["keuken_id"]);
         $dish->setTypeId($params["type_id"]);
         $dish->setGebruikerId($params["gebruiker_id"]);
-        $dish->setDatumToegevoegd($params["datum_toegevoegd"]);
         $dish->setTitel($params["titel"]);
         $dish->setKorteOmschrijving($params["korte_omschrijving"]);
         $dish->setLangeOmschrijving($params["lange_omschrijving"]);
         $dish->setAfbeelding($params["afbeelding"]);
-        if ($params["complete"]) {
+        if (isset($params["complete"])) {
             $dish->setComplete($params["complete"]);
         }
 

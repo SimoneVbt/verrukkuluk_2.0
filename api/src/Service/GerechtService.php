@@ -31,7 +31,7 @@ class GerechtService
 
     public function createGerecht($params)
     {
-        $params["datum_toegevoegd"] = new \DateTime(date_default_timezone_get());
+        $params["datum"] = new \DateTime(date_default_timezone_get());
         return $this->rep->createGerecht($params);
     }
 

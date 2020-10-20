@@ -21,9 +21,10 @@ export default class NewDish extends Component
         types: [],
         isLoaded: false,
         error: false,
+        noPicture: false,
+        fieldEmpty: false,
         isLoading: false, //submit
         submitError: false, //submit
-        id: 0,
         picture: "",
         kitchen: "",
         kitchenId: 0,
@@ -58,7 +59,6 @@ export default class NewDish extends Component
         if (this.props.dish) {
             let dish = this.props.dish;
             this.setState({
-                id: dish.id,
                 picture: dish.afbeelding,
                 kitchen: dish.keuken,
                 kitchenId: dish.keuken_id,
@@ -107,24 +107,30 @@ export default class NewDish extends Component
 
     submit() {
         if (!this.state.picture) {
-            return false; // errorbericht maken!
-        }
-        // in db/api: kolom datum_bewerkt maken?
-        const base64Picture = base64.encode(this.state.picture);
-        const data = {
-            id: this.state.id > 0 ? this.state.id : false,
-            keuken_id: this.state.kitchenId,
-            type_id: this.state.typeId,
-            titel: this.state.title,
-            korte_omschrijving: this.state.shortDescription,
-            lange_omschrijving: this.state.longDescription,
-            afbeelding: base64Picture
+            this.setState({ noPicture: true });
+
+        } else if (this.state.kitchenId > 0 && this.state.typeId > 0 && this.state.title.length > 0
+                && this.state.shortDescription.length > 0 && this.state.longDescription.length > 0) {
+
+            const base64Picture = "data:image/jpeg;base64," + base64.encode(this.state.picture);
+            const data = {
+                id: this.props.dish.id > 0 ? this.props.dish.id : false,
+                keuken_id: this.state.kitchenId,
+                type_id: this.state.typeId,
+                titel: this.state.title,
+                korte_omschrijving: this.state.shortDescription,
+                lange_omschrijving: this.state.longDescription,
+                afbeelding: base64Picture
+            }
+
+            API.postData({ url: constants.createDishUrl, type: "post", data: data, user: true })
+                .then( result => Actions.pop({ refresh: {} }) )
+                .catch( error => console.warn(error) )
+
+        } else {
+            this.setState({ fieldEmpty: true });            
         }
 
-        // post lukt, maar updatet niets in db
-        API.postData({ url: constants.createDishUrl, type: "post", data: data, user: true })
-            .then( result => console.warn("toegevoegd/bijgewerkt")) //Actions.pop() )
-            .catch( error => console.warn(error) )
     }
 
 
@@ -216,6 +222,22 @@ export default class NewDish extends Component
                             { this.state.longDescription.length } / 1500 tekens
                         </Text>
                     </CardItem>
+                    {
+                        this.state.noPicture &&
+                        <CardItem style={ style.cardItemStyle }>
+                            <Text style={{ color: style.darkRed, marginLeft: 10 }}>
+                                Voeg aub een afbeelding toe
+                            </Text>
+                        </CardItem>
+                    }
+                    {
+                        this.state.fieldEmpty &&
+                        <CardItem style={ style.cardItemStyle }>
+                            <Text style={{ color: style.darkRed, marginLeft: 10 }}>
+                                Vul aub alle velden in
+                            </Text>
+                        </CardItem>
+                    }
                     <CardItem style={ style.cardItemStyle }>
                         <Button block 
                                 onPress={ () => this.submit() }
@@ -241,9 +263,13 @@ export default class NewDish extends Component
                 <Content style={{ padding: 10 }}>
                     <Card style={ style.cardStyle }>
                         <CardItem style={ style.cardItemStyle }>
-                            <Text style={ style.titleStyle }>
-                                nieuw gerecht
-                            </Text>
+                        <Text style={ style.titleStyle }>
+                            {
+                                this.props.dish ?
+                                "bewerk gerecht" :
+                                "nieuw gerecht"
+                            }
+                        </Text>
                         </CardItem>
                         { this.renderForm() }
                     </Card>

@@ -15,7 +15,7 @@ const subtitlestyle = {
     fontSize: 18    
 }
 
-const loginButtonstyle = {
+const loginButtonStyle = {
     backgroundColor: style.beige,
     color: style.darkRed,
     borderColor: style.darkRed,
@@ -38,7 +38,7 @@ export default class Profile extends Component
     componentDidMount() {
         let user = API.fetchFromDatabase("gebruiker", 1);
         if (user) {
-            this.setState({ user: user })
+            this.setState({ user: user });
         }
     }
     
@@ -69,16 +69,16 @@ export default class Profile extends Component
 
 
     renderProfile() {
-        const { afbeelding } = this.state;
+        const { afbeelding } = this.state.user;
         if (this.state.user) {
             return(
                 <Fragment>
-                    <CardItem style={ style.cardItemstyle }>
+                    <CardItem style={ style.cardItemStyle }>
                         <Text>
                             Hey { this.state.user.gebruikersnaam }!
                         </Text>
                     </CardItem>                            
-                    <CardItem style={ style.cardItemstyle }>
+                    <CardItem style={ style.cardItemStyle }>
                         <Grid style={{ paddingVertical: 20 }}>
                             <Col size={2}>
                                 <Thumbnail source={{ uri: afbeelding ? afbeelding : defaultUser }}
@@ -100,22 +100,22 @@ export default class Profile extends Component
                             </Col>
                         </Grid>
                     </CardItem>
-                    <CardItem style={ style.cardItemstyle }>
+                    <CardItem style={ style.cardItemStyle }>
                         <View style={{ width: "100%" }}>
-                            <Button style={ style.buttonstyle }
+                            <Button style={ style.buttonStyle }
                                     onPress={ () => Actions.EditProfile( )}>
-                                <Text style={ style.buttonTextstyle }>
+                                <Text style={ style.buttonTextStyle }>
                                     Bewerk profiel
                                 </Text>
                             </Button>
-                            <Button style={ style.buttonstyle }>
-                                <Text style={ style.buttonTextstyle }>
+                            <Button style={ style.buttonStyle }>
+                                <Text style={ style.buttonTextStyle }>
                                     Wachtwoord veranderen
                                 </Text>
                             </Button>
                             <Button style={{ margin: 5, borderRadius: 10, backgroundColor: "#000" }}
                                     onPress={ () => this.logout() }>
-                                <Text style={ style.buttonTextstyle }>
+                                <Text style={ style.buttonTextStyle }>
                                     Uitloggen
                                 </Text>
                             </Button>
@@ -126,16 +126,16 @@ export default class Profile extends Component
         } else {
             return(
                 <Fragment>
-                    <CardItem style={ style.cardItemstyle }>
+                    <CardItem style={ style.cardItemStyle }>
                         <Text>
                             Er is iets misgegaan.
                             
                         </Text>
                     </CardItem>
-                    <CardItem style={ style.cardItemstyle }>
+                    <CardItem style={ style.cardItemStyle }>
                         <Button  rounded 
                                 onPress={ () => Actions.Login() }
-                                style={ loginButtonstyle }>
+                                style={ loginButtonStyle }>
                             <Text style={{ color: style.darkRed }}>Login</Text>
                         </Button>                    
                     </CardItem>
@@ -151,9 +151,9 @@ export default class Profile extends Component
                 <Head title="mijn profiel" />
                 <Content style={{ padding: 10 }}>
                     <View style={{ paddingBottom: 18}}>
-                        <Card style={ style.cardstyle }>
-                            <CardItem style={ style.cardItemstyle }>
-                                <Text style={ style.titlestyle }>
+                        <Card style={ style.cardStyle }>
+                            <CardItem style={ style.cardItemStyle }>
+                                <Text style={ style.titleStyle }>
                                     mijn profiel
                                 </Text>
                             </CardItem>

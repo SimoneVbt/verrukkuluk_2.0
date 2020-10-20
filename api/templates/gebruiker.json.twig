@@ -3,6 +3,8 @@
     "remote_id": {{ user.id }},
     "gebruikersnaam": "{{ user.username }}",
     "email": "{{ user.email }}",
-    {% if user.afbeelding is defined %}"afbeelding": "{{ user.afbeelding }}",{% endif %}
+    {% if user.afbeelding is not empty %}
+        "afbeelding": "{{ user.afbeelding }}",
+    {% endif %}
     "wachtwoord": "{{ user.password }}"
 }
