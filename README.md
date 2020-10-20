@@ -32,7 +32,7 @@ Gebruikers dienen in te loggen vooraleer de app te gebruiken.
 Vervolgens zijn er allerlei schermen beschikbaar: opnieuw kunnen gebruikers de homepagina, detailpagina's, de (eigen) favorieten en de (eigen) booschappen bekijken, maar daarnaast kunnen ze ook hun profiel bewerken, gerechten toevoegen en hun eigen toegevoegde gerechten bekijken.
 
 De project-setup en -planning lagen in eigen handen.
-De mock-ups maakte ik zelf en de kleurstelling/stijl haalde ik uit het bijgeleverde css-file van de oorspronkelijke casus, zodat beide goed op elkaar zouden aansluiten.
+De mock-ups maakte ik zelf. De kleurstelling/stijl haalde ik uit het bijgeleverde css-file van de oorspronkelijke casus, zodat beide goed op elkaar zouden aansluiten. Qua planning leerde ik via deze casus werken met GitHub Projects.
 
 # Gebruikte (programmeer)talen
 
