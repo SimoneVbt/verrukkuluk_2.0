@@ -23,23 +23,27 @@ export default class Search extends Component
     }
 
 
-    checkResults(dish, searchWords) {
-        const title = dish.titel.toLowerCase();
-        const kitchen = dish.titel.toLowerCase();
-        const type = dish.type.toLowerCase();
-        const shortDes = dish.korte_omschrijving.toLowerCase();
-        const longDes = dish.lange_omschrijving.toLowerCase();
+    findResults(dish, searchWords) {
+        if (dish.complete) {
+            const title = dish.titel.toLowerCase();
+            const kitchen = dish.titel.toLowerCase();
+            const type = dish.type.toLowerCase();
+            const shortDes = dish.korte_omschrijving.toLowerCase();
+            const longDes = dish.lange_omschrijving.toLowerCase();
 
-        const criteria = [ title, kitchen, type, shortDes, longDes ];
-        return searchWords.some( word => {
+            const criteria = [ title, kitchen, type, shortDes, longDes ];
+            return searchWords.some( word => {
 
-            for (let i = 0; i < criteria.length; i++) {
-                if (criteria[i].indexOf(word.toLowerCase()) != -1) {
-                    return true;
+                for (let i = 0; i < criteria.length; i++) {
+                    if (criteria[i].indexOf(word.toLowerCase()) != -1) {
+                        dish.criterium = i;
+                        return true;
+                    }
                 }
-            }
 
-        });
+            });
+        }
+        return false;
     }
 
 
@@ -47,11 +51,12 @@ export default class Search extends Component
         if (this.state.search.length > 0) {
 
             const searchWords = this.state.search.split(' ');
-            let results = this.state.dishes.filter( dish => this.checkResults(dish, searchWords));
+            let results = this.state.dishes.filter( dish => this.findResults(dish, searchWords));
+            let sortedResults = results ? results.sort( (a, b) => a.criterium - b.criterium ) : false;
 
             if (results.length > 0) {
                 return(
-                    <FlatList data={ results }
+                    <FlatList data={ sortedResults }
                             keyExtractor={ (result, index) => index.toString() }
                             renderItem={ ({item}) => <DishCard dish={ item } /> }
                             style={{ marginTop: 5 }}
