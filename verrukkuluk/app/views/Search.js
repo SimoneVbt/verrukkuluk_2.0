@@ -5,6 +5,7 @@ import * as style from '../resources/styles/styles';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import API from '../api/API';
+import DishCard from '../components/DishCard';
 
 
 export default class Search extends Component
@@ -22,12 +23,23 @@ export default class Search extends Component
     }
 
 
-    renderResult(item) {
-        return(
-            <Text>
-                { item.titel }
-            </Text>
-        )
+    checkResults(dish, searchWords) {
+        const title = dish.titel.toLowerCase();
+        const kitchen = dish.titel.toLowerCase();
+        const type = dish.type.toLowerCase();
+        const shortDes = dish.korte_omschrijving.toLowerCase();
+        const longDes = dish.lange_omschrijving.toLowerCase();
+
+        const criteria = [ title, kitchen, type, shortDes, longDes ];
+        return searchWords.some( word => {
+
+            for (let i = 0; i < criteria.length; i++) {
+                if (criteria[i].indexOf(word.toLowerCase()) != -1) {
+                    return true;
+                }
+            }
+
+        });
     }
 
 
@@ -35,21 +47,14 @@ export default class Search extends Component
         if (this.state.search.length > 0) {
 
             const searchWords = this.state.search.split(' ');
-            let results = this.state.dishes.filter( dish => 
-                dish.complete && ( //werkt niet op eerste woord!
-                    searchWords.includes(dish.titel) || //losse woorden?
-                    searchWords.includes(dish.keuken) ||
-                    searchWords.includes(dish.type) ||
-                    searchWords.includes(dish.korte_omschrijving) ||
-                    searchWords.includes(dish.lange_omschrijving)
-                )
-            )
+            let results = this.state.dishes.filter( dish => this.checkResults(dish, searchWords));
 
             if (results.length > 0) {
                 return(
                     <FlatList data={ results }
                             keyExtractor={ (result, index) => index.toString() }
-                            renderItem={ ({item}) => this.renderResult(item) }
+                            renderItem={ ({item}) => <DishCard dish={ item } /> }
+                            style={{ marginTop: 5 }}
                     />            
                 )
             }        
@@ -63,8 +68,7 @@ export default class Search extends Component
         return(
             <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="zoeken" />
-                <View style={{ backgroundColor: style.darkRed, flex: 1,
-                                padding: 10, paddingBottom: 75 }}>
+                <View style={{ backgroundColor: style.darkRed, flex: 1, padding: 10 }}>
                     <Card style={ style.cardStyle }>
                         <CardItem style={ style.cardItemStyle }>
                             <Text style={ style.titleStyle }>
