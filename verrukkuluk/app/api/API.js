@@ -62,7 +62,9 @@ export default class API
                                             obj.sort ? obj.sort : "id"));
         }, timeout);
 
-        fetch(url)
+        const options = { headers: { Accept: 'application/json', 'Content-Type': 'application/json' } }
+
+        fetch(url, options)
             .then( result => result.json() )
             .then( data => {
                 clearTimeout(tm);

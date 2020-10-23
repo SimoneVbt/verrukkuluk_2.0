@@ -8,7 +8,7 @@ import * as constants from '../config/constants';
 import API from '../api/API.js';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
-import base64 from 'react-native-base64';
+import ImgToBase64 from 'react-native-image-base64';
 import { Picker } from '@react-native-community/picker';
 import PhotoInterface from '../components/PhotoInterface';
 
@@ -23,8 +23,8 @@ export default class NewDish extends Component
         error: false,
         noPicture: false,
         fieldEmpty: false,
-        isLoading: false, //submit
-        submitError: false, //submit
+        isLoading: false,
+        submitError: false,
         picture: "",
         kitchen: "",
         kitchenId: 0,
@@ -74,7 +74,7 @@ export default class NewDish extends Component
 
     componentDidUpdate(prevProps) {
         if (prevProps.picture != this.props.picture) {
-            this.setState({ picture: this.props.picture })
+            this.setState({ picture: this.props.picture });
         }
     }
 
@@ -112,25 +112,57 @@ export default class NewDish extends Component
         } else if (this.state.kitchenId > 0 && this.state.typeId > 0 && this.state.title.length > 0
                 && this.state.shortDescription.length > 0 && this.state.longDescription.length > 0) {
 
-            const base64Picture = "data:image/jpeg;base64," + base64.encode(this.state.picture);
-            const data = {
-                id: this.props.dish.id > 0 ? this.props.dish.id : false,
-                keuken_id: this.state.kitchenId,
-                type_id: this.state.typeId,
-                titel: this.state.title,
-                korte_omschrijving: this.state.shortDescription,
-                lange_omschrijving: this.state.longDescription,
-                afbeelding: base64Picture
-            }
+            this.setState({ isLoading: true });
 
-            API.postData({ url: constants.createDishUrl, type: "post", data: data, user: true })
-                .then( result => Actions.pop({ refresh: {} }) )
-                .catch( error => console.warn(error) )
+            ImgToBase64.getBase64String(this.state.picture)
+                .then( base64string => {
+                    const data = {
+                        id: this.props.dish.id > 0 ? this.props.dish.id : false,
+                        keuken_id: this.state.kitchenId,
+                        type_id: this.state.typeId,
+                        titel: this.state.title,
+                        korte_omschrijving: this.state.shortDescription,
+                        lange_omschrijving: this.state.longDescription,
+                        afbeelding: "data:image/jpeg;base64," + base64string
+                    }
+
+                    API.postData({ url: constants.createDishUrl, type: "post", data: data, user: true })
+                        .then( result => Actions.pop({ refresh: {} }) )
+                        .catch( error => {
+                            console.warn(error)
+                            this.setState({
+                                isLoading: false,
+                                submitError: true 
+                            });
+                        })
+                })
+                .catch( error => {
+                    console.warn(error);
+                    this.setState({ isLoading: false });
+                });
 
         } else {
             this.setState({ fieldEmpty: true });            
         }
 
+    }
+
+    renderError() {
+        
+        let text = this.state.noPicture ? "Voeg aub een afbeelding toe" :
+                this.state.fieldEmpty ? "Vul aub alle velden in" :
+                this.state.submitError ? "Er is iets fout gegaan met verzenden. Probeer later opnieuw" :
+                "";
+
+        if (text != "") {
+            return(
+                <CardItem style={ style.cardItemStyle }>
+                    <Text style={{ color: style.darkRed, marginLeft: 10 }}>
+                        { text }
+                    </Text>
+                </CardItem>                
+            )
+        }
     }
 
 
@@ -222,26 +254,15 @@ export default class NewDish extends Component
                             { this.state.longDescription.length } / 1500 tekens
                         </Text>
                     </CardItem>
-                    {
-                        this.state.noPicture &&
-                        <CardItem style={ style.cardItemStyle }>
-                            <Text style={{ color: style.darkRed, marginLeft: 10 }}>
-                                Voeg aub een afbeelding toe
-                            </Text>
-                        </CardItem>
-                    }
-                    {
-                        this.state.fieldEmpty &&
-                        <CardItem style={ style.cardItemStyle }>
-                            <Text style={{ color: style.darkRed, marginLeft: 10 }}>
-                                Vul aub alle velden in
-                            </Text>
-                        </CardItem>
-                    }
+                    { this.renderError() }
                     <CardItem style={ style.cardItemStyle }>
                         <Button block 
                                 onPress={ () => this.submit() }
                                 style={ style.fullButtonStyle }>
+                            { 
+                                this.state.isLoading &&
+                                    <Spinner color={ style.white } style={{ marginLeft: -36 }} />
+                            }
                             <Text style={ style.buttonTextStyle }>
                                 toevoegen
                             </Text>

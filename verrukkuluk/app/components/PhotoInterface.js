@@ -14,7 +14,8 @@ export default class PhotoInterface extends Component
 
     componentDidUpdate(prevProps) {
         if (prevProps.picture != this.props.picture) {
-            this.setState({ picture: this.props.picture })
+            this.setState({ picture: this.props.picture });
+            this.props.setPictureCallback(this.props.picture);
         }
     }
 

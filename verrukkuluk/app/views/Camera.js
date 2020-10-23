@@ -29,7 +29,7 @@ export default class Camera extends Component
                 await this.checkAndroidPermission();
             }
 
-            await this.camera.takePictureAsync({ quality: 0.5, base64: true })
+            await this.camera.takePictureAsync({ quality: 0.2, base64: true })
                 .then( data => {
                     CameraRoll.save(data.uri);
                     Actions.pop({ refresh: { picture: data.uri }});
