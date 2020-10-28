@@ -23,22 +23,29 @@ export default class ShopArticle extends Component
 
     
     addArticle() {
-        this.setState({ isLoading: true });
-        API.postData({ url: constants.addToListUrl,
-                        type: "post",
-                        user: true,
-                        data: { artikel_id: this.props.article.artikel_id,
-                                aantal: this.props.article.aantal }
-        }).then( result => 
-            this.setState({
-                isLoading: false,
-                added: true
-            })            
-        ).catch( error =>
-            this.setState({
-                isLoading: false,
-                error: true
-            }))
+        this.setState({ isLoading: true }, () => {
+            API.postData({ 
+                url: constants.addToListUrl,
+                type: "post",
+                user: true,
+                data: { 
+                    artikel_id: this.props.article.artikel_id,
+                    aantal: this.props.article.aantal
+                }
+            })
+            .then( result => 
+                this.setState({
+                    isLoading: false,
+                    added: true
+                }) 
+            )
+            .catch( error =>
+                this.setState({
+                    isLoading: false,
+                    error: true
+                })
+            )            
+        });
     }
 
 

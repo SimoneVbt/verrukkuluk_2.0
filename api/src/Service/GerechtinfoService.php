@@ -34,7 +34,7 @@ class GerechtinfoService
             foreach ($info as $inf) {
                 $user = $this->gs->getGebruiker($inf->getGebruikerId());
                 $inf->gebruikersnaam = $user->getUsername();
-                $inf->foto = $user->foto;
+                $inf->afbeelding = $user->getAfbeelding();
             }
         }
         

@@ -22,33 +22,35 @@ export default class RatingMenu extends Component
 
 
     addRating = (rating) => {
-        this.setState({ isLoading: true });
+        this.setState({ isLoading: true }, () => {
 
-        let data = {
-            record_type: "W",
-            gerecht_id: this.props.dish.id,
-            nummeriekveld: rating
-        }
+            const data = {
+                record_type: "W",
+                gerecht_id: this.props.dish.id,
+                nummeriekveld: rating
+            }
+            if (this.props.dish.waardering_id) {
+                data.id = this.props.dish.waardering_id;
+            }
 
-        if (this.props.dish.waardering) { 
-            data.id = this.props.dish.waardering_id
-        }
-
-        API.postData({ url: constants.addInfoUrl,
-                        type: "post",
-                        data: data,
-                        user: true,
-                        noDelete: true })
+            API.postData({ 
+                url: constants.addInfoUrl,
+                type: "post",
+                data: data,
+                user: true
+            })
             .then(result => {
                 this.setState({ isLoading: false });
                 this.props.loadDishData(this.props.dish.id);
             })
-            .catch(error => 
-                { console.warn(error)
+            .catch(error => { 
+                console.warn(error);
                 this.setState({
                     isLoading: false,
                     error: true
-                })})
+                })
+            })
+        });
     }
 
 

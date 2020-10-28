@@ -17,51 +17,54 @@ export default class NewComment extends Component
 
     componentDidMount() {
         if (this.props.comment) {
-            this.setState({ comment: this.props.comment })
+            this.setState({ comment: this.props.comment.tekstveld })
         }
     }
 
 
     submitComment() {
-        if (this.state.comment != "") {
 
-            this.setState({
-                isLoading: true,
-                emptyError: false
-            });
-            
-            let data = { record_type: "O",
-                        gerecht_id: this.props.dish_id,
-                        tekstveld: this.state.comment }
-
-            this.props.comment ? data.id = this.props.id : false;
-            
-            API.postData({
-                url: constants.addInfoUrl,
-                type: "post",
-                user: true,
-                data: data,
-                edit: true
-            }).then( result => {
-                this.props.loadCommentData(this.props.dish_id);
-                this.setState({
-                    isLoading: false,
-                    comment: ""
-                });
-            }).catch( error => {
-                console.warn(error);
-                this.setState({
-                    isLoading: false,
-                    error: true
-                })
-            })         
+        if (this.state.comment === "") {
+            this.setState({ emptyError: true  }) 
 
         } else {
             this.setState({
-                emptyError: true
-            })
-        }
+                isLoading: true,
+                emptyError: false
+            }, () => {
 
+                const data = {
+                    record_type: "O",
+                    gerecht_id: this.props.dish_id,
+                    tekstveld: this.state.comment
+                }
+                if (this.props.comment) {
+                    data.id = this.props.comment.id;
+                }
+                
+                API.postData({
+                    url: constants.addInfoUrl,
+                    type: "post",
+                    user: true,
+                    data: data,
+                    edit: true
+                })
+                .then( result => {
+                    this.props.loadCommentData(this.props.dish_id);
+                    this.setState({
+                        isLoading: false,
+                        comment: ""
+                    });
+                })
+                .catch( error => {
+                    console.warn(error);
+                    this.setState({
+                        isLoading: false,
+                        error: true
+                    })
+                })
+            });
+        }
     }
 
 

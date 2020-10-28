@@ -37,46 +37,52 @@ export default class Detail extends Component
 
     componentDidMount() {
         const dish_id = this.props.dish_id;
-        const fetchDish = API.fetchFromDatabase("gerecht", dish_id);
+        const dish = API.fetchFromDatabase("gerecht", dish_id);
         const fetchIngr = API.fetchData({ url: constants.ingrUrl, table: "ingredient", id: dish_id, filter: `gerecht_id == ${dish_id}` });
         const fetchPrep = API.fetchData({ url: constants.prepUrl, table: "gerechtinfo", id: dish_id, filter: `gerecht_id == ${dish_id}` });
         const fetchComm = API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id, filter: `gerecht_id == ${dish_id}` });
 
-        Promise.all([fetchDish, fetchIngr, fetchPrep, fetchComm])
-            .then( values => 
-                this.setState({
-                    isLoaded: true,
-                    dish: values[0],
-                    ingredients: values[1],
-                    preparation: values[2],
-                    comments: values[3]
-                })
-            )
-            .catch( error => 
-                this.setState({
-                    isLoaded: true,
-                    error: true
-                })
-            );
+        Promise.all([fetchIngr, fetchPrep, fetchComm])
+        .then( values => 
+            this.setState({
+                isLoaded: true,
+                dish: dish,
+                ingredients: values[0],
+                preparation: values[1],
+                comments: values[2]
+            })
+        )
+        .catch( error => 
+            this.setState({
+                isLoaded: true,
+                error: true
+            })
+        );
     }
 
 
     loadDishData = (dish_id) => {
-        API.fetchData({ url: constants.dishUrl, table: "gerecht", id: dish_id, userInUrl: true })
-            .then( result => this.setState({ dish: result }) )
-            .catch( error => this.setState({ error: true }) )
-
+        API.fetchData({ 
+            url: constants.dishUrl, 
+            table: "gerecht", 
+            id: dish_id, 
+            userInUrl: true 
+        })
+        .then( result => this.setState({ dish: result }) )
+        .catch( error => this.setState({ error: true }) )
     }
 
 
     loadCommentData = (dish_id) => {
-        API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id })
-            .then( result => this.setState({ comments: result }) )
-            .catch( error => {
-                console.warn('catch loadCommentData');
-                console.warn(error);
-                this.setState({ error: true }) 
-            });
+        API.fetchData({ 
+            url: constants.commUrl, 
+            table: "gerechtinfo", 
+            id: dish_id })
+        .then( result => this.setState({ comments: result }) )
+        .catch( error => {
+            console.warn(error);
+            this.setState({ error: true }) 
+        });
     }
 
 

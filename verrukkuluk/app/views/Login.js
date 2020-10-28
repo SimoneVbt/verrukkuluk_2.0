@@ -23,9 +23,9 @@ export default class Login extends Component
 
         this.setState({
             isLoading: true
-        });
-        
-        API.login(constants.loginUrl, this.state.login, this.state.wachtwoord)
+        }, () => {
+
+            API.login(constants.loginUrl, this.state.login, this.state.wachtwoord)
             .then( result => {
                 
                 if (result.id > 0) {
@@ -38,7 +38,14 @@ export default class Login extends Component
                 }
                 
             })
-            .catch( err => this.setState({ isLoading: false, error: true }) )
+            .catch( error => {
+                console.warn(error);
+                this.setState({
+                    isLoading: false, 
+                    error: true 
+                })
+            })
+        });
     }
     
 

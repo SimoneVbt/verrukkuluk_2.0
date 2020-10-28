@@ -18,7 +18,7 @@ class GerechtinfoRepository extends ServiceEntityRepository
     public function createGerechtinfo($params)
     {
         if (isset($params["id"])) {
-            $info =  $this->find($params["id"]);
+            $info = $this->find($params["id"]);
             $info->setDatumBewerkt($params["datum"]);
 
         } else {
@@ -27,17 +27,11 @@ class GerechtinfoRepository extends ServiceEntityRepository
             $info->setRecordType($params["record_type"]);
             $info->setGerechtId($params["gerecht_id"]);
                 
-            if (isset($params["gebruiker_id"])) {
-                $info->setGebruikerId($params["gebruiker_id"]);
-            }       
+            isset($params["gebruiker_id"]) ? $info->setGebruikerId($params["gebruiker_id"]) : false;  
         }
 
-        if (isset($params["nummeriekveld"])) {
-            $info->setNummeriekveld($params["nummeriekveld"]);
-        }
-        if (isset($params["tekstveld"])) {
-            $info->setTekstveld($params["tekstveld"]);
-        }
+        isset($params["nummeriekveld"]) ? $info->setNummeriekveld($params["nummeriekveld"]) : false;
+        isset($params["tekstveld"]) ? $info->setTekstveld($params["tekstveld"]) : false;
 
         $em = $this->getEntityManager();
         $em->persist($info);

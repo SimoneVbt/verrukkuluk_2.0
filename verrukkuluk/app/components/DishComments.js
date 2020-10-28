@@ -37,7 +37,7 @@ export default class DishComments extends Component
                             keyExtractor={ comm => comm.id.toString() }
                             renderItem={ ({item}) =>
                                 <Comment comment={ item }
-                                        user_id={ this.state.user.id }
+                                        user_id={ this.state.user.remote_id }
                                         dish_id={ this.props.dish_id }
                                         loadCommentData={ this.props.loadCommentData }/>}
                 />
@@ -72,8 +72,7 @@ export default class DishComments extends Component
                         { this.renderList() }   
                     </View>
                 </CardItem>
-                <NewComment dish_id={ this.props.dish_id }
-                            loadCommentData={ this.props.loadCommentData } />
+                <NewComment dish_id={ this.props.dish_id } loadCommentData={ this.props.loadCommentData } />
             </Card>
         );
     }

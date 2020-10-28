@@ -16,22 +16,27 @@ export default class Article extends Component
 
     
     _handleDelete() {
-        this.setState({ isLoading: true });
+        this.setState({ isLoading: true }, () => {
+            API.postData({
+                url: constants.deleteListUrl,
+                type: "delete",
+                table: "boodschappen",
+                id: this.props.item.id
+            })
+            .then( result => {
+                this.props.loadData();
+                this.setState({ isLoading: false })
+            })
+            .catch( error => {
+                console.warn(error);
+                this.setState({
+                    isLoading: false,
+                    error: true
+                });
+            })
+        });
 
-        API.postData({ url: constants.deleteListUrl,
-                        type: "delete",
-                        table: "boodschappen",
-                        id: this.props.item.id
-        }).then( result => {
-            this.props.loadData();
-            this.setState({ isLoading: false });
-        }).catch( error => {
-            console.warn(error);
-            this.setState({
-                isLoading: false,
-                error: true
-            });
-        })
+
     }
 
 

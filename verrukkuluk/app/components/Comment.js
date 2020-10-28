@@ -38,27 +38,31 @@ export default class Comment extends Component
 
 
     _handleDelete() {
-        this.setState({ isLoading: true });
-        API.postData({
-            url: constants.deleteInfoUrl,
-            table: "gerechtinfo",
-            type: "delete",
-            id: this.props.comment.id
-        }).then( result => {
-            this.props.loadCommentData(this.props.comment.gerecht_id);
-            this.setState({
-                isLoading: false,
-                deleteError: false,
-                editError: false
-            });
-        }).catch( error => {
-            console.warn(error);
-            this.setState({
-                isLoading: false,
-                deleteError: true,
-                editError: false
+        this.setState({ isLoading: true }, () => {
+            API.postData({
+                url: constants.deleteInfoUrl,
+                table: "gerechtinfo",
+                type: "delete",
+                id: this.props.comment.id
             })
-        })
+            .then( result => {
+                this.props.loadCommentData(this.props.comment.gerecht_id);
+                this.setState({
+                    isLoading: false,
+                    deleteError: false,
+                    editError: false
+                });
+            })
+            .catch( error => {
+                console.warn(error);
+                this.setState({
+                    isLoading: false,
+                    deleteError: true,
+                    editError: false
+                })
+            })
+        });
+
     }
 
 
@@ -83,10 +87,10 @@ export default class Comment extends Component
     renderText() {
         if (this.state.editMenu) {
             return(
-                <NewComment dish_id={ this.props.dish_id }
+                <NewComment dish_id={ this.props.comment.gerecht_id }
+                            comment={ this.props.comment }
                             loadCommentData={ this.props.loadCommentData }
-                            comment={ this.props.comment.tekstveld }
-                            id={ this.props.comment.id } />
+                />
             )
         }
         return(
@@ -157,7 +161,7 @@ export default class Comment extends Component
                     <Text style={ smallTextStyle } numberOfLines={1}>
                         { this.props.comment.gebruikersnaam }
                     </Text>
-                    <Thumbnail source={{ uri: afbeelding ? afbeelding : constants.defaultUser }} />
+                    <Thumbnail source={{ uri: afbeelding || constants.defaultUser }} />
                     <Text style={ smallTextStyle }>
                         { this.formatDate(this.props.comment.datum) }
                     </Text>

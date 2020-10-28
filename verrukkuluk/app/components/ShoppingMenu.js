@@ -17,21 +17,27 @@ export default class ShoppingMenu extends Component
 
 
     addAll() {
-        this.setState({ isLoading: true });
-        API.postData({ url: constants.addDishToListUrl,
-                        type: "post",
-                        user: true,
-                        data: { gerecht_id: this.props.dish_id }                 
-        }).then( result =>
-            this.setState({
-                allAdded: true,
-                isLoading: false
+        this.setState({ isLoading: true }, () => {
+            API.postData({
+                url: constants.addDishToListUrl,
+                type: "post",
+                user: true,
+                data: { gerecht_id: this.props.dish_id }
             })
-        ).catch( error => 
-            this.setState({
-                isLoading: false,
-                error: true
-            }));
+            .then( result =>
+                this.setState({
+                    allAdded: true,
+                    isLoading: false
+                })
+            )
+            .catch( error => 
+                this.setState({
+                    isLoading: false,
+                    error: true
+                })
+            );
+        });
+
     }
 
 

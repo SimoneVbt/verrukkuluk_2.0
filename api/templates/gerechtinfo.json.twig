@@ -6,7 +6,7 @@
         "gerecht_id": {{ info.gerechtId }},
         "gebruiker_id": {{ info.gebruikerId != 0 ? info.gebruikerId : "null" }},
         "gebruikersnaam": "{{ info.gebruikersnaam is defined ? info.gebruikersnaam : null }}",
-        "foto": "{{ info.foto is defined ? info.foto : null }}",
+        "afbeelding": "{{ info.afbeelding is defined ? info.afbeelding : null }}",
         "datum": "{{ info.datumHuidig|date('Y-m-d') }}",
         {% if info.datumBewerkt %}
         "datum_bewerkt": "{{info.datumBewerkt|date('Y-m-d')}}",

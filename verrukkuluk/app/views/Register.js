@@ -45,7 +45,8 @@ export default class Register extends Component
                 url: constants.newUserUrl,
                 table: "gebruiker",
                 type: "post",
-                data: data })
+                data: data
+            })
             .then( result => Actions.Home() )
             .catch( error => 
                 this.setState({

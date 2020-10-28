@@ -112,9 +112,9 @@ export default class NewDish extends Component
         } else if (this.state.kitchenId > 0 && this.state.typeId > 0 && this.state.title.length > 0
                 && this.state.shortDescription.length > 0 && this.state.longDescription.length > 0) {
 
-            this.setState({ isLoading: true });
+            this.setState({ isLoading: true }, () => {
 
-            ImgToBase64.getBase64String(this.state.picture)
+                ImgToBase64.getBase64String(this.state.picture)
                 .then( base64string => {
                     const data = {
                         id: this.props.dish.id > 0 ? this.props.dish.id : false,
@@ -126,25 +126,27 @@ export default class NewDish extends Component
                         afbeelding: "data:image/jpeg;base64," + base64string
                     }
 
-                    API.postData({ 
-                        url: constants.createDishUrl,
-                        table: "gerecht",
-                        type: "post",
-                        data: data,
-                        user: true })
-                    .then( result => Actions.pop({ refresh: {} }) )
-                    .catch( error => {
-                        console.warn(error)
-                        this.setState({
-                            isLoading: false,
-                            submitError: true 
-                        });
-                    })
+                        API.postData({ 
+                            url: constants.createDishUrl,
+                            table: "gerecht",
+                            type: "post",
+                            data: data,
+                            user: true
+                        })
+                        .then( result => Actions.pop({ refresh: {} }) )
+                        .catch( error => {
+                            console.warn(error)
+                            this.setState({
+                                isLoading: false,
+                                submitError: true 
+                            });
+                        })
                 })
                 .catch( error => {
                     console.warn(error);
                     this.setState({ isLoading: false });
                 });
+            });
 
         } else {
             this.setState({ fieldEmpty: true });            

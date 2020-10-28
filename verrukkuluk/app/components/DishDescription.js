@@ -24,22 +24,26 @@ export default class DishDescription extends Component
 
 
     _handleFavourite(addOrDelete) {
-        this.setState({ isLoading: true })
+        this.setState({ isLoading: true }, () => {
 
-        let apiData = addOrDelete === "add" ?
-                        { url: constants.addInfoUrl,
-                            type: "post",
-                            user: true,
-                            data: { record_type: "F",
-                                    gerecht_id: this.props.dish.id } } :
-                    addOrDelete === "delete" ?
-                        { url: constants.deleteInfoUrl,
-                            type: "delete",
-                            table: "gerecht",
-                            noDelete: true,
-                            id: this.props.dish.favoriet_id } : false;
+            let apiData = addOrDelete === "add" ?
+                            { url: constants.addInfoUrl,
+                                type: "post",
+                                user: true,
+                                data: {
+                                    record_type: "F",
+                                    gerecht_id: this.props.dish.id
+                                }
+                            } :
+                        addOrDelete === "delete" ?
+                            { url: constants.deleteInfoUrl,
+                                type: "delete",
+                                table: "gerecht",
+                                noDelete: true,
+                                id: this.props.dish.favoriet_id
+                            } : false;
 
-        API.postData(apiData)
+            API.postData(apiData)
             .then( result => {
                 this.props.loadDishData(this.props.dish.id);
                 this.setState({ isLoading: false })
@@ -48,7 +52,10 @@ export default class DishDescription extends Component
                 this.setState({ 
                     isLoading: false,
                     error: true
-                }));
+                })
+            );            
+        })
+
     }
 
 

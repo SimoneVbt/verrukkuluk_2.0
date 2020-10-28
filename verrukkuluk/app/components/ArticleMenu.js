@@ -18,19 +18,25 @@ export default class ArticleMenu extends Component
 
 
     submitAmount() {
-        this.setState({ isLoading: true });
-        API.postData({  url: constants.setAmountUrl,
-                        type: "post",
-                        data: { id: this.props.item.id,
-                                aantal: this.state.amount }
-        }).then( result => {
-            this.props.loadData();
-            this.setState({ isLoading: false });
-            this.props.setArticleMenuVisible(false);
-        }).catch( error => {
-            console.warn(error);
-            this.setState({ isLoading: false });
-        })
+        this.setState({ isLoading: true }, () => {
+            API.postData({ 
+                url: constants.setAmountUrl,
+                type: "post",
+                data: { 
+                    id: this.props.item.id,
+                    aantal: this.state.amount }
+            })
+            .then( result => {
+                this.props.loadData();
+                this.setState({ isLoading: false });
+                this.props.setArticleMenuVisible(false);
+            })
+            .catch( error => {
+                console.warn(error);
+                this.setState({ isLoading: false });
+            })
+        });
+
     }
 
 

@@ -25,14 +25,18 @@ export default class ShoppingList extends Component
 
     loadData = () => {
         API.fetchData({ url: constants.listUrl, table: "boodschappen", userInUrl: true })
-            .then( result => this.setState({
+        .then( result => 
+            this.setState({
                 items: result,
                 isLoaded: true,
-            }))
-            .catch( error => this.setState({
+            })
+        )
+        .catch( error => 
+            this.setState({
                 isLoaded: true,
                 error: true
-            }))        
+            })
+        )        
     }
 
 
@@ -50,7 +54,6 @@ export default class ShoppingList extends Component
     }
 
 
-    //probleem: lijst aan onderkant scherm onklikbaar
     renderContent() {
         if (this.state.isLoaded && this.state.items.length > 0 && Array.isArray(this.state.items)) {
             return(
