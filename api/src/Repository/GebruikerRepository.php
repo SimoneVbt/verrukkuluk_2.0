@@ -35,23 +35,21 @@ class GebruikerRepository extends ServiceEntityRepository implements PasswordUpg
     
     public function createGebruiker($params)
     {
-        $u = $this->findOneBy(array("email" => $params['email']));
+        $u = $this->findOneBy(['email' => $params['email']]);
 
         if (!$u) {
             $user = new Gebruiker();
             $user->setRoles($params['roles']);
+            $user->setEmail($params['email']);
             
         } else {
             $user = $u;
-            if ($params["foto_upload"]) {
-                $user->setFotoUpload(true);
-                $user->setAfbeelding($params["afbeelding"]);
-            }
+            isset($params['new_email']) ? $user->setEmail($params['email']) : false;
+            isset($params['afbeelding']) ? $user->setAfbeelding($params['afbeelding']) : false;
         }
-        $user->setEmail($params['email']);
+
         $user->setUsername($params['gebruikersnaam']);
         $user->setPassword($params['wachtwoord']);
-        $user->setFotoUpload(false);
 
         $em = $this->getEntityManager();
         $em->persist($user);

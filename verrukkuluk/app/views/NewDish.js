@@ -126,15 +126,20 @@ export default class NewDish extends Component
                         afbeelding: "data:image/jpeg;base64," + base64string
                     }
 
-                    API.postData({ url: constants.createDishUrl, type: "post", data: data, user: true })
-                        .then( result => Actions.pop({ refresh: {} }) )
-                        .catch( error => {
-                            console.warn(error)
-                            this.setState({
-                                isLoading: false,
-                                submitError: true 
-                            });
-                        })
+                    API.postData({ 
+                        url: constants.createDishUrl,
+                        table: "gerecht",
+                        type: "post",
+                        data: data,
+                        user: true })
+                    .then( result => Actions.pop({ refresh: {} }) )
+                    .catch( error => {
+                        console.warn(error)
+                        this.setState({
+                            isLoading: false,
+                            submitError: true 
+                        });
+                    })
                 })
                 .catch( error => {
                     console.warn(error);

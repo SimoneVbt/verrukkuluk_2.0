@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\GebruikerService;
@@ -28,9 +27,6 @@ class GebruikerController extends AbstractController
      */
     public function createGebruiker(Request $request)
     {
-        /*
-        ================NOG TESTEN================
-        */
         $params = $request->request->all();
         
         if ($this->gs->createGebruiker($params)) {

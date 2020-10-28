@@ -30,7 +30,8 @@ const messageStyle = {
     fontWeight: "bold",
     alignSelf: "center",
     paddingHorizontal: 30,
-    paddingVertical: 10
+    paddingVertical: 10,
+    textAlign: "center"
 }
 
 

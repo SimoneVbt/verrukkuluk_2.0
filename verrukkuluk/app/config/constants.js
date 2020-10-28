@@ -11,9 +11,10 @@ const publicDir = `http://${ ip }/verrukkuluk_2.0/api/public/`;
 const defaultDish = publicDir + "defaultdish.png";
 const defaultUser = publicDir + "defaultuser.png";
 
-//login
+//login & registreren
 const loginUrl = baseUrl + "/gebruiker/login";
 const userUrl = baseUrl + "/gebruiker/get/";
+const newUserUrl = baseUrl + "/gebruiker/create";
 
 //gerechten
 const dishUrl = baseUrl + "/gerecht/get/";
@@ -41,7 +42,7 @@ const kitchenUrl = baseUrl + "/kt/get/kitchens";
 
 export {
     defaultDish, defaultUser,
-    loginUrl, userUrl,
+    loginUrl, userUrl, newUserUrl,
     dishUrl, allDishesUrl, createDishUrl, ingrUrl,
     addInfoUrl, deleteInfoUrl, prepUrl, commUrl,
     listUrl, addToListUrl, addDishToListUrl, setAmountUrl, deleteListUrl,

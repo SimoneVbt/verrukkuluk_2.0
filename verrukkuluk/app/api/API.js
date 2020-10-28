@@ -98,7 +98,6 @@ export default class API
     static postData = (obj) => new Promise( (resolve, reject) => {
 
         let url = this.constructUrl(obj);
-        // console.warn(url);
         const body = new FormData();
 
         if (obj.type === "post") {
@@ -111,12 +110,14 @@ export default class API
                 body.append("gebruiker_id", user.remote_id);
             }
         }
-        let apiObj = obj.type === "post" ? { method: 'post', body } : { method: 'delete' };
+        let apiObj = obj.type === "post" ?
+                    { method: 'post', body} :
+                    { method: 'delete' };
         
         fetch(url, apiObj)
             .then( result => {
 
-                obj.type === "post" ? this.writeData(obj):
+                obj.type === "post" ? this.writeData(obj) :
                 obj.type === "delete" ? this.deleteDataFromDatabase(obj) : false;
 
                 resolve(result);
@@ -124,23 +125,25 @@ export default class API
             .catch( error => {
                 console.warn("catch API.postData");
                 console.warn(error);
+                console.warn(url);
                 reject(error);
-            } )
+            })
     })
     
 
     static writeData(obj) {
 
+        if (obj.table) {
+            realm.write(() => {
+                realm.create(obj.table, obj.data, true);
+            })
+            console.warn("API.writeData: object toegevoegd");
+        }
+
         if (obj.data.record_type === "F") {
             let dish = this.fetchFromDatabase("gerecht", obj.data.gerecht_id);
             realm.write(() => {
                 dish.favoriet = true;
-            })
-        }
-        if (obj.data.korte_omschrijving) {
-            realm.write(() => {
-                realm.create("gerecht", obj.data, true);
-                console.warn("gerecht toegevoegd");
             })
         }
     }

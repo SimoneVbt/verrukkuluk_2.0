@@ -40,11 +40,6 @@ class Gebruiker implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $foto_upload = false;
-
-    /**
      * @ORM\Column(type="string", length=1000000, nullable=true)
      */
     private $afbeelding;
@@ -130,18 +125,6 @@ class Gebruiker implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getFotoUpload(): ?bool
-    {
-        return $this->foto_upload;
-    }
-
-    public function setFotoUpload(bool $foto_upload): self
-    {
-        $this->foto_upload = $foto_upload;
 
         return $this;
     }
