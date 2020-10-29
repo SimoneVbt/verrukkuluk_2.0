@@ -227,7 +227,7 @@ export default class NewDish extends Component
                         </Item>
                     </CardItem>
                     <CardItem style={ style.cardItemStyle }>
-                        <Text style={{ fontSize: 12, marginLeft: 10, marginTop: -5, fontStyle: "italic" }}>
+                        <Text style={ style.countTextStyle }>
                             { this.state.title.length } / 50 tekens
                         </Text>
                     </CardItem>
@@ -238,11 +238,12 @@ export default class NewDish extends Component
                                         onChangeText={ (text) => this.handleChange(text, "shortDescription") }
                                         maxLength={250}
                                         rowSpan={3}
+                                        style={{ width: "100%" }}
                             />
                         </Item>
                     </CardItem>
                     <CardItem style={ style.cardItemStyle }>
-                        <Text style={{ fontSize: 12, marginLeft: 10, marginTop: -5, fontStyle: "italic" }}>
+                        <Text style={ style.countTextStyle }>
                             { this.state.shortDescription.length } / 250 tekens
                         </Text>
                     </CardItem>
@@ -253,11 +254,12 @@ export default class NewDish extends Component
                                         onChangeText={ (text) => this.handleChange(text, "longDescription") }
                                         maxLength={1500}
                                         rowSpan={6}
+                                        style={{ width: "100%" }}
                             />
                         </Item>
                     </CardItem>
                     <CardItem style={ style.cardItemStyle }>
-                        <Text style={{ fontSize: 12, marginLeft: 10, marginTop: -5, marginBottom: 10, fontStyle: "italic" }}>
+                        <Text style={ style.countTextStyle }>
                             { this.state.longDescription.length } / 1500 tekens
                         </Text>
                     </CardItem>

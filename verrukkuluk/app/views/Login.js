@@ -61,8 +61,8 @@ export default class Login extends Component
             <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="inloggen" noSearch login />
                 <ScrollView style={{ flex: 1, padding: 20, paddingRight: 30 }}>
-                    { this.state.failure && <Text style={ style.messageStyle }>Ongeldige inloggegevens</Text> }
-                    { this.state.error && <Text style={ style.messageStyle }>Er is iets mis gegaan</Text> }
+                    { this.state.failure && <Text style={ style.messageStyleDark }>Ongeldige inloggegevens</Text> }
+                    { this.state.error && <Text style={ style.messageStyleDark }>Er is iets mis gegaan</Text> }
                     <Form>
                         <Item stackedLabel style={ style.itemStyle }>
                             <Label style={ style.labelStyle }>Gebruikersnaam / Email</Label>

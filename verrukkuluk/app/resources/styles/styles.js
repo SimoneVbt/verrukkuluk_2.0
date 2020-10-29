@@ -25,6 +25,17 @@ const subtitleStyle = {
 }
 
 const messageStyle = {
+    backgroundColor: darkRed,
+    color: beige,
+    fontWeight: "bold",
+    alignSelf: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    textAlign: "center"
+    
+}
+
+const messageStyleDark = {
     backgroundColor: white,
     color: "#000",
     fontWeight: "bold",
@@ -97,6 +108,23 @@ const buttonTextStyle = {
     fontWeight: "bold"
 }
 
+const countTextStyle = {
+    fontSize: 11,
+    marginLeft: 15,
+    marginTop: -5,
+    marginBottom: 10,
+    fontStyle: "italic"
+}
+
+const countTextStyleDark = {
+    fontSize: 11,
+    color: gold,
+    marginLeft: 15,
+    marginTop: -5,
+    marginBottom: 10,
+    fontStyle: "italic"
+}
+
 
 /* === forms === */
 const itemStyle = {
@@ -104,18 +132,24 @@ const itemStyle = {
 }
 
 const inputStyle = {
+    color: "#000"
+}
+
+const inputStyleDark = {
     color: white
 }
 
 const labelStyle = {
+    color: darkRed,
+    fontStyle: "italic"
+}
+
+const labelStyleDark = {
     color: white,
     fontStyle: "italic"   
 }
 
-const darkLabelStyle = {
-    color: darkRed,
-    fontStyle: "italic"
-}
+
 
 
 /* === modals === */
@@ -141,10 +175,12 @@ const modalStyle = {
 
 export {
     gold, darkRed, white, beige, green,
-    HeaderFooter, titleStyle, subtitleStyle, messageStyle,
+    HeaderFooter, titleStyle, subtitleStyle,
+    messageStyle, messageStyleDark,
     tabStyle, tabTextStyle,
     cardStyle, backgroundCardStyle, cardItemStyle, tabCardStyle,
     buttonStyle, fullButtonStyle, checkedButtonStyle, buttonTextStyle,
-    itemStyle, inputStyle, labelStyle, darkLabelStyle,
+    countTextStyle, countTextStyleDark,
+    itemStyle, inputStyle, inputStyleDark, labelStyle, labelStyleDark,
     overlay, modalStyle
 }

@@ -7,6 +7,7 @@ import { defaultUser } from '../config/constants';
 import Head from '../components/Head';
 import Foot from '../components/Foot';
 import API from '../api/API';
+import PasswordMenu from '../components/PasswordMenu';
 
 const subtitlestyle = {
     color: style.darkRed,
@@ -32,7 +33,8 @@ const size = 100;
 export default class Profile extends Component
 {
     state = {
-        user: {}
+        user: {},
+        passwordMenuVisible: false
     }
 
     componentDidMount() {
@@ -108,7 +110,8 @@ export default class Profile extends Component
                                     Bewerk profiel
                                 </Text>
                             </Button>
-                            <Button style={ style.buttonStyle }>
+                            <Button style={ style.buttonStyle }
+                                    onPress={ () => this.setPasswordMenuVisible(true) }>
                                 <Text style={ style.buttonTextStyle }>
                                     Wachtwoord veranderen
                                 </Text>
@@ -145,11 +148,28 @@ export default class Profile extends Component
     }
 
 
+    setPasswordMenuVisible = (bool) => {
+        this.setState({ passwordMenuVisible: bool })
+    }
+
+
+    renderPasswordMenu(passwordMenuVisible) {
+        return(
+            <PasswordMenu passwordMenuVisible={ passwordMenuVisible }
+                            setPasswordMenuVisible={ this.setPasswordMenuVisible }
+                            user={ this.state.user }
+            />
+        )
+    }
+
+
     render() {
+        const { passwordMenuVisible } = this.state;
         return(
             <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="mijn profiel" />
                 <Content style={{ padding: 10 }}>
+                    { this.renderPasswordMenu(passwordMenuVisible) }
                     <View style={{ paddingBottom: 18}}>
                         <Card style={ style.cardStyle }>
                             <CardItem style={ style.cardItemStyle }>
