@@ -8,8 +8,9 @@ let realm = new Realm({
             schema.gerechtinfo,
             schema.gebruiker,
             schema.boodschappen,
-            schema.keukentype ],
-    schemaVersion: 32
+            schema.keukentype,
+            schema.artikel ],
+    schemaVersion: 36
 });
 
 

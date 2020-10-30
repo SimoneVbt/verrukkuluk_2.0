@@ -95,15 +95,17 @@ export default class ShoppingList extends Component
 
 
     deleteAll() {
-        API.postData({
-            url: constants.deleteListUrl,
-            type: "delete",
-            table: "boodschappen",
-            userInUrl: true,
-            deleteAll: true
+        this.setState({ isLoaded: false }, () => {
+            API.postData({
+                url: constants.deleteListUrl,
+                type: "delete",
+                table: "boodschappen",
+                userInUrl: true,
+                deleteAll: true
+            })
+            .then( result => this.loadData() )
+            .catch( error => console.warn(error))            
         })
-        .then( result => this.loadData() )
-        .catch( error => console.warn(error))
     }
 
 
@@ -141,7 +143,7 @@ export default class ShoppingList extends Component
 
 
     renderBottom() {
-        if (this.state.items.length > 0) {
+        if (this.state.isLoaded && this.state.items.length > 0) {
             return(
                 <CardItem style={ style.cardItemStyle }>
                     <Left style={{ flex: 3, paddingBottom: 10 }}>

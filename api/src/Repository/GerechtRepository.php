@@ -20,6 +20,16 @@ class GerechtRepository extends ServiceEntityRepository
         if (isset($params["id"])) {
             $dish = $this->find($params["id"]);
             $dish->setDatumBewerkt($params["datum"]);
+                
+            if (isset($params["complete"])) {
+                $dish->setComplete($params["complete"]);
+            }
+            if (isset($params["ingr_set"])) {
+                $dish->setIngrSet($params["ingr_set"]);
+            }
+            if (isset($params["bereiding_set"])) {
+                $dish->setBereidingSet($params["bereiding_set"]);
+            }
 
         } else {
             $dish = new Gerecht();
@@ -33,9 +43,6 @@ class GerechtRepository extends ServiceEntityRepository
         $dish->setKorteOmschrijving($params["korte_omschrijving"]);
         $dish->setLangeOmschrijving($params["lange_omschrijving"]);
         $dish->setAfbeelding($params["afbeelding"]);
-        if (isset($params["complete"])) {
-            $dish->setComplete($params["complete"]);
-        }
 
         $em = $this->getEntityManager();
         $em->persist($dish);

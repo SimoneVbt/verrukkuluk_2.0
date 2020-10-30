@@ -20,7 +20,10 @@ const newUserUrl = baseUrl + "/gebruiker/create";
 const dishUrl = baseUrl + "/gerecht/get/";
 const allDishesUrl = baseUrl + "/gerecht/get_all/";
 const createDishUrl = baseUrl + "/gerecht/create";
+
+//ingrediënten
 const ingrUrl = baseUrl + "/ingredient/get/";
+const articlesUrl = baseUrl + "/artikel/get";
 
 //gerechtinfo
 const addInfoUrl = baseUrl + "/gerechtinfo/create";
@@ -44,7 +47,8 @@ const kitchenUrl = baseUrl + "/kt/get/kitchens";
 export {
     defaultDish, defaultUser,
     loginUrl, userUrl, newUserUrl,
-    dishUrl, allDishesUrl, createDishUrl, ingrUrl,
+    dishUrl, allDishesUrl, createDishUrl,
+    ingrUrl, articlesUrl,
     addInfoUrl, deleteInfoUrl, prepUrl, commUrl,
     listUrl, addToListUrl, addDishToListUrl, setAmountUrl, deleteFromListUrl, deleteListUrl,
     typeUrl, kitchenUrl

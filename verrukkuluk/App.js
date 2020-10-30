@@ -13,6 +13,8 @@ import EditProfile from './app/views/EditProfile';
 import Register from './app/views/Register';
 import NewDish from './app/views/NewDish';
 import Camera from './app/views/Camera';
+import Ingredients from './app/views/Ingredients';
+import Preparation from './app/views/Preparation';
 
 
 export default class App extends Component
@@ -43,6 +45,8 @@ export default class App extends Component
           <Scene key="MyDishes" component={ MyDishes } />
           <Scene key="NewDish" component={ NewDish } />
           <Scene key="Camera" component={ Camera } />
+          <Scene key="Ingredients" component={ Ingredients } />
+          <Scene key="Preparation" component={ Preparation } />
 
           <Scene key="Profile" component={ Profile } />
           <Scene key="EditProfile" component={ EditProfile }/>

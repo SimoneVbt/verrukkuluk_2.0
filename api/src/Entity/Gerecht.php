@@ -67,6 +67,16 @@ class Gerecht
      */
     private $datum_bewerkt;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $ingr_set;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $bereiding_set;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -188,6 +198,30 @@ class Gerecht
     public function setDatumBewerkt(?\DateTimeInterface $datum_bewerkt): self
     {
         $this->datum_bewerkt = $datum_bewerkt;
+
+        return $this;
+    }
+
+    public function getIngrSet(): ?bool
+    {
+        return $this->ingr_set;
+    }
+
+    public function setIngrSet(?bool $ingr_set): self
+    {
+        $this->ingr_set = $ingr_set;
+
+        return $this;
+    }
+
+    public function getBereidingSet(): ?bool
+    {
+        return $this->bereiding_set;
+    }
+
+    public function setBereidingSet(bool $bereiding_set): self
+    {
+        $this->bereiding_set = $bereiding_set;
 
         return $this;
     }

@@ -13,6 +13,8 @@
         "titel": "{{ dish.titel }}",
         "korte_omschrijving": "{{ dish.korteOmschrijving|e('js')|raw }}",
         "lange_omschrijving": "{{ dish.langeOmschrijving|e('js')|raw }}",
+        "ingr_set": {{ dish.ingrSet ? "true" : "false" }},
+        "bereiding_set": {{ dish.bereidingSet ? "true" : "false" }},
         "complete": {{ dish.complete ? "true" : "false" }},
         "gemiddelde_beoordeling": {{ dish.gemiddeldeBeoordeling }},
         "calorieen": {{ dish.calorieen|number_format(0) }},

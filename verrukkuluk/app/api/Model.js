@@ -23,6 +23,8 @@ const schema = {
             favoriet: "bool",
             waardering_id: { type: "int", default: 0 },
             waardering: { type: "int", default: 0 },
+            ingr_set: { type: "bool", default: false },
+            bereiding_set: { type: "bool", default: false },
             complete: { type: "bool", default: false }
         }
     },
@@ -101,8 +103,23 @@ const schema = {
             record_type: "string",
             omschrijving: "string"
         }    
-    }
+    },
     
+    artikel: {
+        name: "artikel",
+        primaryKey: "id",
+        properties: {
+            id: { type: "int", indexed: true },
+            naam: "string",
+            omschrijving: "string?",
+            prijs: "float",
+            eenheid: "string",
+            verpakking: "int",
+            calorieen_per_100g: "int",
+            omzetting_naar_g: "float",
+            afbeelding: "string"
+        }
+    }
 }
 
 export default schema;
