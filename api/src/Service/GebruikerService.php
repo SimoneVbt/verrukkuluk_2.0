@@ -18,7 +18,8 @@ class GebruikerService
     
 
     public function createGebruiker($params) {
-        return $this->rep->createGebruiker($params);
+        $user = $this->rep->createGebruiker($params);
+        return $user->getId();
     }
 
 

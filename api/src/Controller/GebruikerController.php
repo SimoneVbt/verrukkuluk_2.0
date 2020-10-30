@@ -28,9 +28,10 @@ class GebruikerController extends AbstractController
     public function createGebruiker(Request $request)
     {
         $params = $request->request->all();
+        $id = $this->gs->createGebruiker($params);
         
-        if ($this->gs->createGebruiker($params)) {
-            return new Response("Gebruiker aangemaakt/gewijzigd");
+        if ($id) {
+            return $this->json(["id" => $id]);
         }
         return new Response ("Gebruiker aanmaken/bewerken mislukt");
     }

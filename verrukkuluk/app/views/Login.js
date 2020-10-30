@@ -34,7 +34,9 @@ export default class Login extends Component
                         .catch( err => console.warn(err) );
 
                 } else {
-                    this.setState({ isLoading: false, failure: true });
+                    this.setState({
+                        isLoading: false,
+                        failure: true });
                 }
                 
             })
@@ -65,24 +67,24 @@ export default class Login extends Component
                     { this.state.error && <Text style={ style.messageStyleDark }>Er is iets mis gegaan</Text> }
                     <Form>
                         <Item stackedLabel style={ style.itemStyle }>
-                            <Label style={ style.labelStyle }>Gebruikersnaam / Email</Label>
+                            <Label style={ style.labelStyleDark }>Gebruikersnaam / Email</Label>
                             <Input value={ this.state.login }
                                     keyboardType="email-address"
                                     onChangeText={ (text) => this.handleChange(text, "login") }
-                                    style={ style.inputStyle } />
+                                    style={ style.inputStyleDark } />
                         </Item>
                         <Item stackedLabel style={ style.itemStyle }>
-                            <Label style={ style.labelStyle }>Wachtwoord</Label>
+                            <Label style={ style.labelStyleDark }>Wachtwoord</Label>
                             <Input value={ this.state.wachtwoord } 
                                     secureTextEntry
                                     onChangeText={ (text) => this.handleChange(text, "wachtwoord") }
-                                    style={ style.inputStyle } />
+                                    style={ style.inputStyleDark } />
                         </Item>
                         <Button large onPress={ () => this.login() }
                                 style={{ alignSelf: "center", marginTop: 20, backgroundColor: style.white }} >
                             { 
-                                this.state.isLoading ? 
-                                    <Spinner color={ style.darkRed } style={{ paddingLeft: 10 }} /> : null
+                                this.state.isLoading &&
+                                    <Spinner color={ style.darkRed } style={{ paddingLeft: 10 }} />
                             }
                             <Text style={{ color: style.darkRed, fontSize: 20 }}>
                                 Inloggen!

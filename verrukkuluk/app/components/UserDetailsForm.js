@@ -36,7 +36,7 @@ export default class UserDetailsForm extends Component
             return;
         }
         if (this.props.edit && (this.state.wachtwoord != this.state.user.wachtwoord)) {
-            this.setState({ passwordError: true });
+            this.setState({ passwordError: true, emptyField: false });
             return;
         }
 
@@ -47,26 +47,36 @@ export default class UserDetailsForm extends Component
                 wachtwoord: this.state.wachtwoord,
                 roles: ["ROLE_USER"]
             }
+            if (this.props.edit) {
+                data.id = this.state.user.remote_id;
+            }
 
             API.postData({
                 url: constants.newUserUrl,
                 table: "gebruiker",
                 type: "post",
-                data: data
+                data: data,
+                edit: true
             })
             .then( result => {
                 if (this.props.register) {
-                    Actions.Home();
+                    API.fetchData({ url:
+                        constants.userUrl,
+                        table: "gebruiker",
+                        id: result.id })
+                        .then( user => Actions.Home() )
+                        .catch( err => console.warn(err) );
                 } else {
                     Actions.pop({ refresh: {} });
                 }
             }  )
-            .catch( error => 
+            .catch( error => {
+                console.warn(error);
                 this.setState({
                     isLoading: false,
                     error: true
-                })
-            )
+                })                
+            })
         });
 
     }
@@ -100,6 +110,10 @@ export default class UserDetailsForm extends Component
                 <Button large
                         onPress={ () => this.submit() }
                         style={{ alignSelf: "center", marginTop: 20, backgroundColor: style.white }} >
+                    { 
+                        this.state.isLoading && 
+                            <Spinner color={ style.darkRed } style={{ paddingLeft: 10 }} />
+                    }
                     <Text style={{ color: style.darkRed, fontSize: 20 }}>
                         registreer
                     </Text>
@@ -133,7 +147,7 @@ export default class UserDetailsForm extends Component
                     <Input value={ this.state.gebruikersnaam }
                             maxLength={20}
                             onChangeText={ (text) => this.handleChange(text, "gebruikersnaam") }
-                            style={ style.inputStyle } />
+                            style={ this.props.light ? style.inputStyle : style.inputStyleDark } />
                 </Item>
                 <Text style={ this.props.light ? style.countTextStyle :style.countTextStyleDark }>
                     { this.state.gebruikersnaam.length } / 20 tekens
@@ -144,7 +158,7 @@ export default class UserDetailsForm extends Component
                             maxLength={50}
                             keyboardType="email-address"
                             onChangeText={ (text) => this.handleChange(text, "email") }
-                            style={ style.inputStyle } />
+                            style={ this.props.light ? style.inputStyle : style.inputStyleDark } />
                 </Item>
                 <Text style={ this.props.light ? style.countTextStyle :style.countTextStyleDark }>
                     { this.state.email.length } / 50 tekens
@@ -157,7 +171,7 @@ export default class UserDetailsForm extends Component
                             maxLength={50}
                             secureTextEntry
                             onChangeText={ (text) => this.handleChange(text, "wachtwoord") }
-                            style={ style.inputStyle } />
+                            style={ this.props.light ? style.inputStyle : style.inputStyleDark } />
                 </Item>
                 <Text style={ this.props.light ? style.countTextStyle :style.countTextStyleDark }>
                     { this.state.wachtwoord.length } / 50 tekens

@@ -134,6 +134,11 @@ export default class API
     static writeData(obj) {
 
         if (obj.table) {
+
+            if (obj.table === "gebruiker") {
+                obj.data.remote_id = obj.data.id;
+                obj.data.id = 1
+            }
             realm.write(() => {
                 realm.create(obj.table, obj.data, true);
             })
