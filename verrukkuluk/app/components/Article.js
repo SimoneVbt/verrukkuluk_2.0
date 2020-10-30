@@ -18,7 +18,7 @@ export default class Article extends Component
     _handleDelete() {
         this.setState({ isLoading: true }, () => {
             API.postData({
-                url: constants.deleteListUrl,
+                url: constants.deleteFromListUrl,
                 type: "delete",
                 table: "boodschappen",
                 id: this.props.item.id

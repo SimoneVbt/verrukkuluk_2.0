@@ -71,4 +71,19 @@ class BoodschappenRepository extends ServiceEntityRepository
         }
         return false;
     }
+
+    
+    public function deleteAllBoodschappen($user_id)
+    {
+        $bs = $this->getBoodschappen($user_id);
+        if ($bs) {
+            $em = $this->getEntityManager();
+            foreach ($bs as $b) {
+                $em->remove($b);
+            }
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
 }

@@ -78,4 +78,10 @@ class BoodschappenService
     {
         return $this->rep->deleteBoodschappen($bs_id);
     }
+
+
+    public function deleteAllBoodschappen($user_id)
+    {
+        return $this->rep->deleteAllBoodschappen($user_id);
+    }
 }

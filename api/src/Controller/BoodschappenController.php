@@ -87,4 +87,16 @@ class BoodschappenController extends AbstractController
         }
         return new Response("Artikel verwijderen uit boodschappen mislukt");
     }
+
+    
+    /**
+     * @Route("/delete_all/{user_id}", name="delete_all_boodschappen")
+     */
+    public function deleteAllBoodschappen($user_id)
+    {
+        if ($this->bss->deleteAllBoodschappen($user_id)) {
+            return new Response("Boodschappen succesvol verwijderd uit database");
+        }
+        return new Response("Boodschappen verwijderen mislukt");
+    }
 }

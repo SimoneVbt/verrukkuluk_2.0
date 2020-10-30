@@ -162,12 +162,17 @@ export default class API
                 record.favoriet = false;
                 record.favoriet_id = 0;
             })
+        } else if (obj.deleteAll) {
+            let table = realm.objects(obj.table);
+            realm.write(() => {
+                realm.delete(table);
+            })
         } else if (!obj.noDelete) {
             let record = realm.objectForPrimaryKey(obj.table, obj.id);
             realm.write(() => {
                 realm.delete(record);
             })
-        }
+        } 
     }
 
 

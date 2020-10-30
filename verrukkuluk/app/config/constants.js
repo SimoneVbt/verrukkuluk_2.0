@@ -33,7 +33,8 @@ const listUrl = baseUrl + "/boodschappen/get/";
 const addToListUrl = baseUrl + "/boodschappen/add";
 const addDishToListUrl = baseUrl + "/boodschappen/add_dish";
 const setAmountUrl = baseUrl + "/boodschappen/set_amount";
-const deleteListUrl = baseUrl + "/boodschappen/delete/";
+const deleteFromListUrl = baseUrl + "/boodschappen/delete/";
+const deleteListUrl = baseUrl + "/boodschappen/delete_all/";
 
 //keukentype
 const typeUrl = baseUrl + "/kt/get/types";
@@ -45,6 +46,6 @@ export {
     loginUrl, userUrl, newUserUrl,
     dishUrl, allDishesUrl, createDishUrl, ingrUrl,
     addInfoUrl, deleteInfoUrl, prepUrl, commUrl,
-    listUrl, addToListUrl, addDishToListUrl, setAmountUrl, deleteListUrl,
+    listUrl, addToListUrl, addDishToListUrl, setAmountUrl, deleteFromListUrl, deleteListUrl,
     typeUrl, kitchenUrl
 };
