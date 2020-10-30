@@ -8,6 +8,7 @@ import Head from '../components/Head';
 import Foot from '../components/Foot';
 import API from '../api/API';
 import Article from '../components/Article';
+import email from 'react-native-email';
 
 
 export default class ShoppingList extends Component
@@ -124,12 +125,27 @@ export default class ShoppingList extends Component
     }
 
 
+    email() {
+        const user = API.fetchFromDatabase("gebruiker", 1);
+        let body = "";
+        
+        this.state.items.forEach(item => {
+            body = body + `${item.product}: ${item.aantal} ${item.eenheid} \n`
+        });
+
+        email(user.email, {
+            subject: `het booschappenlijstje van ${user.gebruikersnaam}`,
+            body: body
+        })
+    }
+
+
     renderBottom() {
         if (this.state.items.length > 0) {
             return(
                 <CardItem style={ style.cardItemStyle }>
                     <Left style={{ flex: 3, paddingBottom: 10 }}>
-                        <Button onPress={ () => this.askForDelete() }
+                        <Button onPress={ () => this.email() }
                                 style={ style.buttonStyle }>
                             <Icon name="email" type="Fontisto" style={{ color: style.white, fontSize: 20 }} />
                         </Button>
