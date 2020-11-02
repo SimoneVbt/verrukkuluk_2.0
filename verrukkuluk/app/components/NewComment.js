@@ -46,6 +46,7 @@ export default class NewComment extends Component
                     url: constants.addInfoUrl,
                     type: "post",
                     data: data,
+                    user: true,
                     edit: true
                 })
                 .then( result => {

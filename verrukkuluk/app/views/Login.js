@@ -29,6 +29,8 @@ export default class Login extends Component
                 data: { login: this.state.login, wachtwoord: this.state.wachtwoord }
             })
             .then( result => {
+
+                console.warn(result);
                 
                 if (result.id > 0) {
                     API.fetchData({ url: constants.userUrl, table: "gebruiker", id: result.id })
@@ -60,40 +62,62 @@ export default class Login extends Component
     }
 
 
+    renderForm() {
+        return(
+            <Form>
+                <Item stackedLabel style={ style.itemStyle }>
+                    <Label style={ style.labelStyleDark }>Gebruikersnaam / Email</Label>
+                    <Input value={ this.state.login }
+                            keyboardType="email-address"
+                            onChangeText={ (text) => this.handleChange(text, "login") }
+                            style={ style.inputStyleDark } />
+                </Item>
+                <Item stackedLabel style={ style.itemStyle }>
+                    <Label style={ style.labelStyleDark }>Wachtwoord</Label>
+                    <Input value={ this.state.wachtwoord } 
+                            secureTextEntry
+                            onChangeText={ (text) => this.handleChange(text, "wachtwoord") }
+                            style={ style.inputStyleDark } />
+                </Item>
+                <Button large onPress={ () => this.login() }
+                        style={{ alignSelf: "center", marginTop: 20, backgroundColor: style.white }} >
+                    { 
+                        this.state.isLoading &&
+                            <Spinner color={ style.darkRed } style={{ paddingLeft: 10 }} />
+                    }
+                    <Text style={{ color: style.darkRed, fontSize: 20 }}>
+                        Inloggen!
+                    </Text>
+                </Button>
+            </Form>
+        )
+    }
+
+
+    renderError() {
+        let text = this.state.failure ? "Ongeldige inloggegevens" :
+                    this.state.error ? "Er is iets misgegaan" :
+                    "";
+
+        if (text != "") {
+            return(
+                <Text style={ style.messageStyleDark }>
+                    { text }
+                </Text>
+            )
+        }
+    }
+
+
     render() {
         return(
             <Container style={{ backgroundColor: style.darkRed }}>
                 <Head title="inloggen" noSearch login />
                 <ScrollView style={{ flex: 1, padding: 20, paddingRight: 30 }}>
-                    { this.state.failure && <Text style={ style.messageStyleDark }>Ongeldige inloggegevens</Text> }
-                    { this.state.error && <Text style={ style.messageStyleDark }>Er is iets mis gegaan</Text> }
-                    <Form>
-                        <Item stackedLabel style={ style.itemStyle }>
-                            <Label style={ style.labelStyleDark }>Gebruikersnaam / Email</Label>
-                            <Input value={ this.state.login }
-                                    keyboardType="email-address"
-                                    onChangeText={ (text) => this.handleChange(text, "login") }
-                                    style={ style.inputStyleDark } />
-                        </Item>
-                        <Item stackedLabel style={ style.itemStyle }>
-                            <Label style={ style.labelStyleDark }>Wachtwoord</Label>
-                            <Input value={ this.state.wachtwoord } 
-                                    secureTextEntry
-                                    onChangeText={ (text) => this.handleChange(text, "wachtwoord") }
-                                    style={ style.inputStyleDark } />
-                        </Item>
-                        <Button large onPress={ () => this.login() }
-                                style={{ alignSelf: "center", marginTop: 20, backgroundColor: style.white }} >
-                            { 
-                                this.state.isLoading &&
-                                    <Spinner color={ style.darkRed } style={{ paddingLeft: 10 }} />
-                            }
-                            <Text style={{ color: style.darkRed, fontSize: 20 }}>
-                                Inloggen!
-                            </Text>
-                        </Button>                            
-                    </Form>
-                    <Button bordered onPress={ () => Actions.Register() }
+                    { this.renderError() }
+                    { this.renderForm() }
+                    <Button bordered 
+                            onPress={ () => Actions.Register() }
                             style={{ alignSelf: "center", marginTop: 20, borderColor: style.white }} >
                         <Text style={{ color: style.white, fontSize: 15 }}>
                             Registreren
@@ -103,5 +127,4 @@ export default class Login extends Component
             </Container>
         )
     }
-
 }

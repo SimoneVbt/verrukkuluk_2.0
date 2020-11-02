@@ -27,7 +27,8 @@ class IngredientController extends AbstractController
      */
     public function createIngredient(Request $request)
     {
-        $params = $request->request->all();
+        $data = file_get_contents("php://input");
+        $params = json_decode($data, true);
 
         if ($this->is->createIngredient($params)) {
             return $this->json(["result" => "okay"]);

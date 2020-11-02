@@ -30,7 +30,8 @@ export default class ShopArticle extends Component
                 data: { 
                     artikel_id: this.props.article.artikel_id,
                     aantal: this.props.article.aantal
-                }
+                },
+                user: true
             })
             .then( result => 
                 this.setState({

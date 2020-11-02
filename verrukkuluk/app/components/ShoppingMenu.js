@@ -21,7 +21,8 @@ export default class ShoppingMenu extends Component
             API.postData({
                 url: constants.addDishToListUrl,
                 type: "post",
-                data: { gerecht_id: this.props.dish_id }
+                data: { gerecht_id: this.props.dish_id },
+                user: true
             })
             .then( result =>
                 this.setState({

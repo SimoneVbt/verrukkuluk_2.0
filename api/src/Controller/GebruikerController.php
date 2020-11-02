@@ -27,13 +27,17 @@ class GebruikerController extends AbstractController
      */
     public function createGebruiker(Request $request)
     {
-        $params = $request->request->all();
-        $id = $this->gs->createGebruiker($params);
+        $data = file_get_contents("php://input");
+        $params = json_decode($data, true);
+        $user = $this->gs->createGebruiker($params);
         
-        if ($id) {
-            return $this->json(["id" => $id]);
+        if ($user) {
+            $json = $this->renderView('gebruiker.json.twig', ["user" => $user]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
-        return $this->json(["status" => "denied"]);
+        return $this->json(["id" => "-1"]);
     }
 
     /**
@@ -64,9 +68,9 @@ class GebruikerController extends AbstractController
      */
     public function login(Request $request)
     {
-        $params = $request->request->all();
+        $data = file_get_contents("php://input");
+        $params = json_decode($data, true);  
         $id = $this->gs->login($params);
-        
         return $this->json(["id" => $id]);
     }
 }

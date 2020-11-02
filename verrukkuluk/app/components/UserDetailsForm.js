@@ -51,30 +51,32 @@ export default class UserDetailsForm extends Component
                 data.id = this.state.user.remote_id;
             }
 
+            const type = this.props.register ? "register" : "edit";
+
             API.postData({
                 url: constants.newUserUrl,
                 table: "gebruiker",
                 type: "post",
                 data: data,
-                edit: true
+                [type]: true
             })
             .then( result => {
 
                 if (this.props.register) {
-                    API.fetchData({ url:
-                        constants.userUrl,
+                    API.fetchData({
+                        url: constants.userUrl,
                         table: "gebruiker",
-                        id: result.id 
+                        id: result.remote_id
                     })
                     .then( user => Actions.Home() )
-                    .catch( err => console.warn(err) );
+                    .catch( error => console.warn("probleem met ophalen user: " + error) );
 
                 } else {
                     Actions.pop({ refresh: {} });
                 }
             })
             .catch( error => {
-                console.warn(error);
+                console.warn("probleem met bereiken server: " + error);
                 this.setState({
                     isLoading: false,
                     error: true

@@ -104,23 +104,18 @@ export default class API
     static postData = (obj) => new Promise( (resolve, reject) => {
 
         const url = this.constructUrl(obj);
-        const body = new FormData();
 
-        for (let item in obj.data) {
-            body.append(item, obj.data[item]);
+        if (obj.user) {
+            let user = this.fetchUser();
+            obj.data.gebruiker_id = user.remote_id;
         }
         
-        let user = this.fetchUser();
-        if (user) {
-            body.append("gebruiker_id", user.remote_id);
-        }
-
         const options = { 
             method: obj.type,
-            body,
+            body: JSON.stringify(obj.data),
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json'
             }
         };
         
@@ -128,7 +123,7 @@ export default class API
             .then( result => result.json() )
             .then( result => {
 
-                obj.type === "post" ? this.writeData(obj) :
+                obj.type === "post" && !obj.register ? this.writeData(obj) :
                 obj.type === "delete" ? this.deleteDataFromDatabase(obj) : false;
 
                 resolve(result);
@@ -153,7 +148,6 @@ export default class API
             realm.write(() => {
                 realm.create(obj.table, obj.data, true);
             })
-            console.warn("API.writeData: object toegevoegd");
         }
 
         if (obj.data.record_type === "F") {

@@ -27,7 +27,8 @@ class ArtikelController extends AbstractController
      */
     public function createArtikel(Request $request)
     {
-        $params = $request->request->all();
+        $data = file_get_contents("php://input");
+        $params = json_decode($data, true);
 
         if ($this->as->createArtikel($params)) {
             return $this->json(["result" => "okay"]);
@@ -41,7 +42,6 @@ class ArtikelController extends AbstractController
      */
     public function getAllArtikelen()
     {
-        //probleem: te veel artikelen
         $articles = $this->as->getAllArtikelen();
         $json = $this->renderView('artikelen.json.twig', ["articles" => $articles]);
         $response = new Response($json);

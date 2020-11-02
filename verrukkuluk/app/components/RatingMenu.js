@@ -36,7 +36,8 @@ export default class RatingMenu extends Component
             API.postData({ 
                 url: constants.addInfoUrl,
                 type: "post",
-                data: data
+                data: data,
+                user: true
             })
             .then(result => {
                 this.setState({ isLoading: false });

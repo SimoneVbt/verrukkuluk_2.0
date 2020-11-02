@@ -55,7 +55,8 @@ class BoodschappenController extends AbstractController
      */
     public function setAmount(Request $request)
     {
-        $params = $request->request->all();
+        $data = file_get_contents("php://input");
+        $params = json_decode($data, true);
 
         if ($this->bss->setAmount($params)) {
             return $this->json(["result" => "okay"]);
