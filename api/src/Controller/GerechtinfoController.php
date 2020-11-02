@@ -30,9 +30,9 @@ class GerechtinfoController extends AbstractController
         $params = $request->request->all();
 
         if ($this->gis->createGerechtinfo($params)) {
-            return new Response("Gerechtinfo bewerkt/toegevoegd aan database");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Toevoegen/bewerken gerechtinfo mislukt");
+        return $this->json(["result" => "denied"]);
     }
 
 
@@ -69,8 +69,8 @@ class GerechtinfoController extends AbstractController
     public function deleteGerechtinfo($id)
     {
         if ($this->gis->deleteGerechtinfo($id)) {
-            return new Response("Gerechtinfo succesvol verwijderd uit database");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Verwijderen gerechtinfo mislukt");
+        return $this->json(["result" => "denied"]);
     }
 }

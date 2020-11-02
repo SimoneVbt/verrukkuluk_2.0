@@ -30,9 +30,9 @@ class IngredientController extends AbstractController
         $params = $request->request->all();
 
         if ($this->is->createIngredient($params)) {
-            return new Response("Ingrediënt succesvol bewerkt/toegevoegd aan database");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Ingrediënt toevoegen/bewerken mislukt");
+        return $this->json(["result" => "denied"]);
     }
 
 
@@ -55,8 +55,8 @@ class IngredientController extends AbstractController
     public function deleteIngredient($ing_id)
     {
         if ($this->is->deleteIngredient($ing_id)) {
-            return new Response("Ingrediënt succesvol uit database verwijderd");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Verwijderen ingrediënt mislukt");
+        return $this->json(["result" => "denied"]);
     }
 }

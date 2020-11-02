@@ -31,16 +31,7 @@ class ArtikelService
 
     public function getAllArtikelen()
     {
-        $articles = $this->getAllArtikelen();
-
-        if ($articles) {
-            foreach ($articles as $article) {
-                $article = $this->getArtikel($article->getId());
-            }
-
-            return $articles;            
-        }
-        return [];
+        return $this->rep->getAllArtikelen();
     }
 
 

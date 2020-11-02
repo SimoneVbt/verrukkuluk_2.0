@@ -37,8 +37,16 @@ export default class NewDish extends Component
 
 
     componentDidMount() {
-        const kitchens = API.fetchData({ url: constants.kitchenUrl, table: "keukentype", filter: 'record_type = "K"', sort: "omschrijving" })
-        const types = API.fetchData({ url: constants.typeUrl, table: "keukentype",  filter: 'record_type = "T"', sort: "omschrijving" })
+        const kitchens = API.fetchData({
+            url: constants.kitchenUrl,
+            table: "keukentype",
+            filter: 'record_type = "K"',
+            sort: "omschrijving" })
+        const types = API.fetchData({ 
+            url: constants.typeUrl,
+            table: "keukentype",
+            filter: 'record_type = "T"',
+            sort: "omschrijving" })
 
         Promise.all([kitchens, types])
             .then( values =>

@@ -31,7 +31,8 @@ const messageStyle = {
     alignSelf: "center",
     paddingHorizontal: 10,
     paddingVertical: 10,
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: 10
     
 }
 
@@ -42,7 +43,8 @@ const messageStyleDark = {
     alignSelf: "center",
     paddingHorizontal: 30,
     paddingVertical: 10,
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: 10
 }
 
 

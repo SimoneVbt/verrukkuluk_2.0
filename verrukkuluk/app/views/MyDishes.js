@@ -17,7 +17,7 @@ export default class MyDishes extends Component
 
 
     componentDidMount() {
-        let user = API.fetchFromDatabase("gebruiker", 1);
+        let user = API.fetchUser();
         let data = API.fetchFromDatabase("gerecht", false, `gebruiker_id == ${ user.remote_id }`);
         this.setState({
             dishes: data ? data : false,

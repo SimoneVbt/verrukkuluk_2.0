@@ -45,7 +45,6 @@ export default class NewComment extends Component
                 API.postData({
                     url: constants.addInfoUrl,
                     type: "post",
-                    user: true,
                     data: data,
                     edit: true
                 })

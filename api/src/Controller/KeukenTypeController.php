@@ -30,9 +30,9 @@ class KeukenTypeController extends AbstractController
         $params = $request->request->all();
 
         if ($this->kts->createKeukenType($params)) {
-            return new Response("Keuken/type succesvol gewijzigd/aan database toegevoegd");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Fout bij toevoegen/bewerken keuken/type aan database");
+        return $this->json(["result" => "denied"]);
     }
 
 
@@ -68,8 +68,8 @@ class KeukenTypeController extends AbstractController
     public function deleteKeukenType($kt_id)
     {
         if ($this->kts->deleteKeukenType($kt_id)) {
-            return new Response("Keuken/type uit database verwijderd");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Verwijderen keuken/type mislukt");
+        return $this->json(["result" => "denied"]);
     }
 }

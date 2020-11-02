@@ -18,7 +18,7 @@ export default class DishComments extends Component
 
 
     componentDidMount() {
-        let user = API.fetchFromDatabase("gebruiker", 1);
+        let user = API.fetchUser();
         this.setState({ user: user })
     }
 

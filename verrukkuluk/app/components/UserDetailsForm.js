@@ -21,7 +21,7 @@ export default class UserDetailsForm extends Component
 
     componentDidMount() {
         if (this.props.edit) {
-            let user = API.fetchFromDatabase("gebruiker", 1);
+            let user = API.fetchUser();
             this.setState({
                 user: user,
                 gebruikersnaam: user.gebruikersnaam,
@@ -59,17 +59,20 @@ export default class UserDetailsForm extends Component
                 edit: true
             })
             .then( result => {
+
                 if (this.props.register) {
                     API.fetchData({ url:
                         constants.userUrl,
                         table: "gebruiker",
-                        id: result.id })
-                        .then( user => Actions.Home() )
-                        .catch( err => console.warn(err) );
+                        id: result.id 
+                    })
+                    .then( user => Actions.Home() )
+                    .catch( err => console.warn(err) );
+
                 } else {
                     Actions.pop({ refresh: {} });
                 }
-            }  )
+            })
             .catch( error => {
                 console.warn(error);
                 this.setState({
@@ -96,7 +99,7 @@ export default class UserDetailsForm extends Component
                         "";
         if (message) {
             return(
-                <Text style={ style.messageStyleDark }>
+                <Text style={ this.props.light ? style.messageStyle : style.messageStyleDark }>
                     { message }
                 </Text>
             )
@@ -142,6 +145,7 @@ export default class UserDetailsForm extends Component
     render() {
         return(
             <Form>
+                { this.renderError() }
                 <Item stackedLabel style={ style.itemStyle }>
                     <Label style={ this.props.light ? style.labelStyle : style.labelStyleDark }>Gebruikersnaam</Label>
                     <Input value={ this.state.gebruikersnaam }

@@ -95,27 +95,37 @@ export default class API
     })
 
 
+    static fetchUser() {
+        return this.fetchFromDatabase("gebruiker", 1);
+    }
+
+
     //object: minstens url, type en data (post) of id, type en table (delete)
     static postData = (obj) => new Promise( (resolve, reject) => {
 
-        let url = this.constructUrl(obj);
+        const url = this.constructUrl(obj);
         const body = new FormData();
 
-        if (obj.type === "post") {
-            for (let item in obj.data) {
-                body.append(item, obj.data[item]);
-            }
-            
-            if (obj.user) {
-                let user = this.fetchFromDatabase("gebruiker", 1);
-                body.append("gebruiker_id", user.remote_id);
-            }
+        for (let item in obj.data) {
+            body.append(item, obj.data[item]);
         }
-        let apiObj = obj.type === "post" ?
-                    { method: 'post', body} :
-                    { method: 'delete' };
         
-        fetch(url, apiObj)
+        let user = this.fetchUser();
+        if (user) {
+            body.append("gebruiker_id", user.remote_id);
+        }
+
+        const options = { 
+            method: obj.type,
+            body,
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        
+        fetch(url, options)
+            .then( result => result.json() )
             .then( result => {
 
                 obj.type === "post" ? this.writeData(obj) :
@@ -175,18 +185,6 @@ export default class API
             })
         } 
     }
-
-
-    static login = (url, login, password) => new Promise( (resolve, reject) => {
-        const body = new FormData();
-        body.append("login", login);
-        body.append("wachtwoord", password);
-
-        fetch(url, { method: 'POST', body })
-        .then( result => result.json() )
-        .then( result => resolve(result) )
-        .catch( error => reject(error) )
-    })
 
 
     static clearDatabase() {

@@ -30,9 +30,9 @@ class BoodschappenController extends AbstractController
         $params = $request->request->all();
 
         if ($this->bss->addToBoodschappen($params)) {
-            return new Response("Toevoegen artikel aan boodschappen gelukt");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Toevoegen aan artikel aan boodschappen mislukt");
+        return $this->json(["result" => "denied"]);
     }
 
 
@@ -44,9 +44,9 @@ class BoodschappenController extends AbstractController
         $params = $request->request->all();
         
         if ($this->bss->addDishToBoodschappen($params)) {
-            return new Response("Gerechtingrediënten succesvol toegevoegd aan boodschappen");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Gerechtingrediënten toevoegen aan boodschappen mislukt");
+        return $this->json(["result" => "denied"]);
     }
 
 
@@ -58,9 +58,9 @@ class BoodschappenController extends AbstractController
         $params = $request->request->all();
 
         if ($this->bss->setAmount($params)) {
-            return new Response("Aantal succesvol aangepast");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Aantal aanpassen mislukt");
+        return $this->json(["result" => "denied"]);
     }
 
     
@@ -83,9 +83,9 @@ class BoodschappenController extends AbstractController
     public function deleteBoodschappen($bs_id)
     {
         if ($this->bss->deleteBoodschappen($bs_id)) {
-            return new Response("Artikel succesvol verwijderd uit database");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Artikel verwijderen uit boodschappen mislukt");
+        return $this->json(["result" => "denied"]);
     }
 
     
@@ -95,8 +95,8 @@ class BoodschappenController extends AbstractController
     public function deleteAllBoodschappen($user_id)
     {
         if ($this->bss->deleteAllBoodschappen($user_id)) {
-            return new Response("Boodschappen succesvol verwijderd uit database");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Boodschappen verwijderen mislukt");
+        return $this->json(["result" => "denied"]);
     }
 }

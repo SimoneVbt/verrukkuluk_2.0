@@ -34,7 +34,7 @@ export default class Camera extends Component
                     CameraRoll.save(data.uri);
                     Actions.pop({ refresh: { picture: data.uri }});
                 })
-                .catch (error => console.warn(error));
+                .catch( error => console.warn(error) );
           }
     }
 

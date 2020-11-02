@@ -24,7 +24,7 @@ export default class App extends Component
   }
 
   componentDidMount() {
-    let user = API.fetchFromDatabase("gebruiker", 1);
+    let user = API.fetchUser();
     if (user) { this.setState({ userPresence: true }) }
   }
 

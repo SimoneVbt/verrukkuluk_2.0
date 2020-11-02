@@ -30,9 +30,9 @@ class GerechtController extends AbstractController
         $params = $request->request->all();
 
         if ($this->gs->createGerecht($params)) {
-            return new Response("Gerecht bewerkt/toegevoegd aan database");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Toevoegen/bewerken gerecht mislukt");
+        return $this->json(["result" => "denied"]);
     }
 
 
@@ -68,8 +68,8 @@ class GerechtController extends AbstractController
     public function deleteGerecht($dish_id)
     {
         if ($this->gs->deleteGerecht($dish_id)) {
-            return new Response("Gerecht succesvol uit database verwijderd");
+            return $this->json(["result" => "okay"]);
         }
-        return new Response("Verwijderen gerecht mislukt");
+        return $this->json(["result" => "denied"]);
     }
 }

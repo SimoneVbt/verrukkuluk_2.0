@@ -29,7 +29,8 @@ export default class ShoppingList extends Component
         API.fetchData({
             url: constants.listUrl,
             table: "boodschappen",
-            userInUrl: true })
+            userInUrl: true
+        })
         .then( result => 
             this.setState({
                 items: result,

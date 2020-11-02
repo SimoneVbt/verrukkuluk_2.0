@@ -21,11 +21,13 @@ export default class Login extends Component
 
     login() {
 
-        this.setState({
-            isLoading: true
-        }, () => {
+        this.setState({ isLoading: true }, () => {
 
-            API.login(constants.loginUrl, this.state.login, this.state.wachtwoord)
+            API.postData({
+                url: constants.loginUrl,
+                type: "post",
+                data: { login: this.state.login, wachtwoord: this.state.wachtwoord }
+            })
             .then( result => {
                 
                 if (result.id > 0) {

@@ -33,7 +33,7 @@ class GebruikerController extends AbstractController
         if ($id) {
             return $this->json(["id" => $id]);
         }
-        return new Response ("Gebruiker aanmaken/bewerken mislukt");
+        return $this->json(["status" => "denied"]);
     }
 
     /**
@@ -54,9 +54,9 @@ class GebruikerController extends AbstractController
     public function deleteGebruiker($user_id)
     {
         if ($this->gs->deleteGebruiker($user_id)) {
-            return new Response("Gebruiker gedeletet");
+            return $this->json(["status" => "okay"]);
         }
-        return new Response("Deleten gebruiker mislukt");
+        return $this->json(["status" => "denied"]);
     }
 
     /**

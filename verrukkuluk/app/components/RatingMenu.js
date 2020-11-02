@@ -16,7 +16,7 @@ export default class RatingMenu extends Component
 
 
     componentDidMount() {
-        let user = API.fetchFromDatabase("gebruiker", 1);
+        let user = API.fetchUser();
         this.setState({ user: user });
     }
 
@@ -36,8 +36,7 @@ export default class RatingMenu extends Component
             API.postData({ 
                 url: constants.addInfoUrl,
                 type: "post",
-                data: data,
-                user: true
+                data: data
             })
             .then(result => {
                 this.setState({ isLoading: false });
