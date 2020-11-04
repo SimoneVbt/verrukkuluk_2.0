@@ -36,6 +36,8 @@ export default class RatingMenu extends Component
             API.postData({ 
                 url: constants.addInfoUrl,
                 type: "post",
+                table: "gerecht",
+                rating: true,
                 data: data,
                 user: true
             })

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Card, CardItem, Text, View } from 'native-base';
 import * as style from '../resources/styles/styles.js';
+import * as constants from '../config/constants';
 import API from '../api/API';
 import NewComment from '../components/NewComment';
 import Comment from '../components/Comment';
@@ -11,7 +12,7 @@ export default class DishComments extends Component
 {
     state = {
         user: {},
-        comments: this.props.comments,
+        comments: [],
         isLoading: false,
         error: false
     }
@@ -19,14 +20,50 @@ export default class DishComments extends Component
 
     componentDidMount() {
         let user = API.fetchUser();
-        this.setState({ user: user })
+        let comments = API.fetchFromDatabase("gerechtinfo", false, "record_type = 'O' AND gerecht_id = " + this.props.dish_id, "id", true);
+        this.setState({
+            user: user,
+            comments: comments
+        })
     }
 
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.comments != this.props.comments) {
-            this.setState({ comments: this.props.comments })
-        }
+    getCommentsInfo() {
+        let comments = API.fetchFromDatabase("gerechtinfo", false, "record_type = 'O' AND gerecht_id = " + this.props.dish_id, "id", true);
+        this.setState({ comments: comments });
+    }
+    
+
+    handleSubmit = (data) => new Promise( (resolve, reject) => {
+        API.postData({
+            url: constants.addInfoUrl,
+            type: "post",
+            table: "gerechtinfo",
+            data: data,
+            user: true,
+            edit: true
+        })
+        .then( result => {
+            this.getCommentsInfo();
+            resolve(result);
+        })
+        .catch( error => {
+            console.warn(error);
+            reject(error);
+        })
+    })
+
+
+    handleDelete = (comment) => {
+        const id = comment.id;
+        API.postData({
+            url: constants.deleteInfoUrl,
+            table: "gerechtinfo",
+            type: "delete",
+            id: id
+        })
+        .then( result => this.getCommentsInfo() )
+        .catch( error => console.warn(error) )
     }
 
 
@@ -39,7 +76,8 @@ export default class DishComments extends Component
                                 <Comment comment={ item }
                                         user_id={ this.state.user.remote_id }
                                         dish_id={ this.props.dish_id }
-                                        loadCommentData={ this.props.loadCommentData }/>}
+                                        handleSubmit={ this.handleSubmit }
+                                        handleDelete={ this.handleDelete }/>}
                 />
             )
         } 
@@ -72,7 +110,7 @@ export default class DishComments extends Component
                         { this.renderList() }   
                     </View>
                 </CardItem>
-                <NewComment dish_id={ this.props.dish_id } loadCommentData={ this.props.loadCommentData } />
+                <NewComment dish_id={ this.props.dish_id } handleSubmit={ this.handleSubmit } />
             </Card>
         );
     }

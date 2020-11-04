@@ -29,9 +29,13 @@ class IngredientController extends AbstractController
     {
         $data = file_get_contents("php://input");
         $params = json_decode($data, true);
+        $ingredient = $this->is->createIngredient($params);
 
-        if ($this->is->createIngredient($params)) {
-            return $this->json(["result" => "okay"]);
+        if ($ingredient) {
+            $json = $this->renderView('ingredient.json.twig', ["ingredient" => $ingredient]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         return $this->json(["result" => "denied"]);
     }

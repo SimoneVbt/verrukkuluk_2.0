@@ -61,16 +61,8 @@ export default class UserDetailsForm extends Component
                 [type]: true
             })
             .then( result => {
-
-                if (this.props.register) {
-                    API.fetchData({
-                        url: constants.userUrl,
-                        table: "gebruiker",
-                        id: result.remote_id
-                    })
-                    .then( user => Actions.Home() )
-                    .catch( error => console.warn("probleem met ophalen user: " + error) );
-
+                if (this.props.register) { 
+                    Actions.Home()
                 } else {
                     Actions.pop({ refresh: {} });
                 }

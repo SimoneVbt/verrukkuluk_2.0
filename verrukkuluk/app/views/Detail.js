@@ -29,27 +29,21 @@ export default class Detail extends Component
     state = {
         dish: [],
         isLoaded: false,
-        ingredients: [],
-        preparation: [],
-        comments: [],
         error: false
     }
 
     componentDidMount() {
         const dish_id = this.props.dish_id;
         const dish = API.fetchFromDatabase("gerecht", dish_id);
-        const fetchIngr = API.fetchData({ url: constants.ingrUrl, table: "ingredient", id: dish_id, filter: `gerecht_id == ${dish_id}` });
-        const fetchPrep = API.fetchData({ url: constants.prepUrl, table: "gerechtinfo", id: dish_id, filter: `gerecht_id == ${dish_id}` });
-        const fetchComm = API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id, filter: `gerecht_id == ${dish_id}` });
+        const fetchIngr = API.fetchData({ url: constants.ingrUrl, table: "ingredient", id: dish_id });
+        const fetchPrep = API.fetchData({ url: constants.prepUrl, table: "gerechtinfo", id: dish_id });
+        const fetchComm = API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id });
 
         Promise.all([fetchIngr, fetchPrep, fetchComm])
         .then( values => 
             this.setState({
                 isLoaded: true,
-                dish: dish,
-                ingredients: values[0],
-                preparation: values[1],
-                comments: values[2]
+                dish: dish
             })
         )
         .catch( error => 
@@ -62,27 +56,8 @@ export default class Detail extends Component
 
 
     loadDishData = (dish_id) => {
-        API.fetchData({ 
-            url: constants.dishUrl, 
-            table: "gerecht", 
-            id: dish_id, 
-            userInUrl: true 
-        })
-        .then( result => this.setState({ dish: result }) )
-        .catch( error => this.setState({ error: true }) )
-    }
-
-
-    loadCommentData = (dish_id) => {
-        API.fetchData({ 
-            url: constants.commUrl, 
-            table: "gerechtinfo", 
-            id: dish_id })
-        .then( result => this.setState({ comments: result }) )
-        .catch( error => {
-            console.warn(error);
-            this.setState({ error: true }) 
-        });
+        let dish = API.fetchFromDatabase("gerecht", dish_id);
+        this.setState({ dish: dish })
     }
 
 
@@ -109,29 +84,29 @@ export default class Detail extends Component
                         textStyle={ style.tabTextStyle }  activeTextStyle={ style.tabTextStyle }>
                         <Content style={ contentStyle }>
                             <View style={{ marginBottom: 20 }}>
-                                <DishDescription dish={ this.state.dish } ingredients={ this.state.ingredients } loadDishData={ this.loadDishData } />
+                                <DishDescription dish={ this.state.dish } loadDishData={ this.loadDishData } />
                             </View>
                         </Content>
                     </Tab>
                     <Tab heading="ingrediënten"
                         tabStyle={ style.tabStyle } activeTabStyle={ style.tabStyle }
-                        textStyle={ style.tabTextStyle } activeTextStyle={ style.tabTextStyle }>  
+                        textStyle={ style.tabTextStyle } activeTextStyle={ style.tabTextStyle }>
                         <View style={ viewStyle }>
-                            <DishIngredients ingredients={ this.state.ingredients } />
+                            <DishIngredients dish_id ={ this.state.dish.id } />
                         </View>
                     </Tab>
                     <Tab heading="bereiding"
                         tabStyle={ style.tabStyle } activeTabStyle={ style.tabStyle } 
                         textStyle={ style.tabTextStyle } activeTextStyle={ style.tabTextStyle }>
                         <View style={ viewStyle }>
-                            <DishPreparation preparation={ this.state.preparation } />
+                            <DishPreparation dish_id ={ this.state.dish.id } />
                         </View>
                     </Tab>
                     <Tab heading="opmerkingen"
                         tabStyle={ style.tabStyle } activeTabStyle={ style.tabStyle }
                         textStyle={ style.tabTextStyle } activeTextStyle={ style.tabTextStyle }>
                         <View style={ viewStyle }>
-                            <DishComments comments={ this.state.comments } dish_id={ this.state.dish.id } loadCommentData={ this.loadCommentData } />
+                            <DishComments dish_id={ this.state.dish.id } />
                         </View>
                     </Tab>
                 </Tabs>                

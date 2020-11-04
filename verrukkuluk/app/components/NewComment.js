@@ -23,38 +23,34 @@ export default class NewComment extends Component
 
 
     submitComment() {
-
         if (this.state.comment === "") {
-            this.setState({ emptyError: true  }) 
+            this.setState({ emptyError: true  })
+            return false;
+        }
 
-        } else {
-            this.setState({
-                isLoading: true,
-                emptyError: false
-            }, () => {
+        this.setState({
+            isLoading: true,
+            emptyError: false
+        }, () => {
+            
+            const data = {
+                record_type: "O",
+                gerecht_id: this.props.dish_id,
+                tekstveld: this.state.comment
+            }
+            if (this.props.comment) {
+                data.id = this.props.comment.id;
+            }
 
-                const data = {
-                    record_type: "O",
-                    gerecht_id: this.props.dish_id,
-                    tekstveld: this.state.comment
-                }
-                if (this.props.comment) {
-                    data.id = this.props.comment.id;
-                }
-                
-                API.postData({
-                    url: constants.addInfoUrl,
-                    type: "post",
-                    data: data,
-                    user: true,
-                    edit: true
-                })
+            this.props.handleSubmit(data)
                 .then( result => {
-                    this.props.loadCommentData(this.props.dish_id);
                     this.setState({
                         isLoading: false,
                         comment: ""
-                    });
+                    })
+                    if (this.props.comment) {
+                        this.props.closeEditMenu();
+                    }
                 })
                 .catch( error => {
                     console.warn(error);
@@ -63,15 +59,12 @@ export default class NewComment extends Component
                         error: true
                     })
                 })
-            });
-        }
+        })
     }
 
 
     handleChange(text) {
-        this.setState({
-            comment: text
-        })
+        this.setState({ comment: text })
     }
 
 

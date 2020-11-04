@@ -21,28 +21,51 @@ class BoodschappenService
     }
 
 
+    public function getBoodschappenInfo($bs) {
+        $article = $this->as->getArtikel($bs->getArtikelId());
+                
+        $price = $article->getPrijs();
+        $package = $article->getVerpakking();
+
+        $bs->product = $article->getNaam();
+        $bs->prijs = $price;
+        $bs->eenheid = $article->getEenheid();
+        $bs->verpakking = $package;
+        $bs->afbeelding = $article->getAfbeelding();
+
+        $bs->aantal_verpakkingen = ceil($bs->getAantal() / $package);
+        $bs->totalePrijs = $bs->aantal_verpakkingen * $price;
+        
+        return $bs;
+    }
+
+
     public function addToBoodschappen($params)
     {
-        return $this->rep->addToBoodschappen($params);
+        $bs = $this->rep->addToBoodschappen($params);
+        return $this->getBoodschappenInfo($bs);
     }
 
 
     public function addDishToBoodschappen($params)
     {
+        $boodschappen = [];
         $ingredients = $this->is->getDishIngredients($params["gerecht_id"]);
 
         foreach ($ingredients as $ingredient) {
             $params["artikel_id"] = $ingredient->getArtikelId();
             $params["aantal"] = $ingredient->getAantal();
-            $this->addToBoodschappen($params);
+            $bs = $this->addToBoodschappen($params);
+            array_push($boodschappen, $bs);
         }
-        return true;
+        return $boodschappen;
     }
 
 
     public function setAmount($params)
     {
-        return $this->rep->setAmount($params);
+        $bs = $this->rep->setAmount($params);
+        return $this->getBoodschappenInfo($bs);
     }
 
 
@@ -52,20 +75,7 @@ class BoodschappenService
 
         if ($boodschappen) {
             foreach ($boodschappen as $bs) {
-                
-                $article = $this->as->getArtikel($bs->getArtikelId());
-                
-                $price = $article->getPrijs();
-                $package = $article->getVerpakking();
-
-                $bs->product = $article->getNaam();
-                $bs->prijs = $price;
-                $bs->eenheid = $article->getEenheid();
-                $bs->verpakking = $package;
-                $bs->afbeelding = $article->getAfbeelding();
-
-                $bs->aantal_verpakkingen = ceil($bs->getAantal() / $package);
-                $bs->totalePrijs = $bs->aantal_verpakkingen * $price;
+                $bs = $this->getBoodschappenInfo($bs);
             }
             
             return $boodschappen;

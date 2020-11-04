@@ -41,8 +41,8 @@ export default class App extends Component
 
           <Scene key="ShoppingList" component={ ShoppingList } />
           <Scene key="Favorites" component={ Favorites } />
-
           <Scene key="MyDishes" component={ MyDishes } />
+
           <Scene key="NewDish" component={ NewDish } />
           <Scene key="Camera" component={ Camera } />
           <Scene key="Ingredients" component={ Ingredients } />

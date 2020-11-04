@@ -23,10 +23,7 @@ export default class Article extends Component
                 table: "boodschappen",
                 id: this.props.item.id
             })
-            .then( result => {
-                this.props.loadData();
-                this.setState({ isLoading: false })
-            })
+            .then( result => this.props.loadData() )
             .catch( error => {
                 console.warn(error);
                 this.setState({

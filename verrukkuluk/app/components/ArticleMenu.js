@@ -22,9 +22,11 @@ export default class ArticleMenu extends Component
             API.postData({ 
                 url: constants.setAmountUrl,
                 type: "post",
+                table: "boodschappen",
                 data: { 
                     id: this.props.item.id,
-                    aantal: this.state.amount }
+                    aantal: this.state.amount
+                }
             })
             .then( result => {
                 this.props.loadData();

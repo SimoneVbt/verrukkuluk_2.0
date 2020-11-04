@@ -34,7 +34,7 @@ export default class Favorites extends Component
             type: "delete",
             favo: true,
             id: info_id,
-            dish_id: dish_id })
+            gerecht_id: dish_id })
         .then(result => this.loadData() )
         .catch(error => console.warn(error));
     }

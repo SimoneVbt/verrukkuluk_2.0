@@ -73,7 +73,7 @@ export default class DishCard extends Component
                     <CardItem style={ style.cardItemStyle }>
                         <View style={{ flex: 1 }}>
                             <Button full
-                                    onPress={ () => Actions.Ingredients() }
+                                    onPress={ () => Actions.Ingredients({ dish: this.props.dish }) }
                                     style={ style.buttonStyle }>
                                 <Icon name="food-apple-outline" type="MaterialCommunityIcons" style={{ color: style.white }} />
                                 <Icon name="add" type="MaterialIcons"
@@ -83,7 +83,7 @@ export default class DishCard extends Component
                         </View>
                         <View style={{ flex: 1 }}>
                             <Button full
-                                    onPress={ () => Actions.Preparation() }
+                                    onPress={ () => Actions.Preparation({ dish: this.props.dish }) }
                                     style={ style.buttonStyle }>
                                 <Icon name="bowl-mix-outline" type="MaterialCommunityIcons" style={{ color: style.white }} />
                                 <Icon name="add" type="MaterialIcons"

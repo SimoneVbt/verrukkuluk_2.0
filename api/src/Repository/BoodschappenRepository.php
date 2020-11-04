@@ -35,7 +35,7 @@ class BoodschappenRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $em->persist($bs);
         $em->flush();
-        return $em;
+        return $bs;
     }
 
 
@@ -47,9 +47,9 @@ class BoodschappenRepository extends ServiceEntityRepository
             $em = $this->getEntityManager();
             $em->persist($bs);
             $em->flush();
-            return true;
+            return $bs;
         }
-        return false;
+        return null;
     }
 
 

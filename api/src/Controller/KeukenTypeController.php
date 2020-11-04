@@ -29,9 +29,14 @@ class KeukenTypeController extends AbstractController
     {
         $data = file_get_contents("php://input");
         $params = json_decode($data, true);
+        $kt = $this->kts->createKeukenType($params);
 
-        if ($this->kts->createKeukenType($params)) {
-            return $this->json(["result" => "okay"]);
+        if ($kt) {
+            $kitchens = $this->kts->getAllKeukens();
+            $json = $this->renderView('keukentype_enkel.json.twig', ["kt" => $kt]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         return $this->json(["result" => "denied"]);
     }

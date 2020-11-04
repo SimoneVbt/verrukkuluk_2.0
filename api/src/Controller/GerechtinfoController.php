@@ -29,9 +29,13 @@ class GerechtinfoController extends AbstractController
     {
         $data = file_get_contents("php://input");
         $params = json_decode($data, true);
+        $info = $this->gis->createGerechtinfo($params);
 
-        if ($this->gis->createGerechtinfo($params)) {
-            return $this->json(["result" => "okay"]);
+        if ($info) {
+            $json = $this->renderView('gerechtinfo_enkel.json.twig', ["info" => $info]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         return $this->json(["result" => "denied"]);
     }

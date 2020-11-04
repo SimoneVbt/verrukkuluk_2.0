@@ -20,7 +20,7 @@ export default class Head extends Component
             )
         } else if (!this.props.login) {
             return(
-                <Button onPress={ () => Actions.pop() } transparent>
+                <Button onPress={ this.props.newDish ? () => Actions.popTo("MyDishes") : () => Actions.pop() } transparent>
                     <Icon name="chevron-back" type="Ionicons" style={ iconStyle } />
                 </Button>
             )

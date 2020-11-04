@@ -26,21 +26,18 @@ export default class Login extends Component
             API.postData({
                 url: constants.loginUrl,
                 type: "post",
+                table: "gebruiker",
                 data: { login: this.state.login, wachtwoord: this.state.wachtwoord }
             })
             .then( result => {
 
-                console.warn(result);
-                
-                if (result.id > 0) {
-                    API.fetchData({ url: constants.userUrl, table: "gebruiker", id: result.id })
-                        .then( user => Actions.Home() )
-                        .catch( err => console.warn(err) );
-
+                if (result.hasOwnProperty('id')) {
+                    Actions.Home()
                 } else {
                     this.setState({
                         isLoading: false,
-                        failure: true });
+                        failure: true
+                    });
                 }
                 
             })

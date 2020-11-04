@@ -10,7 +10,7 @@ let realm = new Realm({
             schema.boodschappen,
             schema.keukentype,
             schema.artikel ],
-    schemaVersion: 36
+    schemaVersion: 37
 });
 
 
@@ -36,12 +36,12 @@ export default class API
     }
 
 
-    static fetchFromDatabase(tableName, id=false, filter=false, sort="id") {
+    static fetchFromDatabase(tableName, id=false, filter=false, sort="id", order=false) {
 
         if (id === false) {
             let results = realm.objects(tableName);
             let filteredResults = filter ? results.filtered(filter) : results;
-            let sortedResults = filteredResults.sorted(sort);
+            let sortedResults = filteredResults.sorted(sort, order);
             let data = Array.from(sortedResults);
             return data;
         }
@@ -57,10 +57,12 @@ export default class API
         let url = this.constructUrl(obj);
         
         const tm = setTimeout( () => {
-            resolve(API.fetchFromDatabase(obj.table,
-                                            obj.id ? obj.id : false,
-                                            obj.filter ? obj.filter : false,
-                                            obj.sort ? obj.sort : "id"));
+            let table = obj.table;
+            let id = obj.id ? obj.id : false;
+            let filter = obj.filter ? obj.filter : false;
+            let sort = obj.sort ? obj.sort : "id";
+
+            resolve(API.fetchFromDatabase(table, id, filter, sort));
         }, timeout);
 
         const options = { headers: { Accept: 'application/json', 'Content-Type': 'application/json' } }
@@ -100,7 +102,7 @@ export default class API
     }
 
 
-    //object: minstens url, type en data (post) of id, type en table (delete)
+    //object: minstens url, type, table en data (post) of id, type en table (delete)
     static postData = (obj) => new Promise( (resolve, reject) => {
 
         const url = this.constructUrl(obj);
@@ -123,61 +125,112 @@ export default class API
             .then( result => result.json() )
             .then( result => {
 
-                obj.type === "post" && !obj.register ? this.writeData(obj) :
-                obj.type === "delete" ? this.deleteDataFromDatabase(obj) : false;
+                obj.type === "post" && !obj.noWrite ? this.writeData(obj, result) :
+                obj.type === "delete" && !obj.noDelete ? this.deleteDataFromDatabase(obj) : false;
 
                 resolve(result);
             })
             .catch( error => {
-                console.warn("catch API.postData");
-                console.warn(error);
+                console.warn("catch API.postData: " + error);
                 console.warn(url);
                 reject(error);
             })
     })
-    
 
-    static writeData(obj) {
 
-        if (obj.table) {
+    static addInfo(obj, apiResult) {
+        let record_type = obj.data.record_type;
+        let dish = this.fetchFromDatabase("gerecht", obj.data.gerecht_id);
 
-            if (obj.table === "gebruiker") {
-                obj.data.remote_id = obj.data.id;
-                obj.data.id = 1
-            }
-            realm.write(() => {
-                realm.create(obj.table, obj.data, true);
-            })
-        }
-
-        if (obj.data.record_type === "F") {
-            let dish = this.fetchFromDatabase("gerecht", obj.data.gerecht_id);
+        if (record_type === "F") {
             realm.write(() => {
                 dish.favoriet = true;
+                dish.favoriet_id = apiResult.id;
             })
+            return true;
         }
+        
+        if (record_type === "W") {
+            realm.write(() => {
+                dish.waardering = apiResult.nummeriekveld;
+                dish.favoriet_id = apiResult.id;
+            })
+            return true;
+        }
+    }
+    
+
+    static writeData(obj, apiResult) {
+
+        if (obj.data.record_type === "F" || obj.data.record_type === "W") {
+            this.addInfo(obj, apiResult);
+            return true;
+        }
+
+        try {
+
+            if (obj.table === "gebruiker") {
+                apiResult.remote_id = apiResult.id;
+                apiResult.id = 1
+            }
+
+            if (Array.isArray(apiResult)) {
+                apiResult.forEach( item => {
+                    realm.write(() => {
+                        realm.create(obj.table, item, true);
+                    });
+                });
+                
+            } else {
+                realm.write(() => {
+                    realm.create(obj.table, apiResult, true)
+                })
+            }
+
+        } catch {
+            console.warn("toevoegen van info aan realm mislukt");
+            return false;
+
+        } finally {
+            return true;
+        }
+        
+
     }
     
 
     static deleteDataFromDatabase(obj) {
 
         if (obj.favo) {
-            let record = realm.objectForPrimaryKey("gerecht", obj.dish_id);
+            let dish = this.fetchFromDatabase("gerecht", obj.gerecht_id);
             realm.write(() => {
-                record.favoriet = false;
-                record.favoriet_id = 0;
+                dish.favoriet = false;
+                dish.favoriet_id = 0;
             })
+            return true;
+
         } else if (obj.deleteAll) {
             let table = realm.objects(obj.table);
             realm.write(() => {
                 realm.delete(table);
             })
-        } else if (!obj.noDelete) {
+            return true;
+        }
+
+        try {
             let record = realm.objectForPrimaryKey(obj.table, obj.id);
             realm.write(() => {
                 realm.delete(record);
-            })
-        } 
+            })   
+
+        } catch {
+            console.warn ("verwijderen van info uit realm mislukt");
+            return false;
+
+        } finally {
+            return true;
+        }
+
     }
 
 

@@ -51,14 +51,14 @@ class GerechtinfoRepository extends ServiceEntityRepository
     public function checkFavoriet($user_id, $dish_id)
     {
         $favo = $this->findOneBy(["record_type" => "F", "gebruiker_id" => $user_id, "gerecht_id" => $dish_id]);
-        return $favo ? $favo : false;
+        return $favo ? $favo : null;
     }
 
 
     public function getWaardering($user_id, $dish_id)
     {
         $rating = $this->findOneBy(["record_type" => "W", "gebruiker_id" => $user_id, "gerecht_id" => $dish_id]);
-        return $rating ? $rating : false;
+        return $rating ? $rating : null;
     }
 
 

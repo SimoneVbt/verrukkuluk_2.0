@@ -80,7 +80,15 @@ export default class PasswordMenu extends Component
                     data: data,
                     edit: true
                 })
-                .then( result => Actions.pop() )
+                .then( result => {
+                    this.props.setPasswordMenuVisible(false)
+                    this.setState({
+                        isLoading: false,
+                        newPassword: "",
+                        currentPassword: "",
+                        currentPassword2: ""
+                    })
+                })
                 .catch( error => {
                     console.warn(error);
                     this.setState({

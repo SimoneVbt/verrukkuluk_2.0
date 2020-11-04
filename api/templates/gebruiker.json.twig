@@ -1,6 +1,5 @@
 {
-    "id": 1,
-    "remote_id": {{ user.id }},
+    "id": {{ user.id }},
     "gebruikersnaam": "{{ user.username }}",
     "email": "{{ user.email }}",
     {% if user.afbeelding is not empty %}

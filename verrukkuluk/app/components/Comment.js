@@ -24,56 +24,31 @@ export default class Comment extends Component
 {
     state = {
         isLoading: false,
-        deleteError: false,
-        editError: false,
         editMenu: false
     }
 
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.comment != this.props.comment) {
-            this.setState({ editMenu: false })
-        }
+    closeEditMenu = (data) => {
+        this.setState({ editMenu: false });
+        
     }
 
 
-    _handleDelete() {
+    deleteComment() {
         this.setState({ isLoading: true }, () => {
-            API.postData({
-                url: constants.deleteInfoUrl,
-                table: "gerechtinfo",
-                type: "delete",
-                id: this.props.comment.id
-            })
-            .then( result => {
-                this.props.loadCommentData(this.props.comment.gerecht_id);
-                this.setState({
-                    isLoading: false,
-                    deleteError: false,
-                    editError: false
-                });
-            })
-            .catch( error => {
-                console.warn(error);
-                this.setState({
-                    isLoading: false,
-                    deleteError: true,
-                    editError: false
-                })
-            })
-        });
-
+            this.props.handleDelete(this.props.comment);
+        })
     }
 
 
-    _deleteComment() {
+    askForDelete() {
         Alert.alert(
             'opmerking verwijderen',
             'Weet je zeker dat je deze opmerking wil verwijderen?',
             [
                 {
                     text: 'ja',
-                    onPress: () => this._handleDelete()
+                    onPress: () => this.deleteComment()
                 },
                 {
                     text: 'nee',
@@ -89,7 +64,8 @@ export default class Comment extends Component
             return(
                 <NewComment dish_id={ this.props.comment.gerecht_id }
                             comment={ this.props.comment }
-                            loadCommentData={ this.props.loadCommentData }
+                            handleSubmit={ this.props.handleSubmit }
+                            closeEditMenu={ this.closeEditMenu }
                 />
             )
         }
@@ -119,7 +95,7 @@ export default class Comment extends Component
                 <Right style ={{ flex: 1 }}>
                     <Button iconRight transparent
                             style={{ marginRight: -20 }}
-                            onPress={ () => this._deleteComment() }>
+                            onPress={ () => this.askForDelete() }>
                         <Icon name="delete" type="AntDesign" style={{ color: style.darkRed, fontSize: 20 }} />
                     </Button>
                     <Button iconRight transparent
@@ -141,13 +117,12 @@ export default class Comment extends Component
     }
 
 
-    renderErrorMessage() {
-         if (this.state.deleteError || this.state.editError) {
+    renderSpinner() {
+        if (this.state.isLoading) {
             return(
-                <Text style={{ color: style.darkRed,  fontStyle: "italic", fontSize: 11 }}>
-                    { this.state.deleteError && "Verwijderen opmerking mislukt" }
-                    { this.state.editError && "Fout bij bewerken opmerking" }
-                </Text>               
+                <View style={ overlay }>
+                    <Spinner color={ style.darkRed } />
+                </View>              
             )
         }
     }
@@ -167,7 +142,6 @@ export default class Comment extends Component
                     </Text>
                 </Left>
                 <Body style={{ flex: 10, flexDirection: "column", marginLeft: 20, marginRight: -10 }}>
-                    { this.renderErrorMessage() }
                     {
                         this.props.comment.datum_bewerkt &&
                         <Text style={ smallTextStyle }>
@@ -177,12 +151,7 @@ export default class Comment extends Component
                     { this.renderText() }
                 </Body>
                 { this.renderUserButtons() }
-                {
-                    this.state.isLoading &&
-                    <View style={ overlay }>
-                        <Spinner color={ style.darkRed } />
-                    </View>
-                }
+                { this.renderSpinner() }
             </ListItem>
         )
     }

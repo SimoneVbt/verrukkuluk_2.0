@@ -1,0 +1,11 @@
+{
+    "id": {{ article.id }},
+    "naam": "{{ article.naam|e('js')|raw }}",
+    "omschrijving": "{{ article.omschrijving|e('js')|raw }}",
+    "prijs": {{ article.prijs }},
+    "eenheid": "{{ article.eenheid }}",
+    "verpakking": {{ article.verpakking }},
+    "calorieen_per_100g": {{ article.calorieenPer100g }},
+    "omzetting_naar_g": {{ article.omzettingNaarG }},
+    "afbeelding": "{{article.afbeelding }}"
+}

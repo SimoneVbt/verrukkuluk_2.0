@@ -59,10 +59,10 @@ export default class PhotoInterface extends Component
 
 
     renderPicture() {
-        const { picture } = this.state;
+        const { picture } = this.props;
         if (picture) {
             return(
-                <Thumbnail square source={{ uri: picture ? picture : false }} style={{ width: "100%", height: "100%" }} />
+                <Thumbnail square source={{ uri: picture }} style={{ width: "100%", height: "100%" }} />
             )
         }
         return(

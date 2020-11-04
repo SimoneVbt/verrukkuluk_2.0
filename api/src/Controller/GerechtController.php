@@ -29,11 +29,15 @@ class GerechtController extends AbstractController
     {
         $data = file_get_contents("php://input");
         $params = json_decode($data, true);
+        $dish = $this->gs->createGerecht($params);
 
-        if ($this->gs->createGerecht($params)) {
-            return $this->json(["result" => "okay"]);
+        if ($dish) {
+            $json = $this->renderView('gerecht.json.twig', ["dish" => $dish]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
-        return $this->json(["result" => "denied"]);
+        return $this->json(["id" => -1]);
     }
 
 

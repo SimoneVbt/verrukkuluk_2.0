@@ -21,6 +21,7 @@ export default class ShoppingMenu extends Component
             API.postData({
                 url: constants.addDishToListUrl,
                 type: "post",
+                table: "boodschappen",
                 data: { gerecht_id: this.props.dish_id },
                 user: true
             })

@@ -19,9 +19,25 @@ class IngredientService
     }
 
 
+    public function getIngredientInfo($ingr) {
+        $art = $this->as->getArtikel($ingr->getArtikelId());
+        $ingr->naam = $art->getNaam();
+        $ingr->afbeelding = $art->getAfbeelding();
+        $ingr->omschrijving = $art->getOmschrijving();
+        $ingr->prijs = $art->getPrijs();
+        $ingr->eenheid = $art->getEenheid();
+        $ingr->verpakking = $art->getVerpakking();
+        $ingr->calorieenPer100g = $art->getCalorieenPer100g();
+        $ingr->omzettingNaarG = $art->getOmzettingNaarG();
+        return $ingr;
+    }
+
+
     public function createIngredient($params)
     {
-        return $this->rep->createIngredient($params);
+        $ingr = $this->rep->createIngredient($params);
+        $ingr = $this->getIngredientInfo($ingr);
+        return $ingr;
     }
 
 
@@ -37,17 +53,7 @@ class IngredientService
 
         if ($ingredients) {
             foreach ($ingredients as $ingr) {
-
-                $art = $this->as->getArtikel($ingr->getArtikelId());
-                $ingr->naam = $art->getNaam();
-                $ingr->afbeelding = $art->getAfbeelding();
-                $ingr->omschrijving = $art->getOmschrijving();
-                $ingr->prijs = $art->getPrijs();
-                $ingr->eenheid = $art->getEenheid();
-                $ingr->verpakking = $art->getVerpakking();
-                $ingr->calorieenPer100g = $art->getCalorieenPer100g();
-                $ingr->omzettingNaarG = $art->getOmzettingNaarG();
-                
+                $ingr = $this->getIngredientInfo($ingr);
             }
             return $ingredients;
         }

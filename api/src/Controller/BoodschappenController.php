@@ -27,10 +27,15 @@ class BoodschappenController extends AbstractController
      */
     public function addToBoodschappen(Request $request)
     {
-        $params = $request->request->all();
+        $data = file_get_contents("php://input");
+        $params = json_decode($data, true);
+        $bs = $this->bss->addToBoodschappen($params);
 
-        if ($this->bss->addToBoodschappen($params)) {
-            return $this->json(["result" => "okay"]);
+        if ($bs) {
+            $json = $this->renderView('boodschap.json.twig', ["bs" => $bs]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         return $this->json(["result" => "denied"]);
     }
@@ -41,10 +46,15 @@ class BoodschappenController extends AbstractController
      */
     public function addDishToBoodschappen(Request $request)
     {
-        $params = $request->request->all();
+        $data = file_get_contents("php://input");
+        $params = json_decode($data, true);
+        $bs = $this->bss->addDishToBoodschappen($params);
         
-        if ($this->bss->addDishToBoodschappen($params)) {
-            return $this->json(["result" => "okay"]);
+        if ($bs) {
+            $json = $this->renderView('boodschappen.json.twig', ["boodschappen" => $bs]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         return $this->json(["result" => "denied"]);
     }
@@ -57,9 +67,13 @@ class BoodschappenController extends AbstractController
     {
         $data = file_get_contents("php://input");
         $params = json_decode($data, true);
+        $bs = $this->bss->setAmount($params);
 
-        if ($this->bss->setAmount($params)) {
-            return $this->json(["result" => "okay"]);
+        if ($bs) {
+            $json = $this->renderView('boodschap.json.twig', ["bs" => $bs]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         return $this->json(["result" => "denied"]);
     }

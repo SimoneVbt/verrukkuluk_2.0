@@ -18,7 +18,7 @@ export default class Ingredients extends Component
 
     componentDidMount() {
         API.fetchData({
-            url: constants.articlesUrl, //problemos
+            url: constants.articlesUrl,
             table: "artikel",
             sort: "naam"
         })

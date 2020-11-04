@@ -21,11 +21,6 @@ export default class ShoppingList extends Component
 
 
     componentDidMount() {
-        this.loadData();
-    }
-
-
-    loadData = () => {
         API.fetchData({
             url: constants.listUrl,
             table: "boodschappen",
@@ -42,7 +37,16 @@ export default class ShoppingList extends Component
                 isLoaded: true,
                 error: true
             })
-        )        
+        )
+    }
+
+
+    loadData = () => {
+        let items = API.fetchFromDatabase("boodschappen");
+        this.setState({
+            isLoaded: true,
+            items: items ? items: []
+        });
     }
 
 
@@ -105,7 +109,7 @@ export default class ShoppingList extends Component
                 deleteAll: true
             })
             .then( result => this.loadData() )
-            .catch( error => console.warn(error))            
+            .catch( error => console.warn(error) )            
         })
     }
 

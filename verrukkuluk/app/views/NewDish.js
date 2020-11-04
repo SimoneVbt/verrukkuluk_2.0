@@ -25,6 +25,7 @@ export default class NewDish extends Component
         fieldEmpty: false,
         isLoading: false,
         submitError: false,
+        pictureError: false,
         picture: "",
         kitchen: "",
         kitchenId: 0,
@@ -41,12 +42,14 @@ export default class NewDish extends Component
             url: constants.kitchenUrl,
             table: "keukentype",
             filter: 'record_type = "K"',
-            sort: "omschrijving" })
+            sort: "omschrijving"
+        })
         const types = API.fetchData({ 
             url: constants.typeUrl,
             table: "keukentype",
             filter: 'record_type = "T"',
-            sort: "omschrijving" })
+            sort: "omschrijving"
+        })
 
         Promise.all([kitchens, types])
             .then( values =>
@@ -113,52 +116,74 @@ export default class NewDish extends Component
     }
 
 
+    _processSubmit(picture) {
+        const data = {
+            keuken_id: this.state.kitchenId,
+            type_id: this.state.typeId,
+            titel: this.state.title,
+            korte_omschrijving: this.state.shortDescription,
+            lange_omschrijving: this.state.longDescription,
+            afbeelding: picture
+        }
+        if (this.props.dish) {
+            data.id = this.props.dish.id;
+        }
+
+        API.postData({
+            url: constants.createDishUrl,
+            table: "gerecht",
+            type: "post",
+            data: data,
+            user: true
+        })
+        .then( dish => {
+            if (this.props.dish) {
+                Actions.pop({ refresh: {} });
+            } else {
+                Actions.Ingredients({ dish: dish });
+            }
+        })
+        .catch( error => {
+            console.warn(error)
+            this.setState({
+                isLoading: false,
+                submitError: true 
+            });
+        });
+    }
+
+
     submit() {
         if (!this.state.picture) {
             this.setState({ noPicture: true });
+            return;
+        } 
+        if (this.state.kitchenId === 0 || this.state.typeId === 0 || this.state.title.length === 0 || this.state.shortDescription.length === 0 || this.state.longDescription.length === 0) {
+            this.setState({ fieldEmpty: true, noPicture: false });  
+            return;
+        }
 
-        } else if (this.state.kitchenId > 0 && this.state.typeId > 0 && this.state.title.length > 0
-                && this.state.shortDescription.length > 0 && this.state.longDescription.length > 0) {
+        this.setState({ isLoading: true }, () => {
 
-            this.setState({ isLoading: true }, () => {
+            if (this.state.picture.indexOf("data:image/jpeg;base64,") != -1) {
+                this._processSubmit(this.state.picture);
 
+            } else {
                 ImgToBase64.getBase64String(this.state.picture)
                 .then( base64string => {
-                    const data = {
-                        id: this.props.dish.id > 0 ? this.props.dish.id : false,
-                        keuken_id: this.state.kitchenId,
-                        type_id: this.state.typeId,
-                        titel: this.state.title,
-                        korte_omschrijving: this.state.shortDescription,
-                        lange_omschrijving: this.state.longDescription,
-                        afbeelding: "data:image/jpeg;base64," + base64string
-                    }
-
-                        API.postData({ 
-                            url: constants.createDishUrl,
-                            table: "gerecht",
-                            type: "post",
-                            data: data,
-                            user: true
-                        })
-                        .then( result => Actions.pop({ refresh: {} }) )
-                        .catch( error => {
-                            console.warn(error)
-                            this.setState({
-                                isLoading: false,
-                                submitError: true 
-                            });
-                        })
+                    const picture = "data:image/jpeg;base64," + base64string;
+                    this._processSubmit(picture);
                 })
                 .catch( error => {
                     console.warn(error);
-                    this.setState({ isLoading: false });
+                    this.setState({
+                        pictureError: true,
+                        isLoading: false
+                    });
                 });
-            });
-
-        } else {
-            this.setState({ fieldEmpty: true });            
-        }
+            }
+            
+        });
 
     }
 
@@ -166,6 +191,7 @@ export default class NewDish extends Component
         
         let text = this.state.noPicture ? "Voeg aub een afbeelding toe" :
                 this.state.fieldEmpty ? "Vul aub alle velden in" :
+                this.state.pictureError ? "Er is iets fout gegaan met het verwerken van de afbeelding" :
                 this.state.submitError ? "Er is iets fout gegaan met verzenden. Probeer later opnieuw" :
                 "";
 
@@ -175,7 +201,7 @@ export default class NewDish extends Component
                     <Text style={{ color: style.darkRed, marginLeft: 10 }}>
                         { text }
                     </Text>
-                </CardItem>                
+                </CardItem>
             )
         }
     }
@@ -198,7 +224,7 @@ export default class NewDish extends Component
                     <CardItem style={ style.cardItemStyle }>
                         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Item stackedLabel style={{ flex: 1 }}>
-                                <Label style={ style.darkLabelStyle }>Keuken</Label>
+                                <Label style={ style.labelStyle }>Keuken</Label>
                                 <Picker style={{ width: "100%" }}
                                         selectedValue={ this.state.kitchen }
                                         onValueChange={ (value, index) => this.handleValueChange(value, index, "kitchen") }>
@@ -211,7 +237,7 @@ export default class NewDish extends Component
                                 </Picker>
                             </Item>
                             <Item stackedLabel style={{ flex: 1 }}>
-                                <Label style={ style.darkLabelStyle }>Type</Label>
+                                <Label style={ style.labelStyle }>Type</Label>
                                 <Picker style={{ width: "100%" }}
                                         selectedValue={ this.state.type }
                                         onValueChange={ (value, index) => this.handleValueChange(value, index, "type") }>
@@ -227,7 +253,7 @@ export default class NewDish extends Component
                     </CardItem>
                     <CardItem style={ style.cardItemStyle }>
                         <Item stackedLabel style={{ width: "100%" }}>
-                            <Label style={ style.darkLabelStyle }>Titel</Label>
+                            <Label style={ style.labelStyle }>Titel</Label>
                             <Input value={ this.state.title }
                                     onChangeText={ (text) => this.handleChange(text, "title") }
                                     maxLength={50}
@@ -241,7 +267,7 @@ export default class NewDish extends Component
                     </CardItem>
                     <CardItem style={ style.cardItemStyle }>
                         <Item stackedLabel style={{ width: "100%" }}>
-                            <Label style={ style.darkLabelStyle }>Korte omschrijving</Label>
+                            <Label style={ style.labelStyle }>Korte omschrijving</Label>
                             <Textarea value={ this.state.shortDescription }
                                         onChangeText={ (text) => this.handleChange(text, "shortDescription") }
                                         maxLength={250}
@@ -257,7 +283,7 @@ export default class NewDish extends Component
                     </CardItem>
                     <CardItem style={ style.cardItemStyle }>
                         <Item stackedLabel style={{ width: "100%" }}>
-                            <Label style={ style.darkLabelStyle }>Lange omschrijving</Label>
+                            <Label style={ style.labelStyle }>Lange omschrijving</Label>
                             <Textarea value={ this.state.longDescription }
                                         onChangeText={ (text) => this.handleChange(text, "longDescription") }
                                         maxLength={1500}
@@ -297,7 +323,7 @@ export default class NewDish extends Component
     render() {
         return(
             <Container style={{ backgroundColor: style.darkRed }}>
-                <Head title="nieuw gerecht" />
+                <Head title={ this.props.dish ? this.props.dish.titel : "nieuw gerecht"} />
                 <Content style={{ padding: 10 }}>
                     <Card style={ style.cardStyle }>
                         <CardItem style={ style.cardItemStyle }>

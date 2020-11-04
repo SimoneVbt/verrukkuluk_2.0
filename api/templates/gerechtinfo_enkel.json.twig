@@ -1,0 +1,14 @@
+{
+    "id": {{ info.id }},
+    "record_type": "{{ info.recordType }}",
+    "gerecht_id": {{ info.gerechtId }},
+    "gebruiker_id": {{ info.gebruikerId != 0 ? info.gebruikerId : "null" }},
+    "gebruikersnaam": "{{ info.gebruikersnaam is defined ? info.gebruikersnaam : null }}",
+    "afbeelding": "{{ info.afbeelding is defined ? info.afbeelding : null }}",
+    "datum": "{{ info.datumHuidig|date('Y-m-d') }}",
+    {% if info.datumBewerkt %}
+    "datum_bewerkt": "{{info.datumBewerkt|date('Y-m-d')}}",
+    {% endif %}
+    "nummeriekveld": {{ info.nummeriekveld ? info.nummeriekveld: "0" }},
+    "tekstveld": "{{ info.tekstveld ? info.tekstveld|e('js')|raw : null }}"
+}

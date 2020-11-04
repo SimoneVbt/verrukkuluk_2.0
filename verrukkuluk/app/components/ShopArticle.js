@@ -27,6 +27,7 @@ export default class ShopArticle extends Component
             API.postData({ 
                 url: constants.addToListUrl,
                 type: "post",
+                table: "boodschappen",
                 data: { 
                     artikel_id: this.props.article.artikel_id,
                     aantal: this.props.article.aantal

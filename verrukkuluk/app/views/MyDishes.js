@@ -11,6 +11,7 @@ import DishCard from '../components/DishCard';
 export default class MyDishes extends Component
 {
     state = {
+        user: {},
         dishes: [],
         error: false
     }
@@ -20,6 +21,7 @@ export default class MyDishes extends Component
         let user = API.fetchUser();
         let data = API.fetchFromDatabase("gerecht", false, `gebruiker_id == ${ user.remote_id }`);
         this.setState({
+            user: user,
             dishes: data ? data : false,
             error: data ? false : true
         });
@@ -77,7 +79,7 @@ export default class MyDishes extends Component
                     { this.renderContent() }
                 </Content>
                 <View>
-                    <Fab onPress={ () => Actions.NewDish() }
+                    <Fab onPress={ () => Actions.NewDish({ user: user }) }
                         style={{ backgroundColor: style.darkRed,
                                     borderWidth: 1,
                                     borderColor: style.beige }}>

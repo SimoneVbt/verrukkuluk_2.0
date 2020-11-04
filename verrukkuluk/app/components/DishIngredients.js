@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { Card, CardItem, Text, ListItem, CheckBox } from 'native-base';
 import * as style from '../resources/styles/styles.js';
+import API from '../api/API.js';
 
 
 class Ingredient extends Component
@@ -29,6 +30,14 @@ class Ingredient extends Component
 
 export default class DishIngredients extends Component
 {
+    state = {
+        ingredients: []
+    }
+
+    componentDidMount() {
+        let ingredients = API.fetchFromDatabase("ingredient", false, `gerecht_id == ${this.props.dish_id}`);
+        this.setState({ ingredients: ingredients })
+    }
 
     renderIngredient(ingr) {
         let ingrString = ingr.aantal + ingr.eenheid + " " + ingr.naam;
@@ -53,7 +62,7 @@ export default class DishIngredients extends Component
                 </CardItem>
                 <CardItem style={ style.cardItemStyle }>
                     <FlatList
-                        data={ this.props.ingredients }
+                        data={ this.state.ingredients }
                         keyExtractor={ ingr => ingr.id.toString() }
                         renderItem={ ({item}) => this.renderIngredient(item) }
                         style={{ marginBottom: 20 }}

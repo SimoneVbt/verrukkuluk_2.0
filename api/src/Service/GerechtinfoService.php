@@ -18,11 +18,23 @@ class GerechtinfoService
         $this->gs = $gs;
     }
 
+
+    public function getUserInfo($info) {
+        $user = $this->gs->getGebruiker($info->getGebruikerId());
+        $info->gebruikersnaam = $user->getUsername();
+        $info->afbeelding = $user->getAfbeelding();
+        return $info;
+    }
+
     
     public function createGerechtinfo($params)
     {
         $params["datum"] = new \DateTime(date_default_timezone_get());
-        return $this->rep->createGerechtinfo($params);
+        $info = $this->rep->createGerechtinfo($params);
+        if ($params["record_type"] === "O") {
+            $info = $this->getUserInfo($info);
+        }
+        return $info;
     }
 
 
@@ -32,12 +44,9 @@ class GerechtinfoService
 
         if ($record_type === "O") {
             foreach ($info as $inf) {
-                $user = $this->gs->getGebruiker($inf->getGebruikerId());
-                $inf->gebruikersnaam = $user->getUsername();
-                $inf->afbeelding = $user->getAfbeelding();
+                $inf = $this->getUserInfo($inf);
             }
         }
-        
         return $info;
     }
 

@@ -35,9 +35,9 @@ export default class DishDescription extends Component
                         addOrDelete === "delete" ?
                             { url: constants.deleteInfoUrl,
                                 type: "delete",
-                                table: "gerecht",
-                                noDelete: true,
-                                id: this.props.dish.favoriet_id
+                                favo: true,
+                                id: this.props.dish.favoriet_id,
+                                gerecht_id: this.props.dish.id
                             } : false;
 
             API.postData(apiData)
@@ -97,11 +97,13 @@ export default class DishDescription extends Component
     }
 
     renderShoppingMenu(shoppingMenuVisible) {
+        let dish_id = this.props.dish.id;
+        let ingredients = API.fetchFromDatabase("ingredient", false, `gerecht_id == ${dish_id}`);
         return(
             <ShoppingMenu shoppingMenuVisible={ shoppingMenuVisible }
                             setShoppingMenuVisible={ this.setShoppingMenuVisible }
-                            ingredients={ this.props.ingredients }
-                            dish_id={ this.props.dish.id } />
+                            ingredients={ ingredients }
+                            dish_id={dish_id } />
         )
     }
 

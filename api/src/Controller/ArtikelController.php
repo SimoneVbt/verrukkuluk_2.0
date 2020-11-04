@@ -29,9 +29,13 @@ class ArtikelController extends AbstractController
     {
         $data = file_get_contents("php://input");
         $params = json_decode($data, true);
+        $article = $this->as->createArtikel($params);
 
-        if ($this->as->createArtikel($params)) {
-            return $this->json(["result" => "okay"]);
+        if ($article) {
+            $json = $this->renderView('artikel.json.twig', ["article" => $article]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         return $this->json(["result" => "denied"]);
     }
