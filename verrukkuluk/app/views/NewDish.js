@@ -188,7 +188,6 @@ export default class NewDish extends Component
     }
 
     renderError() {
-        
         let text = this.state.noPicture ? "Voeg aub een afbeelding toe" :
                 this.state.fieldEmpty ? "Vul aub alle velden in" :
                 this.state.pictureError ? "Er is iets fout gegaan met het verwerken van de afbeelding" :

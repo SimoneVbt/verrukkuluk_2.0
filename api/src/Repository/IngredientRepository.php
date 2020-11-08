@@ -19,6 +19,13 @@ class IngredientRepository extends ServiceEntityRepository
     {
         $ingredient = isset($params["id"]) ? $this->find($params["id"]) : new Ingredient();
 
+        if ($params["aantal"] == 0) {
+            if (isset($params["id"])) {
+                $this->deleteIngredient($params["id"]);
+            }
+            return false;
+        }
+
         $ingredient->setGerechtId($params["gerecht_id"]);
         $ingredient->setArtikelId($params["artikel_id"]);
         $ingredient->setAantal($params["aantal"]);
@@ -49,6 +56,21 @@ class IngredientRepository extends ServiceEntityRepository
         if ($ingredient) {
             $em = $this->getEntityManager();
             $em->remove($ingredient);
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
+
+
+    public function deleteAllDishIngredients($dish_id)
+    {
+        $ingredients = $this->findBy(["gerecht_id" => $dish_id]);
+        if ($ingredients) {
+            $em = $this->getEntityManager();
+            foreach ($ingredients as $ingredient) {
+                $em->remove($ingredient);
+            }
             $em->flush();
             return true;
         }

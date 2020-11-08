@@ -36,8 +36,28 @@ class IngredientService
     public function createIngredient($params)
     {
         $ingr = $this->rep->createIngredient($params);
-        $ingr = $this->getIngredientInfo($ingr);
+        if ($ingr) {
+            $ingr = $this->getIngredientInfo($ingr);
+        }
         return $ingr;
+    }
+
+
+    public function setDishIngredients($params)
+    {
+        if (sizeof($params) > 0) {
+            $this->rep->deleteAllDishIngredients($params[0]["gerecht_id"]);
+
+            $ingredients = [];
+            foreach ($params as $obj) {
+                $ingredient = $this->createIngredient($obj);
+                if ($ingredient) {
+                    array_push($ingredients, $ingredient);
+                }
+            }
+            return $ingredients;
+        }
+        return false;
     }
 
 

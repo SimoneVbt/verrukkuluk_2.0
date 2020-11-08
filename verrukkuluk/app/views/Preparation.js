@@ -5,7 +5,6 @@ import * as style from '../resources/styles/styles';
 import * as constants from '../config/constants';
 import API from '../api/API.js';
 import Head from '../components/Head';
-import { Picker } from '@react-native-community/picker';
 
 
 export default class Preparation extends Component
@@ -13,7 +12,7 @@ export default class Preparation extends Component
     render() {
         return(
             <Container style={{ backgroundColor: style.darkRed }}>
-                <Head title="bereidingsstappen toevoegen" />
+                <Head title="bereidingsstappen toevoegen" newDish />
                 <Content style={{ padding: 10 }}>
                 <Card style={ style.cardStyle }>
                         <CardItem style={ style.cardItemStyle }>
@@ -22,6 +21,7 @@ export default class Preparation extends Component
                             </Text>
                         </CardItem>
                     </Card>
+                    <View style={{ padding: 10 }} />
                 </Content>
             </Container>
         )

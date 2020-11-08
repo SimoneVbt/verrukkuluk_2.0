@@ -58,7 +58,7 @@ export default class API
         
         const tm = setTimeout( () => {
             let table = obj.table;
-            let id = obj.id ? obj.id : false;
+            let id = obj.id && obj.table != "ingredient" ? obj.id : false;
             let filter = obj.filter ? obj.filter : false;
             let sort = obj.sort ? obj.sort : "id";
 

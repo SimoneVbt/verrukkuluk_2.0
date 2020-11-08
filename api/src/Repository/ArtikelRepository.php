@@ -43,7 +43,7 @@ class ArtikelRepository extends ServiceEntityRepository
 
     public function getAllArtikelen()
     {
-        return $this->findAll();
+        return $this->findBy([], ["naam" => "ASC"]);
     }
 
 

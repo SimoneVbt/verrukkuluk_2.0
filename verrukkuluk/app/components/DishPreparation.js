@@ -40,7 +40,7 @@ export default class DishPreparation extends Component
                 <CardItem style={ style.cardItemStyle }>
                     <FlatList
                         data={ this.state.steps }
-                        keyExtractor={ prep => prep.id.toString() }
+                        keyExtractor={ step => step.id.toString() }
                         renderItem={ ({item, index}) => this.renderPrepStep(item, index) }
                         style={{ marginBottom: 20 }}
                         />
