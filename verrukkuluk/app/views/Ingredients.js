@@ -70,6 +70,7 @@ export default class Ingredients extends Component
 
 
     submit(data) {
+        API.deleteDishIngredientsFromDatabase(this.props.dish.id);
         API.postData({
             url: constants.postIngrUrl,
             type: "post",

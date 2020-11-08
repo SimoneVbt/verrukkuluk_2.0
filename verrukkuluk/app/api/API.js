@@ -234,6 +234,23 @@ export default class API
     }
 
 
+    static deleteDishIngredientsFromDatabase(dish_id) {
+        try {
+            let ingredients = this.fetchFromDatabase("ingredient", false, `gerecht_id = ${dish_id}`);
+            realm.write(() => {
+                realm.delete(ingredients);
+            })
+            
+        } catch {
+            console.warn("ingrediënten niet verwijderd uit database");
+            return false;
+
+        } finally {
+            return true;
+        }
+    }
+
+
     static clearDatabase() {
         try {
             realm.beginTransaction();
