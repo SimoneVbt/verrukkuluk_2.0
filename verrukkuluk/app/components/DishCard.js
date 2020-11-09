@@ -79,7 +79,7 @@ export default class DishCard extends Component
                                 <Icon name="add" type="MaterialIcons"
                                     style={{ fontSize: 15, alignSelf: "flex-start",
                                             marginLeft: -15, marginRight: 5 }} />
-                            </Button>                            
+                            </Button>
                         </View>
                         <View style={{ flex: 1 }}>
                             <Button full

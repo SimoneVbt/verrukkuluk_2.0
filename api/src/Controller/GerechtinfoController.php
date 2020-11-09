@@ -42,6 +42,25 @@ class GerechtinfoController extends AbstractController
 
 
     /**
+     * @Route("/set_prep_steps", name="set_prep_steps")
+     */
+    public function setPrepSteps(Request $request)
+    {
+        $data = file_get_contents("php://input");
+        $params = json_decode($data, true);
+        $steps = $this->gis->setPrepSteps($params);
+
+        if ($steps) {
+            $json = $this->renderView('gerechtinfo.json.twig', ["gerechtinfo" => $steps]);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+        return $this->json(["result" => "denied"]);
+    }
+
+
+    /**
      * @Route("/get/{record_type}/{dish_id}", name="get_gerechtinfo",
      *          requirements={ "record_type"="\D", "dish_id"="\d+" })
      */

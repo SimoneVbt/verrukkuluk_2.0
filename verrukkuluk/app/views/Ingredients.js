@@ -29,18 +29,10 @@ export default class Ingredients extends Component
 
         Promise.all([articles, ingredients])
         .then( values => {
-            let ingredients = values[1].map( ingr => {
-                return {
-                    gerecht_id: ingr.gerecht_id,
-                    artikel_id: ingr.artikel_id,
-                    aantal: ingr.aantal
-                }
-            });
-
             this.setState({
                 isLoaded: true,
                 articles: values[0],
-                ingredients: ingredients,
+                ingredients: values[1],
                 number: values[1].length > 0 ? values[1].length : 3
             })
         })
@@ -138,7 +130,7 @@ export default class Ingredients extends Component
                                             flexDirection: "row", justifyContent: "center" }}>
                         <Icon name="add" type="MaterialIcons" style={{ color: style.darkRed }} />
                         <Text style={{ color: style.darkRed, fontStyle: "italic", marginTop: 2 }}>
-                            Voeg extra ingrediënten toe...
+                            Voeg extra ingrediënten toe... (max. 20)
                         </Text>
                     </Pressable>
                 </CardItem>
@@ -164,7 +156,7 @@ export default class Ingredients extends Component
                         ingr={ this.state.ingredients[i] }
                         />
                 );
-            }
+            }            
         }
         for (i; i < this.state.number; i++) {
             ingredients.push(
@@ -187,8 +179,6 @@ export default class Ingredients extends Component
         
         } else if (this.state.isLoaded && this.state.articles.length > 0) {
 
-            let ingredients = this.renderIngredientPickers();
-
             return(
                 <Form>
                     <CardItem style={ style.cardItemStyle }>
@@ -197,7 +187,7 @@ export default class Ingredients extends Component
                             Ingrediënten kunnen worden verwijderd door de naam terug op "(artikel)" te zetten of door de hoeveelheid 0 aan te geven.
                         </Text>
                     </CardItem>
-                    { ingredients }
+                    { this.renderIngredientPickers() }
                     { this.renderAddButton() }
                     <CardItem style={ style.cardItemStyle }>
                         <Button onPress={ () => this.handleSubmit() } style={ style.buttonStyle }>

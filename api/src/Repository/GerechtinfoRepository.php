@@ -73,4 +73,18 @@ class GerechtinfoRepository extends ServiceEntityRepository
         }
         return false;
     }
+
+    public function deletePrepSteps($dish_id)
+    {
+        $steps = $this->findBy(["record_type" => "B", "gerecht_id" => $dish_id]);
+        if ($steps) {
+            $em = $this->getEntityManager();
+            foreach ($steps as $step) {
+                $em->remove($step);
+            }
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
 }

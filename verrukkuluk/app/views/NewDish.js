@@ -340,7 +340,6 @@ export default class NewDish extends Component
                 </Content>
                 <Foot />
             </Container>
-
         )
     }
 }

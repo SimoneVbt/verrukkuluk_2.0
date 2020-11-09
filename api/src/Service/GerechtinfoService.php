@@ -38,6 +38,24 @@ class GerechtinfoService
     }
 
 
+    public function setPrepSteps($params)
+    {
+        if (sizeof($params) > 0) {
+            $this->rep->deletePrepSteps($params[0]["gerecht_id"]);
+
+            $steps = [];
+            foreach ($params as $obj) {
+                $step = $this->createGerechtinfo($obj);
+                if ($step) {
+                    array_push($steps, $step);
+                }
+            }
+            return $steps;
+        }
+        return false;
+    }
+
+
     public function getGerechtInfo($dish_id, $record_type)
     {
         $info = $this->rep->getGerechtinfo($dish_id, $record_type);
