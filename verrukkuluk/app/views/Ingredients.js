@@ -62,7 +62,7 @@ export default class Ingredients extends Component
 
 
     submit(data) {
-        API.deleteDishIngredientsFromDatabase(this.props.dish.id);
+        API.deleteMultipleRecords("ingredient", `gerecht_id = ${this.props.dish.id}`);
         API.postData({
             url: constants.postIngrUrl,
             type: "post",
@@ -109,6 +109,15 @@ export default class Ingredients extends Component
             return;
         }
 
+        let data = [];
+        for (let i = 0; i < list.length; i++) {
+            data.push({
+                gerecht_id: this.props.dish.id,
+                artikel_id: list[i].artikel_id,
+                aantal: list[i].aantal
+            })
+        }
+
         this.setState({
             isLoading: true,
             noIngredients: false,
@@ -116,7 +125,7 @@ export default class Ingredients extends Component
             submitError: false
         }, () => { 
             
-            this.submit(list);
+            this.submit(data);
         })
     }
 
@@ -149,7 +158,6 @@ export default class Ingredients extends Component
                 ingredients.push(
                     <IngredientPicker
                         articles={ this.state.articles }
-                        dish={ this.props.dish }
                         number={i+1} key={i+1}
                         updateIngrInfo={ this.updateIngrInfo }
                         handleDelete={ this.handleDelete }
@@ -162,7 +170,6 @@ export default class Ingredients extends Component
             ingredients.push(
                 <IngredientPicker
                     articles={ this.state.articles }
-                    dish={ this.props.dish }
                     number={i+1} key={i+1}
                     updateIngrInfo={ this.updateIngrInfo }
                     handleDelete={ this.handleDelete }

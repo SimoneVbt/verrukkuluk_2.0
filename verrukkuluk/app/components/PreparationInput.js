@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { View, CardItem, Item, Input, Label, Thumbnail, Textarea } from 'native-base';
 import * as style from '../resources/styles/styles';
-import { Picker } from '@react-native-community/picker';
 
 
 export default class PreparationInput extends Component
@@ -20,7 +19,12 @@ export default class PreparationInput extends Component
 
 
     handleChange(text) {
-        this.setState({ text: text });
+        this.setState({ text: text }, () => {
+            this.props.updateSteps({
+                number: this.props.number,
+                tekstveld: this.state.text
+            });
+        });
     }
 
 

@@ -63,7 +63,6 @@ export default class IngredientPicker extends Component
         this.setState({ [type]: value }, () => {
             this.props.updateIngrInfo({
                 number: this.props.number,
-                gerecht_id: this.props.dish.id,
                 artikel_id: this.state.article_id,
                 aantal: this.state.amount
             });

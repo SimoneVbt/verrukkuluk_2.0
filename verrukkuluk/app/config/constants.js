@@ -31,6 +31,7 @@ const deleteIngrUrl = baseUrl + "/ingredient/delete/";
 const addInfoUrl = baseUrl + "/gerechtinfo/create";
 const deleteInfoUrl = baseUrl + "/gerechtinfo/delete/";
 const prepUrl = baseUrl + "/gerechtinfo/get/B/";
+const setPrepUrl = baseUrl + "/gerechtinfo/set_prep_steps";
 const commUrl = baseUrl + "/gerechtinfo/get/O/";
 
 //boodschappen
@@ -51,7 +52,7 @@ export {
     loginUrl, userUrl, newUserUrl,
     dishUrl, allDishesUrl, createDishUrl,
     ingrUrl, articlesUrl, postIngrUrl, deleteIngrUrl,
-    addInfoUrl, deleteInfoUrl, prepUrl, commUrl,
+    addInfoUrl, deleteInfoUrl, prepUrl, setPrepUrl, commUrl,
     listUrl, addToListUrl, addDishToListUrl, setAmountUrl, deleteFromListUrl, deleteListUrl,
     typeUrl, kitchenUrl
 };

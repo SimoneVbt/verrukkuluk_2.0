@@ -167,35 +167,23 @@ export default class API
             return true;
         }
 
-        try {
-
-            if (obj.table === "gebruiker") {
-                apiResult.remote_id = apiResult.id;
-                apiResult.id = 1
-            }
-
-            if (Array.isArray(apiResult)) {
-                apiResult.forEach( item => {
-                    realm.write(() => {
-                        realm.create(obj.table, item, true);
-                    });
-                });
-                
-            } else {
-                realm.write(() => {
-                    realm.create(obj.table, apiResult, true)
-                })
-            }
-
-        } catch {
-            console.warn("toevoegen van info aan realm mislukt");
-            return false;
-
-        } finally {
-            return true;
+        if (obj.table === "gebruiker") {
+            apiResult.remote_id = apiResult.id;
+            apiResult.id = 1
         }
-        
 
+        if (Array.isArray(apiResult)) {
+            apiResult.forEach( item => {
+                realm.write(() => {
+                    realm.create(obj.table, item, true);
+                });
+            });
+            
+        } else {
+            realm.write(() => {
+                realm.create(obj.table, apiResult, true)
+            })
+        }
     }
     
 
@@ -217,37 +205,18 @@ export default class API
             return true;
         }
 
-        try {
-            let record = realm.objectForPrimaryKey(obj.table, obj.id);
-            realm.write(() => {
-                realm.delete(record);
-            })   
-
-        } catch {
-            console.warn ("verwijderen van info uit realm mislukt");
-            return false;
-
-        } finally {
-            return true;
-        }
-
+        let record = realm.objectForPrimaryKey(obj.table, obj.id);
+        realm.write(() => {
+            realm.delete(record);
+        })
     }
 
 
-    static deleteDishIngredientsFromDatabase(dish_id) {
-        try {
-            let ingredients = this.fetchFromDatabase("ingredient", false, `gerecht_id = ${dish_id}`);
-            realm.write(() => {
-                realm.delete(ingredients);
-            })
-            
-        } catch {
-            console.warn("ingrediënten niet verwijderd uit database");
-            return false;
-
-        } finally {
-            return true;
-        }
+    static deleteMultipleRecords(table, filter) {
+        let steps = this.fetchFromDatabase(table, false, filter);
+        realm.write(() => {
+            realm.delete(steps);
+        })
     }
 
 

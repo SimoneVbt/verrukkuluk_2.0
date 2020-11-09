@@ -15,7 +15,11 @@ export default class Preparation extends Component
         steps: [],
         number: 3,
         isLoaded: false,
-        fetchError: false
+        fetchError: false,
+        noStepsError: false,
+        missingStepsError: false,
+        isLoading: false,
+        submitError: false
     }
 
     componentDidMount() {
@@ -38,6 +42,72 @@ export default class Preparation extends Component
         })
     }
 
+    submit(data) {
+        API.deleteMultipleRecords("gerechtinfo", `gerecht_id = ${this.props.dish.id} AND record_type = 'B'`);
+        API.postData({
+            url: constants.setPrepUrl,
+            type: "post",
+            table: "gerechtinfo",
+            data: data
+        })
+        .then( result => Actions.popTo("MyDishes") )
+        .catch( error => {
+            console.warn(error);
+            this.setState({
+                isLoading: false,
+                submitError: true
+            })
+        })
+    }
+
+
+    handleSubmit() {
+        let steps = this.state.steps;
+        let list = steps.filter( step => step.tekstveld != "" );
+
+        if (list.length === 0) {
+            this.setState({ noStepsError: true });
+            return;
+        }
+
+
+        let data = [];
+        for (let i = 0; i < list.length; i++) {
+            data.push({
+                gerecht_id: this.props.dish.id,
+                record_type: "B",
+                nummeriekveld: i + 1,
+                tekstveld: list[i].tekstveld
+            })
+        }
+
+
+        this.setState({
+            isLoading: true,
+            noStepsError: false,
+            missingStepsError: false
+        }, () => {
+
+            this.submit(data);
+        })
+    }
+
+
+    updateSteps = (obj) => {
+        let steps = this.state.steps;
+        let step = steps.find( step => step.number === obj.number );
+
+        if (step) {
+            step.nummeriekveld = obj.nummeriekveld;
+            step.tekstveld = obj.tekstveld;
+        } else {
+            steps.push(obj);
+        }
+
+        this.setState({ steps: steps });
+        
+    }
+
 
     renderInputFields() {
         let steps = [];
@@ -49,13 +119,16 @@ export default class Preparation extends Component
                 steps.push(
                     <PreparationInput number={i+1} key={i+1}
                         step={ this.state.steps[i] }
+                        updateSteps={ this.updateSteps }
                     />
                 )
             }
         }
         for (i; i < this.state.number; i++) {
             steps.push(
-                <PreparationInput number={i+1} key={i+1} />
+                <PreparationInput number={i+1} key={i+1}
+                    updateSteps={ this.updateSteps }
+                />
             )  
         }
         return steps;
@@ -83,20 +156,43 @@ export default class Preparation extends Component
     renderForm() {
         if (!this.state.isLoaded) {
             return( <Spinner color={ style.darkRed } size={50} style={{ marginVertical: 10 }} /> )
+
+        } else if (this.state.isLoaded && !this.state.fetchError) {
+            return(
+                <Form>
+                    { this.renderInputFields() }
+                    { this.renderAddButton() }
+                    <CardItem style={ style.cardItemStyle }>
+                        <Button onPress={ () => this.handleSubmit() }
+                                style={ style.buttonStyle }>
+                            { this.state.isLoading && <Spinner color={ style.white } size={25} style={{ marginLeft: 10, marginRight: -10 }} />}
+                            <Text style={ style.buttonTextStyle }>
+                                verzenden
+                            </Text>
+                        </Button>
+                    </CardItem>
+                </Form>
+            )
         }
-        return(
-            <Form>
-                { this.renderInputFields() }
-                { this.renderAddButton() }
+    }
+
+
+    renderError() {
+        let text = this.state.fetchError ? "Fout bij ophalen stappen" :
+                    this.state.noStepsError ? "Geen stappen om te versturen" :
+                    this.state.missingStepsError ? "Laat a.u.b. geen tussenliggende stappen leeg" :
+                    this.state.submitError ? "Fout bij verzenden gegevens naar de server" :
+                    "";
+
+        if (text) {
+            return(
                 <CardItem style={ style.cardItemStyle }>
-                    <Button style={ style.buttonStyle }>
-                        <Text style={ style.buttonTextStyle }>
-                            verzenden
-                        </Text>
-                    </Button>                    
+                    <Text style={ style.messageStyle }>
+                        { text }
+                    </Text>
                 </CardItem>
-            </Form>
-        )
+            )
+        }
     }
 
 
@@ -111,6 +207,7 @@ export default class Preparation extends Component
                                 bereidingsstappen toevoegen
                             </Text>
                         </CardItem>
+                        { this.renderError() }
                         { this.renderForm() }
                     </Card>
                     <View style={{ padding: 10 }} />
