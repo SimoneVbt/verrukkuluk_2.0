@@ -98,7 +98,7 @@ export default class DishDescription extends Component
 
     renderShoppingMenu(shoppingMenuVisible) {
         let dish_id = this.props.dish.id;
-        let ingredients = API.fetchFromDatabase("ingredient", false, `gerecht_id == ${dish_id}`);
+        let ingredients = API.fetchDishIngredients(dish_id);
         return(
             <ShoppingMenu shoppingMenuVisible={ shoppingMenuVisible }
                             setShoppingMenuVisible={ this.setShoppingMenuVisible }

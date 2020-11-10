@@ -4,8 +4,8 @@ const work = "192.168.1.244";
 const ip = environment === 1 ? home : work;
 
 //basis
-const baseUrl = `http://${ ip }/verrukkuluk_2.0/api/public/index.php/api`;
 const publicDir = `http://${ ip }/verrukkuluk_2.0/api/public/`;
+const baseUrl = publicDir + "index.php/api";
 
 //defaults
 const defaultDish = publicDir + "defaultdish.png";

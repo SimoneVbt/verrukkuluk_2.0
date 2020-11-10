@@ -35,7 +35,7 @@ export default class Detail extends Component
     componentDidMount() {
         const dish_id = this.props.dish_id;
         const dish = API.fetchFromDatabase("gerecht", dish_id);
-        const fetchIngr = API.fetchData({ url: constants.ingrUrl, table: "ingredient", id: dish_id });
+        const fetchIngr = API.fetchDishIngredientsFromServer(dish_id);
         const fetchPrep = API.fetchData({ url: constants.prepUrl, table: "gerechtinfo", id: dish_id });
         const fetchComm = API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id });
 

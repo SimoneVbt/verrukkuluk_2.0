@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { CardItem, Text, View, Button, Spinner, Item, Textarea } from 'native-base';
 import * as style from '../resources/styles/styles.js';
-import * as constants from '../config/constants';
-import API from '../api/API';
 
 
 export default class NewComment extends Component

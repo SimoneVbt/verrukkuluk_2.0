@@ -38,10 +38,8 @@ export default class Profile extends Component
     }
 
     componentDidMount() {
-        let user = API.fetchFromDatabase("gebruiker", 1);
-        if (user) {
-            this.setState({ user: user });
-        }
+        let user = API.fetchUser();
+        this.setState({ user: user ? user : {} });
     }
     
 
@@ -105,7 +103,7 @@ export default class Profile extends Component
                     <CardItem style={ style.cardItemStyle }>
                         <View style={{ width: "100%" }}>
                             <Button style={ style.buttonStyle }
-                                    onPress={ () => Actions.EditProfile( )}>
+                                    onPress={ () => Actions.EditProfile() }>
                                 <Text style={ style.buttonTextStyle }>
                                     Bewerk profiel
                                 </Text>

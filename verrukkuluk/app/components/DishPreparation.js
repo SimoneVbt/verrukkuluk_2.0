@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { Card, CardItem, Text, ListItem } from 'native-base';
+import { Card, CardItem, Text, ListItem, View } from 'native-base';
 import * as style from '../resources/styles/styles.js';
 import API from '../api/API.js';
 
@@ -12,7 +12,7 @@ export default class DishPreparation extends Component
     }
     
     componentDidMount() {
-        let steps = API.fetchFromDatabase("gerechtinfo", false, `gerecht_id == ${this.props.dish_id} AND record_type = 'B'`, "nummeriekveld");
+        let steps = API.fetchDishPreparation(this.props.dish_id);
         this.setState({ steps: steps });
     }
 
@@ -42,8 +42,9 @@ export default class DishPreparation extends Component
                         data={ this.state.steps }
                         keyExtractor={ step => step.id.toString() }
                         renderItem={ ({item, index}) => this.renderPrepStep(item, index) }
-                        style={{ marginBottom: 20 }}
-                        />
+                        style={{ marginBottom: 5 }}
+                        persistentScrollbar
+                    />
                 </CardItem>
             </Card>
         );

@@ -35,7 +35,7 @@ export default class DishIngredients extends Component
     }
 
     componentDidMount() {
-        let ingredients = API.fetchFromDatabase("ingredient", false, `gerecht_id == ${this.props.dish_id}`);
+        let ingredients = API.fetchDishIngredients(this.props.dish_id);
         this.setState({ ingredients: ingredients })
     }
 
@@ -65,7 +65,8 @@ export default class DishIngredients extends Component
                         data={ this.state.ingredients }
                         keyExtractor={ ingr => ingr.id.toString() }
                         renderItem={ ({item}) => this.renderIngredient(item) }
-                        style={{ marginBottom: 20 }}
+                        style={{ marginBottom: 10 }}
+                        persistentScrollbar
                         />
                 </CardItem>   
             </Card>

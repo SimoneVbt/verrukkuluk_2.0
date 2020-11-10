@@ -59,8 +59,8 @@ export default class DishCard extends Component
         const { dish } = this.props;
 
         if (bool === true) {
-            let ingredients = API.fetchFromDatabase("ingredient", false, `gerecht_id = ${dish.id}`);
-            let steps = API.fetchFromDatabase("gerechtinfo", false, `gerecht_id = ${dish.id} AND record_type = 'B'`);
+            let ingredients = API.fetchDishIngredients(dish.id);
+            let steps = API.fetchDishPreparation(dish.id);
 
             if (ingredients.length == 0 || steps.length == 0) {
                 this.setState({ incompleteError: true });
@@ -79,7 +79,8 @@ export default class DishCard extends Component
                 }
             })
             .then( result => {
-                Toast.show("Gerecht gepubliceerd");
+                let message = bool ? "Gerecht gepubliceerd" : "Publicatie gerecht ingetrokken";
+                Toast.show(message);
                 this.setState({ isLoading: false }, () => this.props.loadData());
             })
             .catch( error => {

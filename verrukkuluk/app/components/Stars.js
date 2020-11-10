@@ -36,19 +36,12 @@ export default class Stars extends Component
     render() {
         let rating = this.state.rating;
 
-        const ratingStyle =   this.props.type === "rating" ? 
-                                {
-                                    color: style.gold,
-                                    fontSize: 40,
-                                    padding: 5,
-                                } :
-                                {
-                                    color: this.props.type === "average" ? style.darkRed : style.gold,
-                                    fontSize: 28,
-                                    paddingHorizontal: 1.5,
-                                    paddingBottom: 2,
-                                    margin: -1
-                                } ;
+        const ratingStyle = {
+            color: this.props.type === "average" ? style.darkRed : style.gold,
+            fontSize: this.props.type === "rating" ? 40 : 28,
+            padding: this.props.type === "rating" ? 4 : 1.5,
+            margin: this.props.type === "rating" ? 0 : -1
+        }
 
         const disabled = this.props.type === "rating" ? false : true;
 

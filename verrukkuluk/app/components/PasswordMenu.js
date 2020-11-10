@@ -4,7 +4,6 @@ import { Text, Icon, View, Button, Spinner, Form, Item, Input, Label } from 'nat
 import * as style from '../resources/styles/styles.js';
 import * as constants from '../config/constants';
 import API from '../api/API';
-import { Actions } from 'react-native-router-flux';
 
 export default class PasswordMenu extends Component
 {
@@ -65,7 +64,7 @@ export default class PasswordMenu extends Component
 
             this.setState({ isLoading: true }, () => {
 
-                let user = API.fetchFromDatabase("gebruiker", 1);
+                const user = API.fetchUser();
                 const data = {
                     id: user.remote_id,
                     email: user.email,

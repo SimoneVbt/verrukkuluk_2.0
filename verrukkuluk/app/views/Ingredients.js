@@ -26,7 +26,7 @@ export default class Ingredients extends Component
 
     componentDidMount() {
         let articles = API.fetchData({ url: constants.articlesUrl, table: "artikel", sort: "naam" });
-        let ingredients = API.fetchData({ url: constants.ingrUrl, table: "ingredient", id: this.props.dish.id, filter: `gerecht_id = ${this.props.dish.id}` });
+        let ingredients = API.fetchDishIngredientsFromServer(this.props.dish.id);
 
         Promise.all([articles, ingredients])
         .then( values => {

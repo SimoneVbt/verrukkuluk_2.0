@@ -20,16 +20,12 @@ export default class DishComments extends Component
 
     componentDidMount() {
         let user = API.fetchUser();
-        let comments = API.fetchFromDatabase("gerechtinfo", false, "record_type = 'O' AND gerecht_id = " + this.props.dish_id, "id", true);
-        this.setState({
-            user: user,
-            comments: comments
-        })
+        this.setState({ user: user }, () => { this.getCommentsInfo() })
     }
 
 
     getCommentsInfo() {
-        let comments = API.fetchFromDatabase("gerechtinfo", false, "record_type = 'O' AND gerecht_id = " + this.props.dish_id, "id", true);
+        let comments = API.fetchDishComments(this.props.dish_id);
         this.setState({ comments: comments });
     }
     
@@ -70,14 +66,17 @@ export default class DishComments extends Component
     renderList() {
         if (this.state.comments.length > 0) {
             return(
-                <FlatList  data={ this.state.comments }
-                            keyExtractor={ comm => comm.id.toString() }
-                            renderItem={ ({item}) =>
-                                <Comment comment={ item }
-                                        user_id={ this.state.user.remote_id }
-                                        dish_id={ this.props.dish_id }
-                                        handleSubmit={ this.handleSubmit }
-                                        handleDelete={ this.handleDelete }/>}
+                <FlatList data={ this.state.comments }
+                        keyExtractor={ comm => comm.id.toString() }
+                        renderItem={ ({item}) =>
+                            <Comment comment={ item }
+                                    user_id={ this.state.user.remote_id }
+                                    dish_id={ this.props.dish_id }
+                                    handleSubmit={ this.handleSubmit }
+                                    handleDelete={ this.handleDelete }/>
+                            
+                        }
+                        persistentScrollbar
                 />
             )
         } 

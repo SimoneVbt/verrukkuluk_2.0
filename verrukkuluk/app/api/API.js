@@ -1,4 +1,5 @@
 import schema from './Model';
+import * as constants from '../config/constants';
 
 const timeout = 2000;
 
@@ -51,6 +52,23 @@ export default class API
     }
 
 
+    static fetchUser() {
+        return this.fetchFromDatabase("gebruiker", 1);
+    }
+
+    static fetchDishIngredients(dish_id) {
+        return this.fetchFromDatabase("ingredient", false, `gerecht_id = ${dish_id}`);
+    }
+
+    static fetchDishPreparation(dish_id) {
+        return this.fetchFromDatabase("gerechtinfo", false, `gerecht_id = ${dish_id} AND record_type = 'B'`, "nummeriekveld");
+    }
+
+    static fetchDishComments(dish_id) {
+        return this.fetchFromDatabase("gerechtinfo", false, `gerecht_id = ${dish_id} AND record_type = 'O'`, "id", true);
+    }
+
+
     // object: minstens url en table
     static fetchData = (obj) => new Promise( (resolve, reject) => {
 
@@ -97,8 +115,8 @@ export default class API
     })
 
 
-    static fetchUser() {
-        return this.fetchFromDatabase("gebruiker", 1);
+    static fetchDishIngredientsFromServer(dish_id) {
+        return this.fetchData({ url: constants.ingrUrl, table: "ingredient", id: dish_id, filter: `gerecht_id = ${dish_id}` });
     }
 
 

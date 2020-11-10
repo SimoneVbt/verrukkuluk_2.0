@@ -73,7 +73,9 @@ export default class ShoppingList extends Component
                                 keyExtractor={ item => item.id.toString() }
                                 contentContainerStyle={{ paddingBottom: 10, paddingRight: 5 }}
                                 renderItem={ ({item}) =>
-                                    <Article item={ item } loadData={ this.loadData } /> }
+                                    <Article item={ item } loadData={ this.loadData } />
+                                }
+                                persistentScrollbar
                     />
                     
                 </View>
