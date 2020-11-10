@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Container, Content, Text, View, Card, CardItem, Form, Input, Item, Label, Button, Icon, Spinner } from 'native-base';
+import { Pressable } from 'react-native';
+import { Container, Content, Text, View, Card, CardItem, Form, Button, Icon, Spinner } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import Toast from 'react-native-simple-toast';
 import * as style from '../resources/styles/styles';
 import * as constants from '../config/constants';
 import API from '../api/API.js';
 import Head from '../components/Head';
 import PreparationInput from '../components/PreparationInput';
-import { Pressable } from 'react-native';
 
 
 export default class Preparation extends Component
@@ -50,7 +51,10 @@ export default class Preparation extends Component
             table: "gerechtinfo",
             data: data
         })
-        .then( result => Actions.popTo("MyDishes") )
+        .then( result => {
+            Toast.showWithGravity("Bereidingsstappen toegevoegd/gewijzigd", Toast.SHORT, Toast.CENTER);
+            Actions.popTo("MyDishes")
+        })
         .catch( error => {
             console.warn(error);
             this.setState({

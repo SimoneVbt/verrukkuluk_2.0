@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Pressable } from 'react-native';
 import { Container, Content, Text, View, Card, CardItem, Form, Icon, Button, Spinner } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import Toast from 'react-native-simple-toast';
 import * as style from '../resources/styles/styles';
 import * as constants from '../config/constants';
 import API from '../api/API.js';
@@ -71,8 +72,10 @@ export default class Ingredients extends Component
         })
         .then( result => {
             if (this.props.edit) {
+                Toast.showWithGravity("Ingrediënten gewijzigd", Toast.SHORT, Toast.CENTER);
                 Actions.MyDishes();
             } else {
+                Toast.showWithGravity("Ingrediënten toegevoegd", Toast.SHORT, Toast.CENTER);
                 Actions.Preparation({ dish: this.props.dish });
             }
         })
