@@ -19,9 +19,13 @@ export default class MyDishes extends Component
 
     componentDidMount() {
         let user = API.fetchUser();
-        let data = API.fetchFromDatabase("gerecht", false, `gebruiker_id == ${ user.remote_id }`);
+        this.setState({ user: user }, () => { this.loadData() })
+    }
+
+
+    loadData = () => {
+        let data = API.fetchFromDatabase("gerecht", false, `gebruiker_id == ${ this.state.user.remote_id }`);
         this.setState({
-            user: user,
             dishes: data ? data : false,
             error: data ? false : true
         });
@@ -35,7 +39,9 @@ export default class MyDishes extends Component
                     {
                         this.state.dishes.map( dish => {
                             return( 
-                                <DishCard key={ dish.id } dish={ dish } editable />
+                                <DishCard key={ dish.id } dish={ dish }
+                                        editable loadData={ this.loadData }
+                                />
                             )
                         })                        
                     }

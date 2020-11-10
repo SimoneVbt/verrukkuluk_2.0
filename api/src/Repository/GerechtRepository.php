@@ -19,30 +19,21 @@ class GerechtRepository extends ServiceEntityRepository
     {
         if (isset($params["id"])) {
             $dish = $this->find($params["id"]);
-            $dish->setDatumBewerkt($params["datum"]);
-                
-            if (isset($params["complete"])) {
-                $dish->setComplete($params["complete"]);
-            }
-            if (isset($params["ingr_set"])) {
-                $dish->setIngrSet($params["ingr_set"]);
-            }
-            if (isset($params["bereiding_set"])) {
-                $dish->setBereidingSet($params["bereiding_set"]);
-            }
+            isset($params["complete"]) ? $dish->setComplete($params["complete"]) : $dish->setDatumBewerkt($params["datum"]);
 
         } else {
             $dish = new Gerecht();
             $dish->setDatumToegevoegd($params["datum"]);
+            $dish->setGebruikerId($params["gebruiker_id"]);
+            $dish->setComplete(false);
         }
 
-        $dish->setKeukenId($params["keuken_id"]);
-        $dish->setTypeId($params["type_id"]);
-        $dish->setGebruikerId($params["gebruiker_id"]);
-        $dish->setTitel($params["titel"]);
-        $dish->setKorteOmschrijving($params["korte_omschrijving"]);
-        $dish->setLangeOmschrijving($params["lange_omschrijving"]);
-        $dish->setAfbeelding($params["afbeelding"]);
+        isset($params["keuken_id"]) ? $dish->setKeukenId($params["keuken_id"]) : false;
+        isset($params["type_id"]) ? $dish->setTypeId($params["type_id"]) : false;
+        isset($params["titel"]) ? $dish->setTitel($params["titel"]) : false;
+        isset($params["korte_omschrijving"]) ? $dish->setKorteOmschrijving($params["korte_omschrijving"]) : false;
+        isset($params["lange_omschrijving"]) ? $dish->setLangeOmschrijving($params["lange_omschrijving"]) : false;
+        isset($params["afbeelding"]) ? $dish->setAfbeelding($params["afbeelding"]) : false;
 
         $em = $this->getEntityManager();
         $em->persist($dish);

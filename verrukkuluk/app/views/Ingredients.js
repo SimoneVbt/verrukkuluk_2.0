@@ -71,13 +71,9 @@ export default class Ingredients extends Component
             data: data
         })
         .then( result => {
-            if (this.props.edit) {
-                Toast.showWithGravity("Ingrediënten gewijzigd", Toast.SHORT, Toast.CENTER);
-                Actions.MyDishes();
-            } else {
-                Toast.showWithGravity("Ingrediënten toegevoegd", Toast.SHORT, Toast.CENTER);
-                Actions.Preparation({ dish: this.props.dish });
-            }
+            const message = this.props.edit ? "Ingrediënten gewijzigd" : "Ingrediënten toegevoegd";
+            Toast.showWithGravity(message, Toast.SHORT, Toast.CENTER);
+            this.props.edit ? Actions.MyDishes() : Actions.Preparation({ dish: this.props.dish });
         })
         .catch( error => {
             console.warn(error);

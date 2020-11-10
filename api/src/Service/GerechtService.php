@@ -32,7 +32,8 @@ class GerechtService
     public function createGerecht($params)
     {
         $params["datum"] = new \DateTime(date_default_timezone_get());
-        return $this->rep->createGerecht($params);
+        $dish = $this->rep->createGerecht($params);
+        return $this->getGerecht($dish->getId(), $dish->getGebruikerId());
     }
 
 

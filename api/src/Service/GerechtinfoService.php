@@ -31,7 +31,8 @@ class GerechtinfoService
     {
         $params["datum"] = new \DateTime(date_default_timezone_get());
         $info = $this->rep->createGerechtinfo($params);
-        if ($params["record_type"] === "O") {
+        
+        if ($params["record_type"] === "O" && is_array($info)) {
             $info = $this->getUserInfo($info);
         }
         return $info;
@@ -60,7 +61,7 @@ class GerechtinfoService
     {
         $info = $this->rep->getGerechtinfo($dish_id, $record_type);
 
-        if ($record_type === "O") {
+        if ($record_type === "O" && is_array($info)) {
             foreach ($info as $inf) {
                 $inf = $this->getUserInfo($inf);
             }

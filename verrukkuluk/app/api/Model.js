@@ -23,8 +23,6 @@ const schema = {
             favoriet: "bool",
             waardering_id: { type: "int", default: 0 },
             waardering: { type: "int", default: 0 },
-            ingr_set: { type: "bool", default: false },
-            bereiding_set: { type: "bool", default: false },
             complete: { type: "bool", default: false }
         }
     },
