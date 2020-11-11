@@ -27,25 +27,19 @@ const viewStyle = {
 export default class Detail extends Component
 {
     state = {
-        dish: [],
+        dish: this.props.dish,
         isLoaded: false,
         error: false
     }
 
     componentDidMount() {
-        const dish_id = this.props.dish_id;
-        const dish = API.fetchFromDatabase("gerecht", dish_id);
+        const dish_id = this.props.dish.id;
         const fetchIngr = API.fetchDishIngredientsFromServer(dish_id);
         const fetchPrep = API.fetchData({ url: constants.prepUrl, table: "gerechtinfo", id: dish_id });
         const fetchComm = API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: dish_id });
 
         Promise.all([fetchIngr, fetchPrep, fetchComm])
-        .then( values => 
-            this.setState({
-                isLoaded: true,
-                dish: dish
-            })
-        )
+        .then( values => this.setState({ isLoaded: true }) )
         .catch( error => 
             this.setState({
                 isLoaded: true,
@@ -123,7 +117,7 @@ export default class Detail extends Component
     render() {
         return(
             <Container style={{ backgroundColor: style.darkRed }}>
-                <Head title={ this.props.title } hasTabs />
+                <Head title={ this.props.dish.titel } hasTabs />
                 { this.renderContent() }
                 <Foot />
             </Container>

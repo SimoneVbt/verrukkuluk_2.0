@@ -85,7 +85,7 @@ export default class MyDishes extends Component
                     { this.renderContent() }
                 </Content>
                 <View>
-                    <Fab onPress={ () => Actions.NewDish({ user: user }) }
+                    <Fab onPress={ () => Actions.NewDish({ user: this.state.user }) }
                         style={{ backgroundColor: style.darkRed,
                                     borderWidth: 1,
                                     borderColor: style.beige }}>

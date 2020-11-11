@@ -210,7 +210,7 @@ export default class DishCard extends Component
                     <View style={{ paddingLeft: 15, flexGrow: 1 }}>
                         <Button rounded
                                 style={ buttonStyle }
-                                onPress={ () => Actions.Detail({ dish_id: this.props.dish.id, title: this.props.dish.titel }) }>
+                                onPress={ () => Actions.Detail({ dish: this.props.dish }) }>
                             <Text style={{ color: style.darkRed, fontSize: 16, fontWeight: "bold" }}>
                                 Smullen!
                             </Text>

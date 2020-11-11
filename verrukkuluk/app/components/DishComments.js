@@ -20,13 +20,18 @@ export default class DishComments extends Component
 
     componentDidMount() {
         let user = API.fetchUser();
-        this.setState({ user: user }, () => { this.getCommentsInfo() })
+        let comments = API.fetchDishComments(this.props.dish_id);
+        this.setState({ 
+            user: user,
+            comments: comments
+        })
     }
 
 
     getCommentsInfo() {
-        let comments = API.fetchDishComments(this.props.dish_id);
-        this.setState({ comments: comments });
+        API.fetchData({ url: constants.commUrl, table: "gerechtinfo", id: this.props.dish_id })
+        .then( result => this.setState({ comments: result }) )
+        .catch( error => console.warn(error) );
     }
     
 
